@@ -1,0 +1,51 @@
+.experiencelist {
+  margin: 20px;
+}
+
+.category {
+  margin-bottom: 40px;
+}
+
+.experience-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.experience-item {
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 20%;
+  box-sizing: border-box;
+}
+
+.experience-item img {
+  width: 100%;
+  height: auto;
+}
+
+.experience-info {
+  padding: 10px;
+}
+
+.experience-info h3 {
+  margin: 0;
+}
+
+.experience-info p {
+  margin: 5px 0;
+}
+
+.experience-info button {
+  padding: 10px 20px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+h2 {
+  margin: 30px;
+  text-align: center;
+}

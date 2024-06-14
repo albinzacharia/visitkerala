@@ -1,0 +1,61 @@
+.header {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.titlehead {
+  position: relative;
+}
+
+.header-background {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.logo {
+  position: absolute;
+  top: 35px;
+  left: 650px;
+  width: 12%;
+  height: 117px;
+}
+
+.search-bar {
+  width: 46%;
+  border-radius: 130px;
+  padding: 15px;
+  background-color: white;
+  left: 384px;
+  position: absolute;
+  top: 575px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.search-bar input {
+  padding: 5px;
+  border-radius: 130px;
+  border: none;
+}
+
+.search-bar button {
+  padding: 10px 20px;
+  background-color: green;
+  color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 130px;
+  cursor: pointer;
+}
+
+.titletext {
+  position: absolute;
+  top: 152px;
+  left: 51%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 4rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}

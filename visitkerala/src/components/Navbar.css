@@ -1,0 +1,42 @@
+.navbar {
+  background-color: #c5f9ab;
+  overflow: hidden;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 20px;
+  transition: background-color 0.3s ease;
+}
+.navbar .nav-links {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar .nav-links li {
+  margin: 0 15px;
+}
+
+.navbar .nav-links a {
+  text-decoration: none;
+  color: rgb(51, 156, 6);
+  padding: 14px 20px;
+  display: block;
+}
+
+.navbar .nav-links a:hover {
+  color: rgb(255, 255, 255);
+}
+.logos {
+    position: absolute;
+    top: 10px;
+    left: 100px;
+    width: 6%;
+    height: 62px;
+}
+
+.navbar.scrolled {
+  background-color: #c5f9abe1; /* Make navbar translucent when scrolled */
+}

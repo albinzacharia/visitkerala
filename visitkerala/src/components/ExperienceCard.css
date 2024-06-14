@@ -1,0 +1,62 @@
+.experience-card {
+    margin-bottom: 20px;
+    margin-left: 416px;
+    align-items: center;
+    position: relative;
+    width: 40%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    /* margin: auto; */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.experience-card:hover {
+  transform: translateY(-5px);
+}
+
+.experience-card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.experience-card-content {
+  padding: 16px;
+}
+
+.experience-card-title {
+  font-size: 1.5em;
+  margin-bottom: 8px;
+}
+
+.experience-card-description {
+  font-size: 1em;
+  margin-bottom: 16px;
+}
+
+.experience-card-link {
+text-decoration: none;
+  color: #079618;
+  font-weight: bold;
+}
+
+.experience-card-link:hover {
+  text-decoration: underline;
+}
+button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #079618;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #056b11; /* Change to desired color on hover */
+}

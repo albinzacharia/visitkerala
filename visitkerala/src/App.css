@@ -1,0 +1,7 @@
+.App {
+  font-family: Arial, sans-serif;
+}
+
+header, section, .experience-list {
+  margin-bottom: 40px;
+}
