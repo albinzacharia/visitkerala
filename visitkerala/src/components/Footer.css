@@ -50,7 +50,7 @@
 
 .footer-section form input,
 .footer-section form textarea {
-    width: 100%;
+    width: 86%;
     padding: 10px;
     margin: 5px 0;
     border: none;
@@ -64,6 +64,9 @@
     color: #fff;
     border-radius: 5px;
     cursor: pointer;
+    position: relative;
+    left: 35%;
+    width: 20%;
 }
 
 .footer-section form button:hover {

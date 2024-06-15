@@ -1,5 +1,6 @@
-import React from "react";
+import React, { } from "react";
 import "./Footer.css"; // Add your CSS file for styling
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -17,20 +18,29 @@ const Footer = () => {
         </div>
         <div className="footer-section links">
           <h2>Quick Links</h2>
-          <ul>
+          <ul className="nav-links">
             <li>
-              <a href="#HomePage" onClick={scrollToTop}>
+              <Link to="/" onClick={scrollToTop}>
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#destinations">Destinations</a>
+              <Link to="/ThingsToDo" onClick={scrollToTop}>
+                Things To Do
+              </Link>
             </li>
             <li>
-              <a href="#about">About</a>
+              <Link to="/Destinations" onClick={scrollToTop}>
+                Destinations
+              </Link>
             </li>
             <li>
-              <a href="#contact">Contact</a>
+              <Link to="/ContactUs" onClick={scrollToTop}>
+                Contact Us
+              </Link>
+            </li>
+            <li>
+              <Link to="LoginSignup">Login / Signup</Link>
             </li>
           </ul>
         </div>

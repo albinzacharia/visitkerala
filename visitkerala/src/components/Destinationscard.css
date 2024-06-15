@@ -1,0 +1,15 @@
+.featured {
+  padding: 32px;
+  background-color: #ffffff;
+}
+
+.featured h2 {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.things-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}

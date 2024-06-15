@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Navbar.css"; // Add your CSS file for styling
 import i4 from "./pics/logo.png";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -15,25 +16,36 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+    const scrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
 
   return (
     <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
       <img src={i4} alt="logo" className="logos" />
       <ul className="nav-links">
         <li>
-          <a href="#HomePage">Home</a>
+          <Link to="/" onClick={scrollToTop}>
+            Home
+          </Link>
         </li>
         <li>
-          <a href="#about">Things to Do</a>
+          <Link to="/ThingsToDo" onClick={scrollToTop}>
+            Things To Do
+          </Link>
         </li>
         <li>
-          <a href="#services">Destinations</a>
+          <Link to="/Destinations" onClick={scrollToTop}>
+            Destinations
+          </Link>
         </li>
         <li>
-          <a href="#contact">Contact us</a>
+          <Link to="/ContactUs" onClick={scrollToTop}>
+            Contact Us
+          </Link>
         </li>
         <li>
-          <a href="#contact">Login/Signup</a>
+          <Link to="LoginSignup">Login / Signup</Link>
         </li>
       </ul>
     </nav>
