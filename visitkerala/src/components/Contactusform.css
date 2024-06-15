@@ -44,7 +44,7 @@
   resize: vertical;
 }
 
-button[type="submit"] {
+button.contactusbutton {
     position: relative;
     padding: 10px 20px;
     background-color: #079618;
@@ -58,6 +58,6 @@ button[type="submit"] {
     margin-bottom: 3%;
 }
 
-button[type="submit"]:hover {
+button.contactusbutton:hover {
   background-color: #066414;
 }
