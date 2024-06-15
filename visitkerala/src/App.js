@@ -12,6 +12,7 @@ import LoginSignup from "./components/LoginSignup";
 import Contactus from "./components/Contactus";
 import Modal from "./components/Modal";
 import UserProfile from "./components/UserProfile";
+import TourPackage from "./components/TourPackage";
 
 function App() {
   return (
@@ -50,7 +51,8 @@ const AppContent = () => {
           <Route path="/Destinations" element={<Destinations />} />
           <Route path="/Contactus" element={<Contactus />} />
           <Route path="*" element={<HomePage />} />
-          <Route path="/UserProfile" element={<UserProfile/> } />
+          <Route path="/UserProfile" element={<UserProfile />} />
+          <Route path="/TourPackage" element={<TourPackage />} />;
         </Routes>
       </main>
       {showModal && (

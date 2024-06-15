@@ -1,12 +1,16 @@
-import React from "react";
+import React, { } from "react";
 import { useNavigate } from "react-router-dom";
 import "./TourCard.css"; // Add your CSS file for styling
 
 const TourCard = ({ title, image, description, link }) => {
   const navigate = useNavigate();
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   const handleBookNow = () => {
-    navigate(link);
+    scrollToTop();
+    navigate("/TourPackage");
   };
   return (
     <div className="tour-card">
