@@ -8,7 +8,7 @@ const Headerttd = () => {
       <div className="titlehead">
         <img src="./pics/ttdh1.jpg"alt="Header background" className="header-background" />
         <div className="titletext">
-          <h3>Things To Do </h3>
+          <h3>Experiences and Packages</h3>
         </div>
       </div>
     </header>

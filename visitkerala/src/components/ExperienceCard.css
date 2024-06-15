@@ -38,8 +38,7 @@
 
 .experience-card-link {
 text-decoration: none;
-  color: #079618;
-  font-weight: bold;
+  color: #ffffff;
 }
 
 .experience-card-link:hover {
@@ -58,5 +57,5 @@ button {
 }
 
 button:hover {
-  background-color: #056b11; /* Change to desired color on hover */
+  background-color: #60970e; /* Change to desired color on hover */
 }

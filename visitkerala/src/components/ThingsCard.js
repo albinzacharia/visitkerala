@@ -42,7 +42,7 @@ const tours = [
 const ThingsCard = () => {
   return (
     <div className="ThingsCard">
-      <h2>Things to Do in Kerala</h2>
+      <h2>Our Packages</h2>
       <div className="things-card-container">
         {tours.map((tour, index) => (
           <TourCard

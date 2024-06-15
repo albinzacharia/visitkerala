@@ -4,7 +4,6 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Destinationscard from "./Destinationscard";
 import "./Destinationscard.css"
-
 const Destinations = () => {
   return (
     <div className="destinations">

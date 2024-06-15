@@ -1,39 +1,55 @@
 import React from "react";
-import TourCard from "./TourCard";
+import Destcard from "./Destcard";
 import "./Destinationscard.css"; // Add your CSS file for styling
 const tours = [
   {
-    title: "Beautiful Beaches of Goa",
+    title: "Kollam",
     image: "./pics/kollam.jpg", // Replace with actual image paths
-    description: "Explore the stunning beaches and vibrant nightlife of Goa.",
     link: "/tours/goa",
   },
   {
-    title: "Majestic Mountains of Manali",
+    title: "Alappuzha",
     image: "./pics/alappuzha.jpg",
-    description:
-      "Experience the serene beauty and adventurous activities in Manali.",
     link: "/tours/manali",
   },
   {
-    title: "Majestic Mountains of Manali",
-    image: "./pics/munnar.jpg",
-    description:
-      "Experience the serene beauty and adventurous activities in Manali.",
+    title: "Kappad",
+    image: "./pics/Kappad.jpg",
     link: "/tours/manali",
   },
   {
-    title: "Majestic Mountains of Manali",
+    title: "Palakkad",
     image: "./pics/palakkad.jpg",
-    description:
-      "Experience the serene beauty and adventurous activities in Manali.",
     link: "/tours/manali",
   },
   {
-    title: "Majestic Mountains of Manali",
+    title: "Thrissur",
     image: "./pics/thrish.jpg",
-    description:
-      "Experience the serene beauty and adventurous activities in Manali.",
+    link: "/tours/manali",
+  },
+  {
+    title: "Kollam",
+    image: "./pics/kollam.jpg", // Replace with actual image paths
+    link: "/tours/goa",
+  },
+  {
+    title: "Alappuzha",
+    image: "./pics/alappuzha.jpg",
+    link: "/tours/manali",
+  },
+  {
+    title: "Trivandrum",
+    image: "./pics/tvm.jpg",
+    link: "/tours/manali",
+  },
+  {
+    title: "Palakkad",
+    image: "./pics/palakkad.jpg",
+    link: "/tours/manali",
+  },
+  {
+    title: "Thrissur",
+    image: "./pics/thrish.jpg",
     link: "/tours/manali",
   },
   // Add more tour objects as needed
@@ -43,9 +59,9 @@ const Destinationscard = () => {
   return (
     <div className="ThingsCard">
       <h2>Top Destinations</h2>
-      <div className="things-card-container">
+      <div className="dest-card-container">
         {tours.map((tour, index) => (
-          <TourCard
+          <Destcard
             key={index}
             title={tour.title}
             image={tour.image}

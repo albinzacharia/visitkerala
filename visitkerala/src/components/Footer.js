@@ -26,7 +26,7 @@ const Footer = () => {
             </li>
             <li>
               <Link to="/ThingsToDo" onClick={scrollToTop}>
-                Things To Do
+                Packages
               </Link>
             </li>
             <li>

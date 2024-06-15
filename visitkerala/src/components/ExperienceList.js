@@ -42,7 +42,7 @@ const experience = [
 const ExperienceList = () => {
   return (
     <div className="experiencelist">
-      <h2>Experience List</h2>
+      <h2>Top Destinations</h2>
       <div className="experience-container">
         {experience.map((experience, index) => (
           <ExperienceCard

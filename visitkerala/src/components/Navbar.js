@@ -31,7 +31,7 @@ const Navbar = () => {
         </li>
         <li>
           <Link to="/ThingsToDo" onClick={scrollToTop}>
-            Things To Do
+            Packages
           </Link>
         </li>
         <li>
@@ -47,6 +47,11 @@ const Navbar = () => {
         <li>
           <Link to="/LoginSignup" onClick={scrollToTop}>
             Login / Signup
+          </Link>
+        </li>
+        <li>
+          <Link to="/UserProfile" onClick={scrollToTop}>
+            My Profile
           </Link>
         </li>
       </ul>
