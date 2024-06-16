@@ -78,7 +78,9 @@
     margin-bottom: 8%;
 }
 .tripbook-button {
-display: inline-block;
+    margin-left: 33%;
+    margin-top: 10%;
+    display: flex;
     padding: 10px 20px;
     background-color: #079618;
     color: white;
@@ -88,7 +90,6 @@ display: inline-block;
     cursor: pointer;
     border-radius: 5px;
 }
-
 .book-button:hover {
   background-color: #45a049;
 }

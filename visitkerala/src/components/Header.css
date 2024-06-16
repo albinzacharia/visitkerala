@@ -15,14 +15,6 @@
   height: auto;
 }
 
-.logo {
-  position: absolute;
-  top: 35px;
-  left: 50%; /* Adjusted to center */
-  transform: translateX(-50%); /* Centering trick */
-  width: 12%;
-  height: 117px;
-}
 
 .search-bar {
   width: 46%;
@@ -60,4 +52,10 @@
   color: white;
   font-size: 4rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+select{
+  border-color: white;
+  outline: none;
+  color: grey;
+  margin-right: 10%;
 }

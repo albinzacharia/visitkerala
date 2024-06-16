@@ -5,13 +5,16 @@ import Footer from "./Footer";
 import "./ThingsToDo.css";
 import ThingsCard from "./ThingsCard";
 
-const ThingsToDo = () => {
+const ThingsToDo = ({setPaymentDetails,paymentDetails}) => {
   return (
     <div className="things-to-do">
       <Navbar />
       {Navbar}
       <Headerttd /> {Headerttd}
-      <ThingsCard />
+      <ThingsCard
+        setPaymentDetails={setPaymentDetails}
+        paymentDetails={paymentDetails}
+      />
       {ThingsCard}
       <Footer />
       {Footer}

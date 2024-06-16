@@ -5,52 +5,52 @@ const tours = [
   {
     title: "Kollam",
     image: "./pics/kollam.jpg", // Replace with actual image paths
-    link: "/tours/goa",
+    link: "/Trivandrum",
   },
   {
     title: "Alappuzha",
     image: "./pics/alappuzha.jpg",
-    link: "/tours/manali",
+    link: "/Trivandrum",
   },
   {
     title: "Kappad",
     image: "./pics/Kappad.jpg",
-    link: "/tours/manali",
+    link: "/Trivandrum",
   },
   {
     title: "Palakkad",
     image: "./pics/palakkad.jpg",
-    link: "/tours/manali",
+    link: "/Trivandrum",
   },
   {
     title: "Thrissur",
     image: "./pics/thrish.jpg",
-    link: "/tours/manali",
+    link: "/Trivandrum",
   },
   {
     title: "Kollam",
     image: "./pics/kollam.jpg", // Replace with actual image paths
-    link: "/tours/goa",
+    link: "/Trivandrum",
   },
   {
     title: "Alappuzha",
     image: "./pics/alappuzha.jpg",
-    link: "/tours/manali",
+    link: "/Trivandrum",
   },
   {
     title: "Trivandrum",
     image: "./pics/tvm.jpg",
-    link: "/tours/manali",
+    link: "/Trivandrum",
   },
   {
     title: "Palakkad",
     image: "./pics/palakkad.jpg",
-    link: "/tours/manali",
+    link: "/Trivandrum",
   },
   {
     title: "Thrissur",
     image: "./pics/thrish.jpg",
-    link: "/tours/manali",
+    link: "/Trivandrum",
   },
   // Add more tour objects as needed
 ];

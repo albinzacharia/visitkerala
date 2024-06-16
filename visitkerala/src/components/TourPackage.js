@@ -1,9 +1,31 @@
-import React from "react";
+// src/components/TourPackage.js
+import React, { useEffect } from "react";
 import "./TourPackage.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 
-const TourPackage = () => {
+const TourPackage = ({setPaymentDetails,paymentDetails}) => {
+
+  // Inside your component
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setPaymentDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }));
+  };
+
+  useEffect(() => {
+    console.log(paymentDetails);
+  }, [paymentDetails]);
+
+  const navigate = useNavigate();
+
+  const handleBookNow = () => {
+    navigate("/PaymentPage");
+  };
+
   return (
     <div className="tour-package-page">
       <Navbar />
@@ -45,8 +67,10 @@ const TourPackage = () => {
           <div className="package-price">
             <h3>Price</h3>
             <h3>₹25,000</h3>
-            <h4>per person</h4>
-            <button className="tripbook-button">Book Now</button>
+            <input name="datedet" type="date" onChange={handleChange}></input>
+            <button className="tripbook-button" onClick={handleBookNow}>
+              Book Now
+            </button>
           </div>
         </div>
         <div className="related-images">

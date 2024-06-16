@@ -39,13 +39,14 @@ const tours = [
   // Add more tour objects as needed
 ];
 
-const ThingsCard = () => {
+const ThingsCard = ({ setPaymentDetails, paymentDetails }) => {
   return (
     <div className="ThingsCard">
       <h2>Our Packages</h2>
       <div className="things-card-container">
         {tours.map((tour, index) => (
-          <TourCard
+          <TourCard setPaymentDetails={setPaymentDetails}
+        paymentDetails={paymentDetails}
             key={index}
             title={tour.title}
             image={tour.image}

@@ -6,13 +6,13 @@ import ExperienceList from "./ExperienceList";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
-const HomePage = () => {
+const HomePage = ({paymentDetails,setPaymentDetails}) => {
   return (
     <div className="home-page">
       <Navbar />
       {Navbar}
       <Header /> {Header}
-      <Featured />
+      <Featured paymentDetails={paymentDetails} setPaymentDetails={setPaymentDetails} />
       {Featured}
       <ExperienceList />
           {ExperienceList}

@@ -1,10 +1,13 @@
+// src/components/Navbar.js
 import React, { useState, useEffect } from "react";
 import "./Navbar.css"; // Add your CSS file for styling
 import i4 from "./pics/logo.png";
 import { Link } from "react-router-dom";
+import { useAuth } from "../AuthContext"; // Import the authentication context
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { isLoggedIn } = useAuth(); // Get the login state from the context
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,9 +19,10 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-    const scrollToTop = () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
@@ -44,16 +48,20 @@ const Navbar = () => {
             Contact Us
           </Link>
         </li>
-        <li>
-          <Link to="/LoginSignup" onClick={scrollToTop}>
-            Login / Signup
-          </Link>
-        </li>
-        <li>
-          <Link to="/UserProfile" onClick={scrollToTop}>
-            My Profile
-          </Link>
-        </li>
+        {isLoggedIn===false && (
+          <li>
+            <Link to="/LoginSignup" onClick={scrollToTop}>
+              Login / Signup
+            </Link>
+          </li>
+        )}
+        {isLoggedIn && (
+          <li>
+            <Link to="/UserProfile" onClick={scrollToTop}>
+              My Profile
+            </Link>
+          </li>
+        )}
       </ul>
     </nav>
   );
