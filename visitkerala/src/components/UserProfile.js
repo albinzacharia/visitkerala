@@ -8,7 +8,7 @@ const UserProfile = ({paymentDetails}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [email, setEmail] = useState("email@google.com");
   const [phone, setPhone] = useState("+91 xxxxxxxxxxx");
-  const [address, setAddress] = useState("ABC Street, TVM");
+  const [firstname, setName] = useState("John");
   const [username, setUsername] = useState(paymentDetails.username); // State to hold username
 
   useEffect(() => {
@@ -48,11 +48,11 @@ const UserProfile = ({paymentDetails}) => {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
-              <label>Address:</label>
+              <label>Name:</label>
               <input
                 type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
+                value={firstname}
+                onChange={(e) => setName(e.target.value)}
               />
               <button className="savebutton" onClick={handleSaveProfile}>
                 Save Profile
@@ -67,19 +67,13 @@ const UserProfile = ({paymentDetails}) => {
                 <strong>Phone:</strong> {phone}
               </p>
               <p>
-                <strong>Address:</strong> {address}
+                <strong>Name:</strong> {firstname}
               </p>
               <button className="editbutton" onClick={handleEditProfile}>
                 Edit Profile
               </button>
             </>
           )}
-          <h3>Booking History</h3>
-          <ul>
-            <li>Trip to Munnar - 12/12/2023</li>
-            <li>Houseboat in Alappuzha - 05/01/2024</li>
-            <li>Beach Resort in Kovalam - 18/02/2024</li>
-          </ul>
         </div>
       </div>
       <Footer />

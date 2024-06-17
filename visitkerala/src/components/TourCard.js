@@ -1,4 +1,3 @@
-// TourCard.js
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./TourCard.css";
@@ -9,7 +8,8 @@ const TourCard = ({
   description,
   link,
   setPaymentDetails,
-  paymentDetails
+  paymentDetails,
+  customHandleBookNow, // Add a prop for custom booking handler
 }) => {
   const navigate = useNavigate();
 
@@ -32,7 +32,10 @@ const TourCard = ({
       <div className="tour-card-content">
         <h3 className="tour-card-title">{title}</h3>
         <p className="tour-card-description">{description}</p>
-        <button onClick={handleBookNow} className="experience-card-link">
+        <button
+          onClick={customHandleBookNow || handleBookNow}
+          className="experience-card-link"
+        >
           Book Now
         </button>
       </div>

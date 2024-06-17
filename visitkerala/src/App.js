@@ -17,6 +17,11 @@ import TourPackage from "./components/TourPackage";
 import { AuthProvider } from "./AuthContext";
 import PaymentPage from "./components/PaymentPage";
 import Trivandrum from "./components/Trivandrum";
+import Kollam from "./components/Kollam"; // Ensure to create this component
+import Ernakulam from "./components/Ernakulam"; // Ensure to create this component
+import Alappuzha from "./components/Alappuzha"; // Ensure to create this component
+import Idukki from "./components/Idukki"; // Ensure to create this component
+
 
 function App() {
   return (
@@ -78,7 +83,51 @@ const AppContent = () => {
           />
           <Route path="/Destinations" element={<Destinations />} />
           <Route path="/Contactus" element={<Contactus />} />
-          <Route path="/Trivandrum" element={<Trivandrum />} />
+          <Route
+            path="/Trivandrum"
+            element={
+              <Trivandrum
+                paymentDetails={paymentDetails}
+                setPaymentDetails={setPaymentDetails}
+              />
+            }
+          />
+          <Route
+            path="/Kollam"
+            element={
+              <Kollam
+                paymentDetails={paymentDetails}
+                setPaymentDetails={setPaymentDetails}
+              />
+            }
+          />
+          <Route
+            path="/Ernakulam"
+            element={
+              <Ernakulam
+                paymentDetails={paymentDetails}
+                setPaymentDetails={setPaymentDetails}
+              />
+            }
+          />
+          <Route
+            path="/Alappuzha"
+            element={
+              <Alappuzha
+                paymentDetails={paymentDetails}
+                setPaymentDetails={setPaymentDetails}
+              />
+            }
+          />
+          <Route
+            path="/Idukki"
+            element={
+              <Idukki
+                paymentDetails={paymentDetails}
+                setPaymentDetails={setPaymentDetails}
+              />
+            }
+          />
           <Route
             path="*"
             element={

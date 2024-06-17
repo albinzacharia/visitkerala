@@ -6,35 +6,35 @@ const tours = [
     title: "Beautiful Beaches of Goa",
     image: "./pics/kollam.jpg", // Replace with actual image paths
     description: "Explore the stunning beaches and vibrant nightlife of Goa.",
-    link: "/tours/goa",
+    link: "/Trivandrum",
   },
   {
     title: "Majestic Mountains of Manali",
     image: "./pics/alappuzha.jpg",
     description:
       "Experience the serene beauty and adventurous activities in Manali.",
-    link: "/tours/manali",
+    link: "/Kollam",
   },
   {
     title: "Majestic Mountains of Manali",
     image: "./pics/munnar.jpg",
     description:
       "Experience the serene beauty and adventurous activities in Manali.",
-    link: "/tours/manali",
+    link: "/Alappuzha",
   },
   {
     title: "Majestic Mountains of Manali",
     image: "./pics/palakkad.jpg",
     description:
       "Experience the serene beauty and adventurous activities in Manali.",
-    link: "/tours/manali",
+    link: "/Idukki",
   },
   {
     title: "Majestic Mountains of Manali",
     image: "./pics/thrish.jpg",
     description:
       "Experience the serene beauty and adventurous activities in Manali.",
-    link: "/tours/manali",
+    link: "/Ernakulam",
   },
   // Add more tour objects as needed
 ];

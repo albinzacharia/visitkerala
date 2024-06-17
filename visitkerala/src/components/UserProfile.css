@@ -13,6 +13,7 @@
 }
 
 .profile-details {
+  margin-bottom: 12%;
   width: 80%;
   max-width: 600px;
   background: #fff;
@@ -39,4 +40,19 @@
   padding: 10px;
   margin: 5px 0;
   border-radius: 5px;
+}
+.editbutton{
+  margin-top: 5%;
+}
+
+.profile-details form{
+  margin-right: 100%;
+}
+
+.savebutton{
+  margin-top: 10%;
+  width: max-content;
+}
+.profile-details input{
+  margin-bottom: 20%;
 }

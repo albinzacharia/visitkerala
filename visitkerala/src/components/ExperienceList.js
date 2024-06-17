@@ -6,35 +6,35 @@ const experience = [
     title: "Beautiful Beaches of Goa",
     image: "./pics/kollam.jpg", // Replace with actual image paths
     description: "Explore the stunning beaches and vibrant nightlife of Goa.",
-    link: "/experience/goa",
+    link: "/Trivandrum",
   },
   {
     title: "Majestic Mountains of Manali",
     image: "./pics/alappuzha.jpg",
     description:
       "Experience the serene beauty and adventurous activities in Manali.",
-    link: "/experience/manali",
+    link: "/Kollam",
   },
   {
     title: "Majestic Mountains of Manali",
     image: "./pics/munnar.jpg",
     description:
       "Experience the serene beauty and adventurous activities in Manali.",
-    link: "/experience/manali",
+    link: "/Alappuzha",
   },
   {
     title: "Majestic Mountains of Manali",
     image: "./pics/palakkad.jpg",
     description:
       "Experience the serene beauty and adventurous activities in Manali.",
-    link: "/experience/manali",
+    link: "Ernakulam",
   },
   {
     title: "Majestic Mountains of Manali",
     image: "./pics/thrish.jpg",
     description:
       "Experience the serene beauty and adventurous activities in Manali.",
-    link: "/experience/manali",
+    link: "/Idukki",
   },
   // Add more experience objects as needed
 ];
