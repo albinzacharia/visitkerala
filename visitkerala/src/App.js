@@ -21,7 +21,7 @@ import Kollam from "./components/Kollam"; // Ensure to create this component
 import Ernakulam from "./components/Ernakulam"; // Ensure to create this component
 import Alappuzha from "./components/Alappuzha"; // Ensure to create this component
 import Idukki from "./components/Idukki"; // Ensure to create this component
-
+import AdminPage from "./components/AdminPage";
 
 function App() {
   return (
@@ -38,7 +38,7 @@ const AppContent = () => {
   const [showModal, setShowModal] = useState(false);
   const [paymentDetails, setPaymentDetails] = useState({
     username: "dummy",
-    package: "Kerala Adventure Tour",
+    package: "",
     price: "25000",
     datedet: "",
   });
@@ -155,6 +155,7 @@ const AppContent = () => {
               />
             }
           />
+          <Route path="/AdminPage" element={<AdminPage />} />
           <Route
             path="/PaymentPage"
             element={

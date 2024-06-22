@@ -1,24 +1,24 @@
-// src/components/PaymentPage.js
-import React, { useState } from "react";
-import axios from "axios"; // Ensure axios is imported correctly
+import React from "react";
+import axios from "axios";
 import "./PaymentPage.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import Header from "./Header";
 
-const PaymentPage = ({paymentDetails}) => {
-  
-
-  const handleSubmit = (e) => {
+const PaymentPage = ({ paymentDetails }) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:3001/api/booking", paymentDetails)
-      .then((response) => {
-        alert(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error processing the payment!", error);
-      });
+    console.log("Payment Details:", paymentDetails); // Check if paymentDetails contains the expected data
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/booking",
+        paymentDetails
+      );
+      console.log("Response:", response.data); // Check response data
+      alert(response.data);
+    } catch (error) {
+      console.error("Frontend Error:", error);
+    }
   };
 
   return (
@@ -48,9 +48,7 @@ const PaymentPage = ({paymentDetails}) => {
           </button>
         </form>
       </div>
-      <div>
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 };

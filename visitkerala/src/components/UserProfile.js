@@ -21,7 +21,23 @@ const UserProfile = ({paymentDetails}) => {
   };
 
   const handleSaveProfile = () => {
-    // Save edited profile details (You can implement save logic here)
+    console.log(email);
+      axios
+        .post("http://localhost:3001/api/updateProfile", {
+          email: email,
+          phone: phone,
+          firstname: firstname,
+          username: username,
+        })
+        .then((response) => {
+          console.log(response.data); // Handle successful response (optional)
+          setIsEditing(false); // Exit edit mode
+        })
+        .catch((error) => {
+          console.error("Error updating profile:", error);
+          // Handle error (show alert, etc.)
+        });
+
     setIsEditing(false);
   };
 

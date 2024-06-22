@@ -2,12 +2,13 @@
 import React, { useState, useEffect } from "react";
 import "./Navbar.css"; // Add your CSS file for styling
 import i4 from "./pics/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext"; // Import the authentication context
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const { isLoggedIn } = useAuth(); // Get the login state from the context
+  const { isLoggedIn, logout } = useAuth(); // Get the login state and logout function from the context
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,6 +23,11 @@ const Navbar = () => {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/LoginSignup");
   };
 
   return (
@@ -48,7 +54,7 @@ const Navbar = () => {
             Contact Us
           </Link>
         </li>
-        {isLoggedIn===false && (
+        {!isLoggedIn && (
           <li>
             <Link to="/LoginSignup" onClick={scrollToTop}>
               Login / Signup
@@ -56,11 +62,18 @@ const Navbar = () => {
           </li>
         )}
         {isLoggedIn && (
-          <li>
-            <Link to="/UserProfile" onClick={scrollToTop}>
-              My Profile
-            </Link>
-          </li>
+          <>
+            <li>
+              <Link to="/UserProfile" onClick={scrollToTop}>
+                My Profile
+              </Link>
+            </li>
+            <li>
+              <button onClick={handleLogout} className="logout-button">
+                Logout
+              </button>
+            </li>
+          </>
         )}
       </ul>
     </nav>

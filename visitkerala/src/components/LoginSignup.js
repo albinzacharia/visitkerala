@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginSignup.css";
-import { useAuth } from "../AuthContext"; // Import the authentication context
+import { useAuth } from "../AuthContext";
 
 const LoginSignup = ({ onClose, setPaymentDetails }) => {
   const handleChange = (e) => {
@@ -14,8 +14,8 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
 
   const [isLogin, setIsLogin] = useState(true);
   const [fade, setFade] = useState(true);
-  const { login } = useAuth(); // Get the login function from the context
-  const navigate = useNavigate(); // Get the navigate function
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const toggleForm = () => {
     setFade(false);
@@ -25,11 +25,56 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
     }, 600);
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    login();
-    onClose();
-    navigate("/");
+    const username = e.target.username.value;
+    const password = e.target.password.value;
+
+    try {
+      const response = await fetch("http://localhost:3001/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        login();
+        onClose();
+        navigate("/");
+      } else {
+        console.error("Login failed");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    const username = e.target.username.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    try {
+      const response = await fetch("http://localhost:3001/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, email, password }),
+      });
+
+      if (response.ok) {
+        toggleForm();
+      } else {
+        console.error("Signup failed");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -51,7 +96,7 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
               onChange={handleChange}
               required
             />
-            <input type="password" placeholder="Enter password" required />
+            <input type="password" name="password" placeholder="Enter password" required />
             <div className="remember-me">
               <input type="checkbox" id="rememberMe" />
               <label className="login" htmlFor="rememberMe">
@@ -73,10 +118,10 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
         <div className="signup-form">
           <h2>Sign up to Visit Kerala</h2>
           <p>Enjoy easy booking and our customer care</p>
-          <form>
-            <input type="text" placeholder="Enter username" required />
-            <input type="email" placeholder="Enter email address" required />
-            <input type="password" placeholder="Enter password" required />
+          <form onSubmit={handleSignup}>
+            <input type="text" name="username" placeholder="Enter username" required />
+            <input type="email" name="email" placeholder="Enter email address" required />
+            <input type="password" name="password" placeholder="Enter password" required />
             <button className="signup" type="submit">
               Sign Up
             </button>

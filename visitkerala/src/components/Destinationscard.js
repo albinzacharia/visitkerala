@@ -5,54 +5,28 @@ const tours = [
   {
     title: "Kollam",
     image: "./pics/kollam.jpg", // Replace with actual image paths
-    link: "/Trivandrum",
+    link: "/Kollam",
   },
   {
     title: "Alappuzha",
     image: "./pics/alappuzha.jpg",
-    link: "/Trivandrum",
+    link: "/Alappuzha",
   },
   {
-    title: "Kappad",
-    image: "./pics/Kappad.jpg",
-    link: "/Trivandrum",
+    title: "Ernakulam",
+    image: "./pics/ernakulam.jpg",
+    link: "/Ernakulam",
   },
   {
-    title: "Palakkad",
-    image: "./pics/palakkad.jpg",
-    link: "/Trivandrum",
-  },
-  {
-    title: "Thrissur",
-    image: "./pics/thrish.jpg",
-    link: "/Trivandrum",
-  },
-  {
-    title: "Kollam",
-    image: "./pics/kollam.jpg", // Replace with actual image paths
-    link: "/Trivandrum",
-  },
-  {
-    title: "Alappuzha",
-    image: "./pics/alappuzha.jpg",
-    link: "/Trivandrum",
+    title: "Idukki",
+    image: "./pics/idukki.jpg",
+    link: "/Idukki",
   },
   {
     title: "Trivandrum",
     image: "./pics/tvm.jpg",
     link: "/Trivandrum",
   },
-  {
-    title: "Palakkad",
-    image: "./pics/palakkad.jpg",
-    link: "/Trivandrum",
-  },
-  {
-    title: "Thrissur",
-    image: "./pics/thrish.jpg",
-    link: "/Trivandrum",
-  },
-  // Add more tour objects as needed
 ];
 
 const Destinationscard = () => {

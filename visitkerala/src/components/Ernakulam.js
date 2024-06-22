@@ -9,7 +9,7 @@ const Trivandrum = () => {
         <Navbar />
         <div className="destination-page">
           <img
-            src="./pics/ttdh1.jpg"
+            src="./pics/ernakulamheader.jpg"
             alt="Header background"
             className="header-background"
           />
