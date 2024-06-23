@@ -1,4 +1,3 @@
-// src/components/TourCard.js
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./TourCard.css";
@@ -11,14 +10,20 @@ const TourCard = ({
   paymentDetails,
   customHandleBookNow, // Add a prop for custom booking handler
 }) => {
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
 
   const handleBookNow = () => {
     setPaymentDetails({
       ...paymentDetails,
-      package: title, 
+      package: title,
     });
     navigate("/TourPackage");
+
+    // Scroll to the top of the page
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   return (

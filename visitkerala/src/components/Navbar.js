@@ -69,7 +69,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <button onClick={handleLogout} className="logout-button">
+              <button onClick={handleLogout} className="nlogout-button">
                 Logout
               </button>
             </li>

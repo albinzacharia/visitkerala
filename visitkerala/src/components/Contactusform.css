@@ -61,3 +61,7 @@ button.contactusbutton {
 button.contactusbutton:hover {
   background-color: #066414;
 }
+.success-message{
+  text-align: center;
+  margin: 2%;
+}

@@ -7,41 +7,29 @@ import { useNavigate } from "react-router-dom";
 const Featured = ({ setPaymentDetails, paymentDetails }) => {
   const tours = [
     {
-      title: "Beautiful Beaches of Goa",
-      image: "./pics/kollam.jpg", // Replace with actual image paths
-      description: "Explore the stunning beaches and vibrant nightlife of Goa.",
-      link: "/tours/goa",
+      title: "Jatayu Earth's Center Adventure",
+      image: "./pics/kollam.jpg", // Replace with actual image path for Jatayu Rock
+      description:
+        "Embark on an exhilarating adventure at Jatayu Earth's Center, featuring breathtaking views and thrilling activities.",
+      link: "/tours/jadayu",
     },
     {
-      title: "Majestic Mountains of Manali",
+      title: "Explore Alappuzha's Waterways",
       image: "./pics/alappuzha.jpg",
       description:
-        "Experience the serene beauty and adventurous activities in Manali.",
-      link: "/tours/manali",
+        "Cruise through the picturesque backwaters and enjoy the tranquil beauty of Alappuzha.",
+      link: "/tours/alappuzha",
     },
     {
-      title: "Majestic Mountains of Manali",
-      image: "./pics/alappuzha.jpg",
+      title: "Trivandrum Heritage and Nature",
+      image: "./pics/tvm.jpg",
       description:
-        "Experience the serene beauty and adventurous activities in Manali.",
-      link: "/tours/manali",
-    },
-    {
-      title: "Majestic Mountains of Manali",
-      image: "./pics/alappuzha.jpg",
-      description:
-        "Experience the serene beauty and adventurous activities in Manali.",
-      link: "/tours/manali",
-    },
-    {
-      title: "Majestic Mountains of Manali",
-      image: "./pics/alappuzha.jpg",
-      description:
-        "Experience the serene beauty and adventurous activities in Manali.",
-      link: "/tours/manali",
+        "Immerse yourself in the historical landmarks and natural beauty of Trivandrum.",
+      link: "/tours/trivandrum",
     },
     // Add more tours as needed
   ];
+ 
 
   return (
     <div className="featured">

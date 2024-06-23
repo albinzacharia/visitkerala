@@ -3,37 +3,38 @@ import TourCard from "./TourCard";
 import "./ThingsCard.css"; // Add your CSS file for styling
 const tours = [
   {
-    title: "Beautiful Beaches of Goa",
-    image: "./pics/kollam.jpg", // Replace with actual image paths
-    description: "Explore the stunning beaches and vibrant nightlife of Goa.",
+    title: "Historical Wonders of Trivandrum",
+    image: "./pics/tvm.jpg", // Replace with actual image paths
+    description:
+      "Discover the rich historical landmarks and cultural treasures of Trivandrum.",
     link: "/Trivandrum",
   },
   {
-    title: "Majestic Mountains of Manali",
-    image: "./pics/alappuzha.jpg",
+    title: "Jatayu Earth's Center Adventure in Kollam",
+    image: "./pics/kollam.jpg",
     description:
-      "Experience the serene beauty and adventurous activities in Manali.",
+      "Embark on an exhilarating adventure at Jatayu Earth's Center, featuring breathtaking views and thrilling activities.",
     link: "/Kollam",
   },
   {
-    title: "Majestic Mountains of Manali",
-    image: "./pics/munnar.jpg",
+    title: "Backwaters Exploration in Alappuzha",
+    image: "./pics/alappuzha.jpg",
     description:
-      "Experience the serene beauty and adventurous activities in Manali.",
+      "Cruise through the picturesque backwaters and enjoy the tranquil beauty of Alappuzha.",
     link: "/Alappuzha",
   },
   {
-    title: "Majestic Mountains of Manali",
-    image: "./pics/palakkad.jpg",
+    title: "Scenic Splendor of Idukki",
+    image: "./pics/idukki.jpg",
     description:
-      "Experience the serene beauty and adventurous activities in Manali.",
+      "Explore the scenic beauty and serene landscapes of Idukki amidst the Western Ghats.",
     link: "/Idukki",
   },
   {
-    title: "Majestic Mountains of Manali",
-    image: "./pics/thrish.jpg",
+    title: "Cultural Delights of Ernakulam",
+    image: "./pics/ernakulam.jpg",
     description:
-      "Experience the serene beauty and adventurous activities in Manali.",
+      "Immerse yourself in the vibrant culture, culinary delights, and bustling markets of Ernakulam.",
     link: "/Ernakulam",
   },
   // Add more tour objects as needed

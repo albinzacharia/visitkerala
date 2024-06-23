@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Contactusform.css"; // Ensure you have a CSS file for styling
+import axios from "axios"; // Import Axios for HTTP requests
 
 const Contactusform = () => {
   const [formData, setFormData] = useState({
@@ -18,14 +19,24 @@ const Contactusform = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic (e.g., send data to a server)
-    console.log("Form submitted:", formData);
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      message: "",
-    });
+
+    // Send form data to server
+    axios
+      .post("http://localhost:3001/api/contactus", formData)
+      .then((response) => {
+        console.log("Form submission successful:", response.data);
+        // Reset form after successful submission
+        setFormData({
+          name: "",
+          email: "",
+          message: "",
+        });
+        // Show success alert
+        window.alert("Feedback has been sent!");
+      })
+      .catch((error) => {
+        console.error("Error submitting form:", error);
+      });
   };
 
   return (
@@ -64,7 +75,9 @@ const Contactusform = () => {
             required
           ></textarea>
         </div>
-        <button className="contactusbutton" type="submit">Submit</button>
+        <button className="contactusbutton" type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );

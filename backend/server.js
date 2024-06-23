@@ -41,6 +41,111 @@ app.get("/api/user/:username", (req, res) => {
     }
   });
 });
+app.get("/api/users", (req, res) => {
+  const query = "SELECT * FROM users";
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error("Error fetching users:", err);
+      res.status(500).send("Server error");
+    } else {
+      res.status(200).json(result); // Send users as JSON response
+    }
+  });
+});
+app.get("/api/tourpackages", (req, res) => {
+  const query = "SELECT * FROM tourpackage";
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error("Error fetching tour packages:", err);
+      res.status(500).send("Server error");
+    } else {
+      res.status(200).json(result); // Send tour packages as JSON response
+    }
+  });
+});
+
+// Endpoint to fetch a single tour package by ID
+app.get("/api/tourpackage/:packageId", (req, res) => {
+  const packageId = req.params.packageId;
+  const query = "SELECT * FROM tourpackage WHERE package_id = ?";
+
+  db.query(query, [packageId], (err, result) => {
+    if (err) {
+      console.error("Error fetching tour package:", err);
+      res.status(500).send("Server error");
+    } else {
+      if (result.length > 0) {
+        res.status(200).json(result[0]); // Send tour package as JSON response
+      } else {
+        res.status(404).send("Tour package not found");
+      }
+    }
+  });
+});
+
+// Endpoint to update a tour package
+// Update package details
+app.post("/api/updatePackage", (req, res) => {
+  const { package_id, description, price } = req.body;
+  const query = "UPDATE tourpackage SET description = ?, price = ? WHERE package_id = ?";
+
+  db.query(query, [description, price, package_id], (err, result) => {
+    if (err) {
+      console.error("Error updating package:", err);
+      res.status(500).send("Server error");
+    } else {
+      console.log(`Package updated successfully for package ID: ${package_id}`);
+      res.status(200).send("Package updated successfully");
+    }
+  });
+});
+app.post("/api/contactus", (req, res) => {
+  const { name, email, message } = req.body;
+  const query =
+    "INSERT INTO contactus (name, email, message, date) VALUES (?, ?, ?, NOW())";
+
+  db.query(query, [name, email, message], (err, result) => {
+    if (err) {
+      console.error("Error inserting contact form data:", err);
+      res.status(500).send("Server error");
+    } else {
+      console.log("Contact form data inserted successfully");
+      res.status(200).send("Contact form data inserted successfully");
+    }
+  });
+});
+app.get("/api/contactus", (req, res) => {
+  const query = "SELECT * FROM contactus ORDER BY date DESC"; // Assuming 'date' is the column name for message date
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error("Error fetching contact messages:", err);
+      res.status(500).send("Server error");
+    } else {
+      res.status(200).json(result); // Send contact messages as JSON response
+    }
+  });
+});
+
+// Endpoint to add a new tour package
+app.post("/api/addPackage", (req, res) => {
+  const { name, description, price } = req.body;
+  const query =
+    "INSERT INTO tourpackage (name, description, price) VALUES (?, ?, ?)";
+
+  db.query(query, [name, description, price], (err, result) => {
+    if (err) {
+      console.error("Error adding new tour package:", err);
+      res.status(500).send("Server error");
+    } else {
+      console.log(`New tour package added successfully`);
+      res.status(200).send("New tour package added successfully");
+    }
+  });
+});
+
 app.post("/api/updateProfile", (req, res) => {
   const { email, phone, firstname, username } = req.body;
   const query =
@@ -95,7 +200,35 @@ app.post("/api/login", (req, res) => {
     }
   });
 });
+// Add review
+app.post("/api/addReview", (req, res) => {
+  const { username, reviewText } = req.body;
+  const query = "INSERT INTO reviews (username, reviewText, reviewDate) VALUES (?, ?, NOW())";
 
+  db.query(query, [username, reviewText], (err, result) => {
+    if (err) {
+      console.error("Error adding review:", err);
+      res.status(500).send("Server error");
+    } else {
+      console.log("Review added successfully");
+      res.status(200).send("Review added successfully");
+    }
+  });
+});
+
+// Get reviews
+app.get("/api/reviews", (req, res) => {
+  const query = "SELECT * FROM reviews ORDER BY reviewDate DESC";
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error("Error fetching reviews:", err);
+      res.status(500).send("Server error");
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
 // Process booking
 app.post("/api/booking", (req, res) => {
   const { username, package, price, datedet } = req.body;

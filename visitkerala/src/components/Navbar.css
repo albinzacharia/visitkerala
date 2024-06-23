@@ -41,3 +41,8 @@
   background-color: #c5f9abe1; /* Make navbar translucent when scrolled */
 }
 
+.nlogout-button{
+  position: relative;
+  left:100%;
+  top:10%;
+}

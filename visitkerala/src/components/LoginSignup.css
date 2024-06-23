@@ -142,3 +142,11 @@ img.loginlogo {
     width: 16%;
     height: 12%;
 }
+img.signuplogo {
+    position: absolute;
+    top: 4%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16%;
+    height: 10%;
+}

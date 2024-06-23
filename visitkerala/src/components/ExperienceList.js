@@ -1,40 +1,43 @@
+// ExperienceList.js
 import React from "react";
 import ExperienceCard from "./ExperienceCard";
-import "./ExperienceList.css"; // Add your CSS file for styling
+import "./ExperienceList.css"; // Ensure you have a CSS file for styling
+
 const experience = [
   {
-    title: "Beautiful Beaches of Goa",
-    image: "./pics/kollam.jpg", // Replace with actual image paths
-    description: "Explore the stunning beaches and vibrant nightlife of Goa.",
+    title: "Trivandrum: Gateway to Kerala's Capital",
+    image: "./pics/tvm.jpg", // Replace with actual image paths
+    description:
+      "Explore Trivandrum, the capital city of Kerala, known for its vibrant culture, historical landmarks, and lush greenery.",
     link: "/Trivandrum",
   },
   {
-    title: "Majestic Mountains of Manali",
-    image: "./pics/alappuzha.jpg",
+    title: "Kollam: Backwaters Bliss",
+    image: "./pics/kollam.jpg",
     description:
-      "Experience the serene beauty and adventurous activities in Manali.",
+      "Discover Kollam, a serene destination famous for its tranquil backwaters, pristine beaches, and cultural heritage.",
     link: "/Kollam",
   },
   {
-    title: "Majestic Mountains of Manali",
-    image: "./pics/munnar.jpg",
+    title: "Alappuzha: Venice of the East",
+    image: "./pics/alappuzha.jpg",
     description:
-      "Experience the serene beauty and adventurous activities in Manali.",
+      "Experience Alappuzha, known as the 'Venice of the East,' with its enchanting backwaters, houseboat cruises, and traditional culture.",
     link: "/Alappuzha",
   },
   {
-    title: "Majestic Mountains of Manali",
-    image: "./pics/palakkad.jpg",
+    title: "Idukki: Nature's Paradise",
+    image: "./pics/idukki.jpg",
     description:
-      "Experience the serene beauty and adventurous activities in Manali.",
-    link: "Ernakulam",
+      "Immerse yourself in the natural beauty of Idukki, home to lush hills, tea plantations, and the famous Idukki Arch Dam.",
+    link: "/Idukki",
   },
   {
-    title: "Majestic Mountains of Manali",
-    image: "./pics/thrish.jpg",
+    title: "Ernakulam: Bustling Metropolis",
+    image: "./pics/ernakulam.jpg",
     description:
-      "Experience the serene beauty and adventurous activities in Manali.",
-    link: "/Idukki",
+      "Explore Ernakulam, the bustling commercial hub of Kerala, offering a blend of modernity, cultural heritage, and culinary delights.",
+    link: "/Ernakulam",
   },
   // Add more experience objects as needed
 ];
@@ -44,13 +47,13 @@ const ExperienceList = () => {
     <div className="experiencelist">
       <h2>Top Destinations</h2>
       <div className="experience-container">
-        {experience.map((experience, index) => (
+        {experience.map((experienceItem, index) => (
           <ExperienceCard
             key={index}
-            title={experience.title}
-            image={experience.image}
-            description={experience.description}
-            link={experience.link}
+            title={experienceItem.title}
+            image={experienceItem.image}
+            description={experienceItem.description}
+            link={experienceItem.link}
           />
         ))}
       </div>

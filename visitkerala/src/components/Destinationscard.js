@@ -32,7 +32,7 @@ const tours = [
 const Destinationscard = () => {
   return (
     <div className="ThingsCard">
-      <h2>Top Destinations</h2>
+      <h2> Our favourite destinations</h2>
       <div className="dest-card-container">
         {tours.map((tour, index) => (
           <Destcard

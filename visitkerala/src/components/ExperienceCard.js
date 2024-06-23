@@ -1,3 +1,4 @@
+// ExperienceCard.js
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./ExperienceCard.css"; // Add your CSS file for styling
@@ -5,8 +6,9 @@ import "./ExperienceCard.css"; // Add your CSS file for styling
 const ExperienceCard = ({ title, image, description, link }) => {
   const navigate = useNavigate();
 
-  const handleBookNow = () => {
+  const handleLearnMore = () => {
     navigate(link);
+    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top on navigation
   };
 
   return (
@@ -15,7 +17,7 @@ const ExperienceCard = ({ title, image, description, link }) => {
       <div className="experience-card-content">
         <h3 className="experience-card-title">{title}</h3>
         <p className="experience-card-description">{description}</p>
-        <button onClick={handleBookNow} className="experience-card-link">
+        <button onClick={handleLearnMore} className="experience-card-link">
           Learn More
         </button>
       </div>
