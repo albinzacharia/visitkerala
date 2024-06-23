@@ -2,44 +2,63 @@ import React, { useState, useEffect } from "react";
 import "./UserProfile.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import axios from "axios"; // Import Axios for HTTP requests
+import axios from "axios";
+import { useAuth } from "../AuthContext"; // Import the AuthContext
 
-const UserProfile = ({paymentDetails}) => {
+const UserProfile = () => {
+  const { user, updateUser } = useAuth(); // Ensure user and updateUser are properly initialized
   const [isEditing, setIsEditing] = useState(false);
-  const [email, setEmail] = useState("email@google.com");
-  const [phone, setPhone] = useState("+91 xxxxxxxxxxx");
-  const [firstname, setName] = useState("John");
-  const [username, setUsername] = useState(paymentDetails.username); // State to hold username
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [username, setUsername] = useState(user?.username || "");
 
   useEffect(() => {
-    // Fetch username from backend API
-    console.log(username);
-  }, []);
+    fetchUserData(username); // Fetch user data initially based on logged-in username
+  }, [username]); // Fetch again if username changes
+
+  const fetchUserData = (username) => {
+    axios
+      .get(`http://localhost:3001/api/user/${username}`) // Adjust URL as per your backend route
+      .then((response) => {
+        const userData = response.data; // Assuming response.data contains user details
+        setEmail(userData.email || "");
+        setPhone(userData.phone || "");
+        setFirstname(userData.firstname || "");
+        setUsername(userData.username || "");
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  };
 
   const handleEditProfile = () => {
     setIsEditing(true);
   };
 
-  const handleSaveProfile = () => {
-    console.log(email);
-      axios
-        .post("http://localhost:3001/api/updateProfile", {
-          email: email,
-          phone: phone,
-          firstname: firstname,
-          username: username,
-        })
-        .then((response) => {
-          console.log(response.data); // Handle successful response (optional)
-          setIsEditing(false); // Exit edit mode
-        })
-        .catch((error) => {
-          console.error("Error updating profile:", error);
-          // Handle error (show alert, etc.)
-        });
+  const handleSaveProfile = (e) => {
+    e.preventDefault();
+
+    axios
+      .post("http://localhost:3001/api/updateProfile", {
+        email: email,
+        phone: phone,
+        firstname: firstname,
+        username: username,
+      })
+      .then((response) => {
+        console.log(response.data);
+        updateUser({ email, phone, firstname, username }); // Update user data in context
+        setIsEditing(false);
+      })
+      .catch((error) => {
+        console.error("Error updating profile:", error);
+      });
 
     setIsEditing(false);
   };
+
+
 
   return (
     <div className="user-profile-page">
@@ -51,7 +70,7 @@ const UserProfile = ({paymentDetails}) => {
         <div className="profile-details">
           <h3>Personal Information</h3>
           {isEditing ? (
-            <form>
+            <form onSubmit={handleSaveProfile}>
               <label>Email:</label>
               <input
                 type="text"
@@ -68,9 +87,9 @@ const UserProfile = ({paymentDetails}) => {
               <input
                 type="text"
                 value={firstname}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setFirstname(e.target.value)}
               />
-              <button className="savebutton" onClick={handleSaveProfile}>
+              <button className="savebutton" type="submit">
                 Save Profile
               </button>
             </form>

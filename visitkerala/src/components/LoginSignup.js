@@ -2,20 +2,75 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginSignup.css";
 import { useAuth } from "../AuthContext";
+import axios from "axios";
 
 const LoginSignup = ({ onClose, setPaymentDetails }) => {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    phone: "",
+    firstname: "",
+    password: "",
+  });
+
+  const { login } = useAuth(); // Destructure login function from useAuth
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value, // Ensure value is treated as a string
+    }));
+  };
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+
+    axios
+      .post("http://localhost:3001/api/register", formData)
+      .then((response) => {
+        console.log("Signup successful:", response.data);
+        const { username, email, phone, firstname } = formData;
+        const userData = { username, email, phone, firstname };
+        login(userData); // Login with the new user data
+
+        // Ensure username is passed as a string to setPaymentDetails
+        setPaymentDetails((prevDetails) => ({
+          ...prevDetails,
+          username: formData.username,
+        }));
+
+        onClose(); // Close modal or navigate after successful signup
+        navigate("/user-profile"); // Redirect to user profile page
+      })
+      .catch((error) => {
+        console.error("Error signing up:", error);
+      });
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Simulate login success and set user data
+    const userData = {
+      username: formData.username,
+      email: formData.email,
+      // Add more fields as needed
+    };
+    login(userData);
+
+    // Ensure username is passed as a string to setPaymentDetails
     setPaymentDetails((prevDetails) => ({
       ...prevDetails,
-      [name]: value,
+      username: formData.username,
     }));
+
+    onClose();
+    navigate("/user-profile"); // Redirect to user profile page
   };
 
   const [isLogin, setIsLogin] = useState(true);
   const [fade, setFade] = useState(true);
-  const { login } = useAuth();
-  const navigate = useNavigate();
 
   const toggleForm = () => {
     setFade(false);
@@ -23,58 +78,6 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
       setIsLogin(!isLogin);
       setFade(true);
     }, 600);
-  };
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    const username = e.target.username.value;
-    const password = e.target.password.value;
-
-    try {
-      const response = await fetch("http://localhost:3001/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        login();
-        onClose();
-        navigate("/");
-      } else {
-        console.error("Login failed");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    const username = e.target.username.value;
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-
-    try {
-      const response = await fetch("http://localhost:3001/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, password }),
-      });
-
-      if (response.ok) {
-        toggleForm();
-      } else {
-        console.error("Signup failed");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
   };
 
   return (
@@ -96,13 +99,13 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
               onChange={handleChange}
               required
             />
-            <input type="password" name="password" placeholder="Enter password" required />
-            <div className="remember-me">
-              <input type="checkbox" id="rememberMe" />
-              <label className="login" htmlFor="rememberMe">
-                Remember Me
-              </label>
-            </div>
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter password"
+              onChange={handleChange}
+              required
+            />
             <button className="continuebutton" type="submit">
               Continue
             </button>
@@ -119,9 +122,41 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
           <h2>Sign up to Visit Kerala</h2>
           <p>Enjoy easy booking and our customer care</p>
           <form onSubmit={handleSignup}>
-            <input type="text" name="username" placeholder="Enter username" required />
-            <input type="email" name="email" placeholder="Enter email address" required />
-            <input type="password" name="password" placeholder="Enter password" required />
+            <input
+              type="text"
+              name="username"
+              placeholder="Enter username"
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter email address"
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="text"
+              name="phone"
+              placeholder="Enter Phone number"
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="text"
+              name="firstname"
+              placeholder="Enter your name"
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter password"
+              onChange={handleChange}
+              required
+            />
             <button className="signup" type="submit">
               Sign Up
             </button>

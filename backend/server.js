@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "",
+  password: "", // Enter your MySQL password
   database: "visitkerala",
 });
 
@@ -23,22 +23,61 @@ db.connect((err) => {
   }
   console.log("Connected to MySQL database");
 });
+app.get("/api/user/:username", (req, res) => {
+  const username = req.params.username;
+  const query =
+    "SELECT email, phone, firstname, username FROM users WHERE username = ?";
 
-app.post("/api/register", (req, res) => {
-  const { username, email, password } = req.body;
-  const query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-
-  db.query(query, [username, email, password], (err, result) => {
+  db.query(query, [username], (err, result) => {
     if (err) {
-      console.error("Error registering user:", err);
+      console.error("Error fetching user data:", err);
       res.status(500).send("Server error");
     } else {
-      console.log("User registered successfully");
-      res.status(200).send("User registered successfully");
+      if (result.length > 0) {
+        res.status(200).json(result[0]); // Send user data as JSON response
+      } else {
+        res.status(404).send("User not found");
+      }
     }
   });
 });
+app.post("/api/updateProfile", (req, res) => {
+  const { email, phone, firstname, username } = req.body;
+  const query =
+    "UPDATE users SET email = ?, phone = ?, firstname = ? WHERE username = ?";
 
+  db.query(query, [email, phone, firstname, username], (err, result) => {
+    if (err) {
+      console.error("Error updating profile:", err);
+      res.status(500).send("Server error");
+    } else {
+      console.log(`Profile updated successfully for username: ${username}`);
+      res.status(200).send("Profile updated successfully");
+    }
+  });
+});
+// Register a new user
+app.post("/api/register", (req, res) => {
+  const { username, email, phone, firstname, password } = req.body;
+  const query =
+    "INSERT INTO users (username, email, phone, firstname, password) VALUES (?,?,?, ?, ?)";
+
+  db.query(
+    query,
+    [username, email, phone, firstname, password],
+    (err, result) => {
+      if (err) {
+        console.error("Error registering user:", err);
+        res.status(500).send("Server error");
+      } else {
+        console.log("User registered successfully");
+        res.status(200).send("User registered successfully");
+      }
+    }
+  );
+});
+
+// Authenticate user login
 app.post("/api/login", (req, res) => {
   const { username, password } = req.body;
   const query = "SELECT * FROM users WHERE username = ? AND password = ?";
@@ -57,6 +96,7 @@ app.post("/api/login", (req, res) => {
   });
 });
 
+// Process booking
 app.post("/api/booking", (req, res) => {
   const { username, package, price, datedet } = req.body;
   const query =
@@ -73,6 +113,7 @@ app.post("/api/booking", (req, res) => {
   });
 });
 
+// Get username by user ID
 app.get("/api/user/:userId", (req, res) => {
   const userId = req.params.userId;
   const query = "SELECT username FROM booking WHERE id = ?";
@@ -91,6 +132,7 @@ app.get("/api/user/:userId", (req, res) => {
   });
 });
 
+// Start server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
