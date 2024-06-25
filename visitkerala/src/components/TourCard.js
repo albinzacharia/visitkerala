@@ -17,13 +17,18 @@ const TourCard = ({
       ...paymentDetails,
       package: title,
     });
-    navigate("/TourPackage");
 
-    // Scroll to the top of the page
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    if (customHandleBookNow) {
+      customHandleBookNow(); // Invoke custom handler if provided
+    } else {
+      navigate("/TourPackage");
+
+      // Scroll to the top of the page
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
@@ -32,10 +37,7 @@ const TourCard = ({
       <div className="tour-card-content">
         <h3 className="tour-card-title">{title}</h3>
         <p className="tour-card-description">{description}</p>
-        <button
-          onClick={customHandleBookNow || handleBookNow}
-          className="experience-card-link"
-        >
+        <button onClick={handleBookNow} className="experience-card-link">
           Book Now
         </button>
       </div>

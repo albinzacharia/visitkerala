@@ -1,62 +1,58 @@
-// src/components/Navbar.js
-import React, { useState, useEffect } from "react";
-import "./Navbar.css"; // Add your CSS file for styling
+import React from "react";
+import "./Navbar.css";
 import i4 from "./pics/logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../AuthContext"; // Import the authentication context
+import { useAuth } from "../AuthContext";
 
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const { isLoggedIn, logout } = useAuth(); // Get the login state and logout function from the context
+  const { isLoggedIn, isAdmin, logout } = useAuth(); // Include isAdmin from context
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   const handleLogout = () => {
     logout();
     navigate("/LoginSignup");
   };
 
+  const isAdminCheck = (formData) => {
+    // Replace with actual admin check logic based on form data
+    return formData.username === "admin" && formData.password === "admin";
+  };
+
+  const handleLogin = (formData) => {
+    if (isAdminCheck(formData)) {
+      navigate("/AdminPage"); // Redirect to admin page
+    } else {
+      navigate("/user-profile"); // Redirect to user profile page
+    }
+  };
+
   return (
-    <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
+    <nav className="navbar">
       <img src={i4} alt="logo" className="logos" />
       <ul className="nav-links">
         <li>
-          <Link to="/" onClick={scrollToTop}>
+          <Link to="/" onClick={() => window.scrollTo(0, 0)}>
             Home
           </Link>
         </li>
         <li>
-          <Link to="/ThingsToDo" onClick={scrollToTop}>
+          <Link to="/ThingsToDo" onClick={() => window.scrollTo(0, 0)}>
             Packages
           </Link>
         </li>
         <li>
-          <Link to="/Destinations" onClick={scrollToTop}>
+          <Link to="/Destinations" onClick={() => window.scrollTo(0, 0)}>
             Destinations
           </Link>
         </li>
         <li>
-          <Link to="/ContactUs" onClick={scrollToTop}>
+          <Link to="/ContactUs" onClick={() => window.scrollTo(0, 0)}>
             Contact Us
           </Link>
         </li>
         {!isLoggedIn && (
           <li>
-            <Link to="/LoginSignup" onClick={scrollToTop}>
+            <Link to="/LoginSignup" onClick={() => window.scrollTo(0, 0)}>
               Login / Signup
             </Link>
           </li>
@@ -64,10 +60,17 @@ const Navbar = () => {
         {isLoggedIn && (
           <>
             <li>
-              <Link to="/UserProfile" onClick={scrollToTop}>
+              <Link to="/UserProfile" onClick={() => window.scrollTo(0, 0)}>
                 My Profile
               </Link>
             </li>
+            {isAdmin && ( // Only show for admin
+              <li>
+                <Link to="/AdminPage" onClick={() => window.scrollTo(0, 0)}>
+                  Admin Page
+                </Link>
+              </li>
+            )}
             <li>
               <button onClick={handleLogout} className="nlogout-button">
                 Logout

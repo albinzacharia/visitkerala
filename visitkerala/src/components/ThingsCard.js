@@ -1,60 +1,33 @@
 import React from "react";
-import TourCard from "./TourCard";
-import "./ThingsCard.css"; // Add your CSS file for styling
-const tours = [
-  {
-    title: "Historical Wonders of Trivandrum",
-    image: "./pics/tvm.jpg", // Replace with actual image paths
-    description:
-      "Discover the rich historical landmarks and cultural treasures of Trivandrum.",
-    link: "/Trivandrum",
-  },
-  {
-    title: "Jatayu Earth's Center Adventure in Kollam",
-    image: "./pics/kollam.jpg",
-    description:
-      "Embark on an exhilarating adventure at Jatayu Earth's Center, featuring breathtaking views and thrilling activities.",
-    link: "/Kollam",
-  },
-  {
-    title: "Backwaters Exploration in Alappuzha",
-    image: "./pics/alappuzha.jpg",
-    description:
-      "Cruise through the picturesque backwaters and enjoy the tranquil beauty of Alappuzha.",
-    link: "/Alappuzha",
-  },
-  {
-    title: "Scenic Splendor of Idukki",
-    image: "./pics/idukki.jpg",
-    description:
-      "Explore the scenic beauty and serene landscapes of Idukki amidst the Western Ghats.",
-    link: "/Idukki",
-  },
-  {
-    title: "Cultural Delights of Ernakulam",
-    image: "./pics/ernakulam.jpg",
-    description:
-      "Immerse yourself in the vibrant culture, culinary delights, and bustling markets of Ernakulam.",
-    link: "/Ernakulam",
-  },
-  // Add more tour objects as needed
-];
-
-const ThingsCard = ({ setPaymentDetails, paymentDetails }) => {
+import "./ThingsCard.css";
+import { useNavigate } from "react-router-dom";
+const ThingsCard = ({
+  title,
+  description,
+  imageUrl,
+  link,
+  setPaymentDetails,
+  paymentDetails,
+}) => {
+ const navigate = useNavigate();
+  const handleBookNow = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setPaymentDetails({
+      ...paymentDetails,
+      package: title,
+      specialNote: "Trivandrum Package",
+    });
+    navigate("/TourPackage"); // Navigate to the TourPackage page
+  };
   return (
-    <div className="ThingsCard">
-      <h2>Our Packages</h2>
-      <div className="things-card-container">
-        {tours.map((tour, index) => (
-          <TourCard setPaymentDetails={setPaymentDetails}
-        paymentDetails={paymentDetails}
-            key={index}
-            title={tour.title}
-            image={tour.image}
-            description={tour.description}
-            link={tour.link}
-          />
-        ))}
+    <div className="things-card">
+      <img src={imageUrl} alt={title} className="things-card-image" />
+      <div className="things-card-content">
+        <h3>{title}</h3>
+        <p>{description}</p>
+        <a href={link} className="things-card-link" onClick={handleBookNow}>
+          Book
+        </a>
       </div>
     </div>
   );

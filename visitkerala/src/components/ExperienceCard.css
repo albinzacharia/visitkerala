@@ -37,12 +37,12 @@
 }
 
 .experience-card-link {
-text-decoration: none;
+  text-decoration: none;
   color: #ffffff;
 }
 
 .experience-card-link:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 button {
   display: inline-block;
@@ -57,5 +57,6 @@ button {
 }
 
 button:hover {
-  background-color: #60970e; /* Change to desired color on hover */
+  background-color: #60970e;
+  text-decoration: none; /* Change to desired color on hover */
 }

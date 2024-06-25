@@ -2,17 +2,21 @@ const express = require("express");
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 
 const app = express();
 const port = 3001;
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use("/uploads", express.static("uploads"));
 
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "", // Enter your MySQL password
+  password: "", // Replace with your MySQL password
   database: "visitkerala",
 });
 
@@ -23,6 +27,20 @@ db.connect((err) => {
   }
   console.log("Connected to MySQL database");
 });
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+
+const upload = multer({ storage: storage });
+app.use("/uploads", express.static("uploads"));
 app.get("/api/user/:username", (req, res) => {
   const username = req.params.username;
   const query =
@@ -34,11 +52,53 @@ app.get("/api/user/:username", (req, res) => {
       res.status(500).send("Server error");
     } else {
       if (result.length > 0) {
-        res.status(200).json(result[0]); // Send user data as JSON response
+        res.status(200).json(result[0]);
       } else {
         res.status(404).send("User not found");
       }
     }
+  });
+});
+app.delete("/api/deleteTour/:id", (req, res) => {
+  const id = req.params.id;
+
+  // First, fetch the imageUrl for the tour to be deleted
+  const fetchQuery = "SELECT imageUrl FROM tours WHERE id = ?";
+  db.query(fetchQuery, [id], (err, result) => {
+    if (err) {
+      console.error("Error fetching tour details:", err);
+      return res.status(500).send("Server error");
+    }
+
+    if (result.length === 0) {
+      return res.status(404).send("Tour not found");
+    }
+
+    const imageUrl = result[0].imageUrl;
+
+    // Delete from database
+    const deleteQuery = "DELETE FROM tours WHERE id = ?";
+    db.query(deleteQuery, [id], (err, result) => {
+      if (err) {
+        console.error("Error deleting tour:", err);
+        return res.status(500).send("Server error");
+      }
+
+      // Delete image file from server
+      if (imageUrl) {
+        const imagePath = path.join(__dirname, imageUrl);
+        fs.unlink(imagePath, (err) => {
+          if (err) {
+            console.error("Error deleting image file:", err);
+          } else {
+            console.log("Image file deleted successfully");
+          }
+        });
+      }
+
+      console.log("Tour deleted successfully");
+      res.status(200).send("Tour deleted successfully");
+    });
   });
 });
 app.get("/api/users", (req, res) => {
@@ -49,55 +109,7 @@ app.get("/api/users", (req, res) => {
       console.error("Error fetching users:", err);
       res.status(500).send("Server error");
     } else {
-      res.status(200).json(result); // Send users as JSON response
-    }
-  });
-});
-app.get("/api/tourpackages", (req, res) => {
-  const query = "SELECT * FROM tourpackage";
-
-  db.query(query, (err, result) => {
-    if (err) {
-      console.error("Error fetching tour packages:", err);
-      res.status(500).send("Server error");
-    } else {
-      res.status(200).json(result); // Send tour packages as JSON response
-    }
-  });
-});
-
-// Endpoint to fetch a single tour package by ID
-app.get("/api/tourpackage/:packageId", (req, res) => {
-  const packageId = req.params.packageId;
-  const query = "SELECT * FROM tourpackage WHERE package_id = ?";
-
-  db.query(query, [packageId], (err, result) => {
-    if (err) {
-      console.error("Error fetching tour package:", err);
-      res.status(500).send("Server error");
-    } else {
-      if (result.length > 0) {
-        res.status(200).json(result[0]); // Send tour package as JSON response
-      } else {
-        res.status(404).send("Tour package not found");
-      }
-    }
-  });
-});
-
-// Endpoint to update a tour package
-// Update package details
-app.post("/api/updatePackage", (req, res) => {
-  const { package_id, description, price } = req.body;
-  const query = "UPDATE tourpackage SET description = ?, price = ? WHERE package_id = ?";
-
-  db.query(query, [description, price, package_id], (err, result) => {
-    if (err) {
-      console.error("Error updating package:", err);
-      res.status(500).send("Server error");
-    } else {
-      console.log(`Package updated successfully for package ID: ${package_id}`);
-      res.status(200).send("Package updated successfully");
+      res.status(200).json(result);
     }
   });
 });
@@ -117,35 +129,17 @@ app.post("/api/contactus", (req, res) => {
   });
 });
 app.get("/api/contactus", (req, res) => {
-  const query = "SELECT * FROM contactus ORDER BY date DESC"; // Assuming 'date' is the column name for message date
+  const query = "SELECT * FROM contactus ORDER BY date DESC";
 
   db.query(query, (err, result) => {
     if (err) {
       console.error("Error fetching contact messages:", err);
       res.status(500).send("Server error");
     } else {
-      res.status(200).json(result); // Send contact messages as JSON response
+      res.status(200).json(result);
     }
   });
 });
-
-// Endpoint to add a new tour package
-app.post("/api/addPackage", (req, res) => {
-  const { name, description, price } = req.body;
-  const query =
-    "INSERT INTO tourpackage (name, description, price) VALUES (?, ?, ?)";
-
-  db.query(query, [name, description, price], (err, result) => {
-    if (err) {
-      console.error("Error adding new tour package:", err);
-      res.status(500).send("Server error");
-    } else {
-      console.log(`New tour package added successfully`);
-      res.status(200).send("New tour package added successfully");
-    }
-  });
-});
-
 app.post("/api/updateProfile", (req, res) => {
   const { email, phone, firstname, username } = req.body;
   const query =
@@ -161,11 +155,10 @@ app.post("/api/updateProfile", (req, res) => {
     }
   });
 });
-// Register a new user
 app.post("/api/register", (req, res) => {
   const { username, email, phone, firstname, password } = req.body;
   const query =
-    "INSERT INTO users (username, email, phone, firstname, password) VALUES (?,?,?, ?, ?)";
+    "INSERT INTO users (username, email, phone, firstname, password) VALUES (?, ?, ?, ?, ?)";
 
   db.query(
     query,
@@ -181,8 +174,6 @@ app.post("/api/register", (req, res) => {
     }
   );
 });
-
-// Authenticate user login
 app.post("/api/login", (req, res) => {
   const { username, password } = req.body;
   const query = "SELECT * FROM users WHERE username = ? AND password = ?";
@@ -200,23 +191,20 @@ app.post("/api/login", (req, res) => {
     }
   });
 });
-// Add review
 app.post("/api/addReview", (req, res) => {
-  const { username, reviewText } = req.body;
-  const query = "INSERT INTO reviews (username, reviewText, reviewDate) VALUES (?, ?, NOW())";
+  const { username, reviewText, tour_id } = req.body;
+  const query =
+    "INSERT INTO reviews (username, reviewText, tour_id, reviewDate) VALUES (?, ?, ?, NOW())";
 
-  db.query(query, [username, reviewText], (err, result) => {
+  db.query(query, [username, reviewText, tour_id], (err, result) => {
     if (err) {
       console.error("Error adding review:", err);
-      res.status(500).send("Server error");
-    } else {
-      console.log("Review added successfully");
-      res.status(200).send("Review added successfully");
+      return res.status(500).send("Error adding review");
     }
+    console.log("Review added successfully");
+    res.status(200).send("Review added successfully");
   });
 });
-
-// Get reviews
 app.get("/api/reviews", (req, res) => {
   const query = "SELECT * FROM reviews ORDER BY reviewDate DESC";
 
@@ -229,7 +217,20 @@ app.get("/api/reviews", (req, res) => {
     }
   });
 });
-// Process booking
+app.get("/api/reviews/:tour_id", (req, res) => {
+  const tour_id = req.params.tour_id;
+  const query =
+    "SELECT * FROM reviews WHERE tour_id = ? ORDER BY reviewDate DESC";
+
+  db.query(query, [tour_id], (err, result) => {
+    if (err) {
+      console.error("Error fetching reviews:", err);
+      res.status(500).send("Server error");
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
 app.post("/api/booking", (req, res) => {
   const { username, package, price, datedet } = req.body;
   const query =
@@ -237,35 +238,89 @@ app.post("/api/booking", (req, res) => {
 
   db.query(query, [username, package, price, datedet], (err, result) => {
     if (err) {
-      console.error("Error inserting payment:", err);
+      console.error("Error processing booking:", err);
       res.status(500).send("Server error");
     } else {
-      console.log("Payment processed successfully");
-      res.status(200).send("Payment processed successfully");
+      console.log("Booking processed successfully");
+      res.status(200).send("Booking processed successfully");
     }
   });
 });
+app.get("/api/tours", (req, res) => {
+  const query = "SELECT * FROM tours";
 
-// Get username by user ID
-app.get("/api/user/:userId", (req, res) => {
-  const userId = req.params.userId;
-  const query = "SELECT username FROM booking WHERE id = ?";
-
-  db.query(query, [userId], (err, result) => {
+  db.query(query, (err, result) => {
     if (err) {
-      console.error("Error fetching username:", err);
+      console.error("Error fetching tours:", err);
+      res.status(500).send("Server error");
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
+app.get("/api/tour/:id", (req, res) => {
+  const id = req.params.id;
+  const query = "SELECT * FROM tours WHERE id = ?";
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error("Error fetching tour:", err);
       res.status(500).send("Server error");
     } else {
       if (result.length > 0) {
-        res.status(200).json({ username: result[0].username });
+        res.status(200).json(result[0]);
       } else {
-        res.status(404).send("User not found");
+        res.status(404).send("Tour not found");
       }
     }
   });
 });
+app.post("/api/addTour", upload.single("image"), (req, res) => {
+  const { title, description, price } = req.body;
+  const imageUrl = req.file ? req.file.path : "";
 
-// Start server
+  const query =
+    "INSERT INTO tours (title, description, price, imageUrl) VALUES (?, ?, ?, ?)";
+  db.query(query, [title, description, price, imageUrl], (err, result) => {
+    if (err) {
+      console.error("Error adding tour:", err);
+      return res.status(500).send("Server error");
+    }
+    console.log("New tour added successfully");
+    res.status(200).send("New tour added successfully");
+  });
+});
+app.post("/api/uploadImage", upload.single("image"), (req, res) => {
+  console.log("Inside uploadImage endpoint");
+  try {
+    if (!req.file) {
+      console.log("No file uploaded");
+      return res.status(400).send("No file uploaded");
+    }
+    const imageUrl = req.file.path;
+    console.log("Image uploaded successfully:", imageUrl);
+    res.status(200).json({ imageUrl: imageUrl });
+  } catch (err) {
+    console.error("Error uploading image:", err);
+    res.status(500).send("Server error");
+  }
+});
+app.post("/api/updateTour", upload.single("image"), (req, res) => {
+  const { id, title, description, price } = req.body;
+  const imageUrl = req.file ? req.file.path : "";
+
+  const query =
+    "UPDATE tours SET title = ?, description = ?, price = ?, imageUrl = ? WHERE id = ?";
+
+  db.query(query, [title, description, price, imageUrl, id], (err, result) => {
+    if (err) {
+      console.error("Error updating tour:", err);
+      return res.status(500).send("Server error");
+    }
+    console.log("Tour updated successfully");
+    res.status(200).send("Tour updated successfully");
+  });
+});
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

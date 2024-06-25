@@ -1,4 +1,3 @@
-// App.js
 import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
@@ -22,7 +21,7 @@ import Ernakulam from "./components/Ernakulam"; // Ensure to create this compone
 import Alappuzha from "./components/Alappuzha"; // Ensure to create this component
 import Idukki from "./components/Idukki"; // Ensure to create this component
 import AdminPage from "./components/AdminPage";
-
+import axios from "axios";
 function App() {
   return (
     <AuthProvider>
@@ -43,6 +42,8 @@ const AppContent = () => {
     datedet: "",
   });
 
+  const [tours, setTours] = useState([]); // Initialize tours state
+
   const openModal = () => {
     setShowModal(true);
   };
@@ -58,6 +59,23 @@ const AppContent = () => {
       closeModal();
     }
   }, [location]);
+
+  useEffect(() => {
+    // Fetch tours data when component mounts
+    fetchTours();
+  }, []);
+
+  const fetchTours = () => {
+    // Example fetch logic; replace with actual fetch from API
+    axios
+      .get("http://localhost:3001/api/tours")
+      .then((response) => {
+        setTours(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching tours:", error);
+      });
+  };
 
   return (
     <div className="App">
@@ -78,6 +96,7 @@ const AppContent = () => {
               <ThingsToDo
                 setPaymentDetails={setPaymentDetails}
                 paymentDetails={paymentDetails}
+                tours={tours} // Pass tours state here
               />
             }
           />
@@ -148,6 +167,15 @@ const AppContent = () => {
           />
           <Route
             path="/TourPackage"
+            element={
+              <TourPackage
+                setPaymentDetails={setPaymentDetails}
+                paymentDetails={paymentDetails}
+              />
+            }
+          />
+          <Route
+            path="/tour/:id"
             element={
               <TourPackage
                 setPaymentDetails={setPaymentDetails}

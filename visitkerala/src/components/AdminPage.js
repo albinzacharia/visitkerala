@@ -3,33 +3,49 @@ import axios from "axios";
 import "./AdminPage.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
+import Navbar from "./Navbar";
+import TourCard from "./TourCard";
+import ThingsCard from "./ThingsCard"; // Import ThingsCard component
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
-  const [tourPackages, setTourPackages] = useState([]);
-  const [selectedPackageId, setSelectedPackageId] = useState(null);
-  const [selectedPackage, setSelectedPackage] = useState(null);
+  const [tours, setTours] = useState([]);
+  const [selectedTourId, setSelectedTourId] = useState(null);
+  const [selectedTour, setSelectedTour] = useState(null);
   const { logout } = useAuth();
   const navigate = useNavigate();
-  const [editPackage, setEditPackage] = useState({
-    package_id: null,
-    name: "",
+  const [editTour, setEditTour] = useState({
+    id: null,
+    title: "",
     description: "",
     price: "",
+    imageUrl: "", // Added imageUrl field
   });
-  const [newPackage, setNewPackage] = useState({
-    name: "",
+
+  const [newTour, setNewTour] = useState({
+    title: "",
     description: "",
     price: "",
+    imageUrl: "", // Initialize imageUrl field
+    imageFile: null, // Store the selected file object
   });
-  const [showAddPackageForm, setShowAddPackageForm] = useState(false);
+
+  const [showAddTourForm, setShowAddTourForm] = useState(false);
   const [contactMessages, setContactMessages] = useState([]);
 
   useEffect(() => {
     fetchUsers();
-    fetchTourPackages();
+    fetchTours();
     fetchContactMessages();
   }, []);
+
+  const handleFileSelect = (e) => {
+    const file = e.target.files[0];
+    setNewTour((prev) => ({
+      ...prev,
+      imageFile: file,
+    }));
+  };
 
   const fetchUsers = () => {
     axios
@@ -42,14 +58,14 @@ const AdminPage = () => {
       });
   };
 
-  const fetchTourPackages = () => {
+  const fetchTours = () => {
     axios
-      .get("http://localhost:3001/api/tourpackages")
+      .get("http://localhost:3001/api/tours")
       .then((response) => {
-        setTourPackages(response.data);
+        setTours(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching tour packages:", error);
+        console.error("Error fetching tours:", error);
       });
   };
 
@@ -64,233 +80,299 @@ const AdminPage = () => {
       });
   };
 
-  const handlePackageClick = (packageId) => {
-    setSelectedPackageId(packageId);
+  const handleTourClick = (id) => {
+    setSelectedTourId(id);
     axios
-      .get(`http://localhost:3001/api/tourpackage/${packageId}`)
+      .get(`http://localhost:3001/api/tour/${id}`)
       .then((response) => {
-        setSelectedPackage(response.data.name); // Set the package name
-        setEditPackage({
-          package_id: packageId,
+        setSelectedTour(response.data.title); // Set the tour name
+        setEditTour({
+          id: id,
+          title: response.data.title,
           description: response.data.description,
           price: response.data.price,
+          imageUrl: response.data.imageUrl, // Assuming backend sends imageUrl
         });
       })
       .catch((error) => {
-        console.error("Error fetching package by ID:", error);
-        setSelectedPackage(null);
-        setEditPackage({
-          package_id: null,
+        console.error("Error fetching tour by ID:", error);
+        setSelectedTour(null);
+        setEditTour({
+          id: null,
+          title: "",
           description: "",
           price: "",
+          imageUrl: "",
         });
       });
   };
 
-  const handleEditPackageChange = (e) => {
+  const handleEditTourChange = (e) => {
     const { name, value } = e.target;
-    setEditPackage((prev) => ({ ...prev, [name]: value }));
+    setEditTour((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleEditPackageSubmit = (e) => {
+  const handleEditTourSubmit = (e) => {
     e.preventDefault();
+    if (!editTour.title || !editTour.description || !editTour.price) {
+      console.error("Error: Title, Description, and Price are required");
+      return;
+    }
+
     axios
-      .post("http://localhost:3001/api/updatePackage", editPackage)
+      .post("http://localhost:3001/api/updateTour", editTour)
       .then((response) => {
-        console.log("Package updated successfully:", response.data);
-        fetchTourPackages(); // Refresh package list after update
-        setEditPackage({
-          package_id: null,
+        console.log("Tour updated successfully:", response.data);
+        fetchTours(); // Refresh tour list after update
+        setSelectedTour(null); // Clear selected tour after update
+      })
+      .catch((error) => console.error("Error updating tour:", error));
+  };
+
+  const handleNewTourChange = (e) => {
+    const { name, value } = e.target;
+    setNewTour((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+
+    axios
+      .post("http://localhost:3001/api/uploadImage", formData)
+      .then((response) => {
+        const imageUrl = response.data.imageUrl;
+        console.log("File upload successful");
+        setNewTour((prev) => ({ ...prev, imageUrl })); // Set imageUrl in newTour
+      })
+      .catch((error) => console.error("Error uploading image:", error));
+  };
+
+  const handleAddTourSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("image", newTour.imageFile);
+    formData.append("title", newTour.title);
+    formData.append("description", newTour.description);
+    formData.append("price", newTour.price);
+
+    axios
+      .post("http://localhost:3001/api/addTour", formData)
+      .then((response) => {
+        console.log("Tour added successfully:", response.data);
+        fetchTours(); // Refresh tour list after adding
+        setNewTour({
+          title: "",
           description: "",
           price: "",
-        }); // Clear editPackage state
+          imageUrl: "", // Clear imageUrl field
+          imageFile: null, // Clear imageFile field
+        }); // Clear form fields
+        setShowAddTourForm(false); // Hide the form after submission
       })
-      .catch((error) => console.error("Error updating package:", error));
+      .catch((error) => console.error("Error adding tour:", error));
   };
 
-  const handleNewPackageChange = (e) => {
-    const { name, value } = e.target;
-    setNewPackage((prev) => ({ ...prev, [name]: value }));
+  const handleDeleteTour = (id) => {
+    if (window.confirm("Are you sure you want to delete this tour?")) {
+      axios
+        .delete(`http://localhost:3001/api/deleteTour/${id}`)
+        .then((response) => {
+          console.log("Tour deleted successfully:", response.data);
+          fetchTours(); // Refresh tour list after deletion
+          if (selectedTourId === id) {
+            setSelectedTourId(null); // Clear selectedTourId if deleted tour is currently selected
+          }
+        })
+        .catch((error) => console.error("Error deleting tour:", error));
+    }
   };
 
-  const handleAddPackageSubmit = (e) => {
-    e.preventDefault();
-    axios
-      .post("http://localhost:3001/api/addPackage", newPackage)
-      .then((response) => {
-        console.log("Package added successfully:", response.data);
-        fetchTourPackages(); // Refresh package list after adding
-        setNewPackage({ name: "", description: "", price: "" }); // Clear form fields
-        setShowAddPackageForm(false); // Hide the form after submission
-      })
-      .catch((error) => console.error("Error adding package:", error));
-  };
-
-  const toggleAddPackageForm = () => {
-    setShowAddPackageForm((prev) => !prev);
-  };
-
-  const handleLogout = () => {
-    logout();
-    navigate("/");
+  const toggleAddTourForm = () => {
+    setShowAddTourForm((prev) => !prev);
   };
 
   return (
-    <div className="admin-page">
-      <button onClick={handleLogout} className="logout-button">
-        Logout
-      </button>
-      <h1>Welcome Admin!</h1>
-      <section>
-        <h2>User Details</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>First Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.username}>
-                <td>{user.username}</td>
-                <td>{user.email}</td>
-                <td>{user.phone}</td>
-                <td>{user.firstname}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
-      <section>
-        <h2>Tour Packages</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Price</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tourPackages.map((pck) => (
-              <tr key={pck.package_id}>
-                <td>{pck.name}</td>
-                <td>{pck.description}</td>
-                <td>{pck.price}</td>
-                <td>
-                  <button onClick={() => handlePackageClick(pck.package_id)}>
-                    Edit Package
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div>
+      <Navbar />
+      <div className="admin-page">
+        <h1>Welcome Admin!</h1>
+        <div className="admin-content">
+          <section>
+            <h2>User Details</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>First Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((user) => (
+                  <tr key={user.username}>
+                    <td>{user.username}</td>
+                    <td>{user.email}</td>
+                    <td>{user.phone}</td>
+                    <td>{user.firstname}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+          <section>
+            <h2>Tour Packages</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Price</th>
+                  <th>Image</th> {/* New column for image */}
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tours.map((tour) => (
+                  <tr key={tour.id}>
+                    <td>{tour.title}</td>
+                    <td>{tour.description}</td>
+                    <td>{tour.price}</td>
+                    <td>
+                      {tour.imageUrl && (
+                        <img
+                          src={tour.imageUrl}
+                          alt={tour.title}
+                          style={{ width: "100px", height: "auto" }}
+                        />
+                      )}
+                    </td>
+                    <td>
+                      <button onClick={() => handleTourClick(tour.id)}>
+                        Edit Package
+                      </button>
+                      <button onClick={() => handleDeleteTour(tour.id)}>
+                        Delete Package
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
 
-        {selectedPackageId && (
-          <div className="package-details">
-            <h3>Editing Package: {selectedPackage}</h3>
-            <form onSubmit={handleEditPackageSubmit}>
-              <label>
-                Name:
-                <input
-                  type="text"
-                  name="name"
-                  value={editPackage.name}
-                  onChange={handleEditPackageChange}
-                />
-              </label>
-              <label>
-                Description:
-                <input
-                  type="text"
-                  name="description"
-                  value={editPackage.description}
-                  onChange={handleEditPackageChange}
-                />
-              </label>
-              <label>
-                Price:
-                <input
-                  type="text"
-                  name="price"
-                  value={editPackage.price}
-                  onChange={handleEditPackageChange}
-                />
-              </label>
-              <button type="submit">Save Changes</button>
-            </form>
-          </div>
-        )}
+            {selectedTourId && (
+              <div className="package-details">
+                <h3>Editing Package: {selectedTour}</h3>
+                <form onSubmit={handleEditTourSubmit}>
+                  <label>
+                    Name:
+                    <input
+                      type="text"
+                      name="title"
+                      value={editTour.title}
+                      onChange={handleEditTourChange}
+                    />
+                  </label>
+                  <label>
+                    Description:
+                    <input
+                      type="text"
+                      name="description"
+                      value={editTour.description}
+                      onChange={handleEditTourChange}
+                    />
+                  </label>
+                  <label>
+                    Price:
+                    <input
+                      type="text"
+                      name="price"
+                      value={editTour.price}
+                      onChange={handleEditTourChange}
+                    />
+                  </label>
+                  <label>
+                    Image (Upload new):
+                    <input type="file" onChange={handleFileUpload} />
+                  </label>
+                  <button type="submit">Save Changes</button>
+                </form>
+              </div>
+            )}
 
-        {showAddPackageForm && (
-          <div className="add-package">
-            <h3>Add New Package</h3>
-            <form onSubmit={handleAddPackageSubmit}>
-              <label>
-                Name:
-                <input
-                  type="text"
-                  name="name"
-                  value={newPackage.name}
-                  onChange={handleNewPackageChange}
-                />
-              </label>
-              <label>
-                Description:
-                <input
-                  type="text"
-                  name="description"
-                  value={newPackage.description}
-                  onChange={handleNewPackageChange}
-                />
-              </label>
-              <label>
-                Price:
-                <input
-                  type="text"
-                  name="price"
-                  value={newPackage.price}
-                  onChange={handleNewPackageChange}
-                />
-              </label>
-              <button type="submit">Add Package</button>
-            </form>
-          </div>
-        )}
+            {showAddTourForm && (
+              <div className="add-package">
+                <h3>Add New Package</h3>
+                <form onSubmit={handleAddTourSubmit}>
+                  <label>
+                    Name:
+                    <input
+                      type="text"
+                      name="title"
+                      value={newTour.title}
+                      onChange={handleNewTourChange}
+                    />
+                  </label>
+                  <label>
+                    Description:
+                    <input
+                      type="text"
+                      name="description"
+                      value={newTour.description}
+                      onChange={handleNewTourChange}
+                    />
+                  </label>
+                  <label>
+                    Price:
+                    <input
+                      type="text"
+                      name="price"
+                      value={newTour.price}
+                      onChange={handleNewTourChange}
+                    />
+                  </label>
+                  <label>
+                    Image (Upload):
+                    <input type="file" onChange={handleFileSelect} />
+                  </label>
+                  <button type="submit">Add Package</button>
+                </form>
+              </div>
+            )}
 
-        <button onClick={toggleAddPackageForm}>
-          {showAddPackageForm ? "Cancel Adding Package" : "Add New Package"}
-        </button>
-      </section>
+            <button onClick={toggleAddTourForm}>
+              {showAddTourForm ? "Cancel Adding Package" : "Add New Package"}
+            </button>
+          </section>
 
-      <section>
-        <h2>Contact Messages</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Message</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {contactMessages.map((message) => (
-              <tr key={message.id}>
-                <td>{message.name}</td>
-                <td>{message.email}</td>
-                <td>{message.message}</td>
-                <td>{new Date(message.date).toLocaleString()}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
+          <section>
+            <h2>Contact Messages</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Message</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {contactMessages.map((message) => (
+                  <tr key={message.id}>
+                    <td>{message.name}</td>
+                    <td>{message.email}</td>
+                    <td>{message.message}</td>
+                    <td>{new Date(message.date).toLocaleString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+        </div>
+      </div>
     </div>
   );
 };

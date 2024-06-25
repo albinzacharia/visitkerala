@@ -1,15 +1,103 @@
-.featured {
-  padding: 32px;
-  background-color: #ffffff;
-}
-
-.featured h2 {
-  text-align: center;
-  margin-bottom: 32px;
+.ThingsCard {
+  margin-top: 20px;
 }
 
 .things-card-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
+}
+
+/* Adjust card width and styling as per your design */
+.tour-card {
+  width: 300px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+
+  /* Adjust card background color */
+  background-color: #ffffff;
+}
+
+.tour-card:hover {
+  transform: translateY(-5px);
+}
+
+.tour-card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.tour-card-content {
+  padding: 20px;
+}
+
+.tour-card-title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.tour-card-description {
+  font-size: 1rem;
+  color: #555555;
+  line-height: 1.4;
+}
+
+.things-card-link {
+  display: block;
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px 0;
+  text-align: center;
+  background-color: #409d2e;
+  color: #ffffff;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  /* Adjust button hover background color */
+  &:hover {
+    background-color: #27912b;
+    text-decoration: none;
+  }
+}
+.things-card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 20px;
+  width: 300px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.things-card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.things-card-content {
+  padding: 15px;
+}
+
+.things-card-content h3 {
+  margin: 0 0 10px;
+}
+
+.things-card-content p {
+  margin: 0 0 15px;
+}
+
+.things-card-link {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.things-card-link:hover {
+  text-decoration: none;
 }

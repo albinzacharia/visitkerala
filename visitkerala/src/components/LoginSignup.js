@@ -12,7 +12,7 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
     firstname: "",
     password: "",
   });
-
+  const [error, setError] = useState(""); // State for error message
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -57,17 +57,17 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
           ...prevDetails,
           username: formData.username,
         }));
-         if (formData.username === "admin" && formData.password === "admin") {
+        if (formData.username === "admin" && formData.password === "admin") {
           navigate("/AdminPage"); // Redirect to admin page
         } else {
           navigate("/user-profile"); // Redirect to user profile page
         }
+        onClose();
       })
       .catch((error) => {
         console.error("Error logging in:", error);
-});
-        onClose();
-        navigate("/user-profile");
+        setError("Invalid username or password"); // Set error message
+      });
   };
 
   const [isLogin, setIsLogin] = useState(true);
@@ -79,6 +79,7 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
       setIsLogin(!isLogin);
       setFade(true);
     }, 600);
+    setError(""); // Clear error message when toggling forms
   };
 
   return (
@@ -110,6 +111,8 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
             <button className="continuebutton" type="submit">
               Continue
             </button>
+            {error && <p className="error-message">{error}</p>}{" "}
+            {/* Display error message */}
           </form>
           <p>
             Don't Have An Account?{" "}

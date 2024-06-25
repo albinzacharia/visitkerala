@@ -100,3 +100,6 @@
   width: 100%;
   max-width: 500px; /* Limit form width for better readability */
 }
+h1{
+  color: #4CAF50;
+}

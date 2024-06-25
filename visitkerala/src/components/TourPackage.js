@@ -1,50 +1,65 @@
 import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import "./TourPackage.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import axios from "axios";
 
 const TourPackage = ({ setPaymentDetails, paymentDetails }) => {
+  const { id } = useParams();
   const { isLoggedIn, user } = useAuth();
   const navigate = useNavigate();
+  const [tour, setTour] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [reviewText, setReviewText] = useState("");
 
   useEffect(() => {
+    fetchTour();
     fetchReviews();
-    fetchUserDetails();
-  }, [user]);
+    if (isLoggedIn) fetchUserDetails();
+  }, [id, user?.username]);
 
-  const fetchUserDetails = () => {
-    if (isLoggedIn) {
-      axios
-        .get(`http://localhost:3001/api/user/${user.username}`)
-        .then((response) => {
-          setPaymentDetails((prevDetails) => ({
-            ...prevDetails,
-            username: response.data.username,
-            email: response.data.email,
-            phone: response.data.phone,
-            firstname: response.data.firstname,
-          }));
-        })
-        .catch((error) => {
-          console.error("Error fetching user details:", error);
-        });
+  const fetchTour = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/api/tour/${id}`);
+      setTour(response.data);
+      setPaymentDetails((prevDetails) => ({
+        ...prevDetails,
+        package: response.data.title,
+        price: response.data.price,
+      }));
+    } catch (error) {
+      console.error("Error fetching tour:", error);
     }
   };
 
-  const fetchReviews = () => {
-    axios
-      .get("http://localhost:3001/api/reviews")
-      .then((response) => {
-        setReviews(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching reviews:", error);
-      });
+  const fetchUserDetails = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/api/user/${user.username}`
+      );
+      setPaymentDetails((prevDetails) => ({
+        ...prevDetails,
+        username: response.data.username,
+        email: response.data.email,
+        phone: response.data.phone,
+        firstname: response.data.firstname,
+      }));
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+
+  const fetchReviews = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/api/reviews/${id}`
+      );
+      setReviews(response.data);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
   };
 
   const handleChange = (e) => {
@@ -56,34 +71,31 @@ const TourPackage = ({ setPaymentDetails, paymentDetails }) => {
   };
 
   const handleBookNow = () => {
-    setPaymentDetails({
-      ...paymentDetails,
-    });
-
     if (isLoggedIn) {
-      console.log("User is logged in:", user.username);
       navigate("/PaymentPage");
     } else {
-      console.log("User is not logged in. Redirecting to login/signup page.");
       navigate("/LoginSignup");
     }
   };
 
-  const handleReviewSubmit = () => {
-    axios
-      .post("http://localhost:3001/api/addReview", {
-        username: user.username,
-        reviewText: reviewText,
-      })
-      .then((response) => {
-        console.log("Review submitted successfully:", response.data);
-        setReviewText("");
-        fetchReviews();
-      })
-      .catch((error) => {
-        console.error("Error submitting review:", error);
-      });
-  };
+const handleReviewSubmit = async () => {
+  try {
+    await axios.post("http://localhost:3001/api/addReview", {
+      username: user.username,
+      reviewText,
+      tour_id: id, // Ensure tour_id is correctly sent
+    });
+    setReviewText("");
+    fetchReviews();
+  } catch (error) {
+    console.error("Error submitting review:", error);
+  }
+};
+
+
+  if (!tour) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="tour-package-page">
@@ -91,41 +103,40 @@ const TourPackage = ({ setPaymentDetails, paymentDetails }) => {
       <div className="tour-package">
         <div className="package-header">
           <img
-            src="./pics/pexels.jpg"
-            alt="Kerala Tour"
+            src={`http://localhost:3001/${tour.imageUrl}`}
+            alt={tour.title}
             className="package-image"
           />
-          <h2>Kerala Adventure Tour</h2>
+          <h2>{tour.title}</h2>
         </div>
         <div className="package-details">
           <div className="details">
             <h1>Package Overview</h1>
-            <p>
-              Experience the beauty of Kerala with our 7-day adventure tour.
-              From the serene backwaters of Alleppey to the lush greenery of
-              Munnar, this tour offers a perfect blend of relaxation and
-              adventure.
-            </p>
+            <p>{tour.description}</p>
             <h2>Itinerary</h2>
-            <div className="itinerary-item">Day 1: Arrival in Kochi</div>
-            <div className="itinerary-item">Day 2: Kochi to Munnar</div>
-            <div className="itinerary-item">Day 3: Explore Munnar</div>
-            <div className="itinerary-item">Day 4: Munnar to Thekkady</div>
-            <div className="itinerary-item">Day 5: Thekkady to Alleppey</div>
-            <div className="itinerary-item">
-              Day 6: Houseboat stay in Alleppey
-            </div>
-            <div className="itinerary-item">Day 7: Departure</div>
+            {Array.isArray(tour.itinerary) ? (
+              tour.itinerary.map((item, index) => (
+                <div className="itinerary-item" key={index}>
+                  {item}
+                </div>
+              ))
+            ) : (
+              <div>No itinerary available</div>
+            )}
             <h2>Inclusions</h2>
-            <div className="inclusion-item">Accommodation</div>
-            <div className="inclusion-item">All meals</div>
-            <div className="inclusion-item">Transportation</div>
-            <div className="inclusion-item">Sightseeing</div>
-            <div className="inclusion-item">Guided tours</div>
+            {Array.isArray(tour.inclusions) ? (
+              tour.inclusions.map((item, index) => (
+                <div className="inclusion-item" key={index}>
+                  {item}
+                </div>
+              ))
+            ) : (
+              <div>No inclusions available</div>
+            )}
           </div>
           <div className="package-price">
             <h3>Price</h3>
-            <h3>₹25,000</h3>
+            <h3>₹{tour.price}</h3>
             <input name="datedet" type="date" onChange={handleChange}></input>
             <button className="tripbook-button" onClick={handleBookNow}>
               Book Now
@@ -135,12 +146,17 @@ const TourPackage = ({ setPaymentDetails, paymentDetails }) => {
         <div className="related-images">
           <h2>Related Images</h2>
           <div className="images">
-            <img src="./pics/beach.jpg" alt="Related" />
-            <img src="./pics/Gavi.jpg" alt="Related" />
-            <img src="./pics/munnar.jpg" alt="Related" />
-            <img src="./pics/beach.jpg" alt="Related" />
-            <img src="./pics/Gavi.jpg" alt="Related" />
-            <img src="./pics/munnar.jpg" alt="Related" />
+            {Array.isArray(tour.relatedImages) ? (
+              tour.relatedImages.map((image, index) => (
+                <img
+                  src={`http://localhost:3001/${image}`}
+                  alt="Related"
+                  key={index}
+                />
+              ))
+            ) : (
+              <div>No related images available</div>
+            )}
           </div>
         </div>
         <div className="reviews-section">
@@ -160,17 +176,22 @@ const TourPackage = ({ setPaymentDetails, paymentDetails }) => {
               </button>
             </div>
           )}
-          {reviews.map((review) => (
-            <div className="review-item" key={review.id}>
-              <h4>
-                {review.username}{" "}
-                <span className="review-date">
-                  - Posted on {new Date(review.reviewDate).toLocaleDateString()}
-                </span>
-              </h4>
-              <p>{review.reviewText}</p>
-            </div>
-          ))}
+          {reviews.length > 0 ? (
+            reviews.map((review) => (
+              <div className="review-item" key={review.id}>
+                <h4>
+                  {review.username}{" "}
+                  <span className="review-date">
+                    - Posted on{" "}
+                    {new Date(review.reviewDate).toLocaleDateString()}
+                  </span>
+                </h4>
+                <p>{review.reviewText}</p>
+              </div>
+            ))
+          ) : (
+            <div>No reviews available</div>
+          )}
         </div>
       </div>
       <Footer />
