@@ -35,21 +35,21 @@ const Ernakulam = ({setPaymentDetails, paymentDetails}) => {
           <h1>Packages</h1>
           <ErnakulamTourCard
             title="Package 1"
-            image="./pics/tvm.jpg"
+            image="./pics/ernakulam.jpg"
             description="Description for Package 1"
             setPaymentDetails={setPaymentDetails}
             paymentDetails={paymentDetails}
           />
           <ErnakulamTourCard
             title="Package 2"
-            image="./pics/tvm.jpg"
+            image="./pics/ernakulam.jpg"
             description="Description for Package 2"
             setPaymentDetails={setPaymentDetails}
             paymentDetails={paymentDetails}
           />
           <ErnakulamTourCard
             title="Package 3"
-            image="./pics/tvm.jpg"
+            image="./pics/ernakulam.jpg"
             description="Description for Package 3"
             setPaymentDetails={setPaymentDetails}
             paymentDetails={paymentDetails}

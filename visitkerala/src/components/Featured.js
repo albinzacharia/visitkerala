@@ -1,47 +1,46 @@
-// Featured.js (or wherever TourCard is used)
+// Featured.js
 import React from "react";
-import TourCard from "./TourCard";
+import ThingsCard from "./ThingsCard"; // Import ThingsCard component
 import "./Featured.css";
 import { useNavigate } from "react-router-dom";
 
 const Featured = ({ setPaymentDetails, paymentDetails }) => {
-  const tours = [
+  const things = [
     {
       title: "Jatayu Earth's Center Adventure",
-      image: "./pics/kollam.jpg", // Replace with actual image path for Jatayu Rock
+      imageUrl: "./pics/kollam.jpg", // Replace with actual image path for Jatayu Rock
       description:
         "Embark on an exhilarating adventure at Jatayu Earth's Center, featuring breathtaking views and thrilling activities.",
-      link: "/tours/jadayu",
+      link: "/tour/28",
     },
     {
       title: "Explore Alappuzha's Waterways",
-      image: "./pics/alappuzha.jpg",
+      imageUrl: "./pics/alappuzha.jpg",
       description:
         "Cruise through the picturesque backwaters and enjoy the tranquil beauty of Alappuzha.",
-      link: "/tours/alappuzha",
+      link: "/tour/29",
     },
     {
       title: "Trivandrum Heritage and Nature",
-      image: "./pics/tvm.jpg",
+      imageUrl: "./pics/tvm.jpg",
       description:
         "Immerse yourself in the historical landmarks and natural beauty of Trivandrum.",
-      link: "/tours/trivandrum",
+      link: "/tour/30",
     },
-    // Add more tours as needed
+    // Add more things as needed
   ];
- 
 
   return (
     <div className="featured">
       <h2>Featured Tours</h2>
-      <div className="tour-card-container">
-        {tours.map((tour, index) => (
-          <TourCard
+      <div className="things-card-container">
+        {things.map((thing, index) => (
+          <ThingsCard
             key={index}
-            title={tour.title}
-            image={tour.image}
-            description={tour.description}
-            link={tour.link}
+            title={thing.title}
+            imageUrl={thing.imageUrl}
+            description={thing.description}
+            link={thing.link}
             setPaymentDetails={setPaymentDetails}
             paymentDetails={paymentDetails}
           />

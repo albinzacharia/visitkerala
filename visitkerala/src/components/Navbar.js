@@ -45,11 +45,13 @@ const Navbar = () => {
             Destinations
           </Link>
         </li>
-        <li>
-          <Link to="/ContactUs" onClick={() => window.scrollTo(0, 0)}>
-            Contact Us
-          </Link>
-        </li>
+        {!isAdmin && ( // Only show Contact Us for non-admin
+          <li>
+            <Link to="/ContactUs" onClick={() => window.scrollTo(0, 0)}>
+              Contact Us
+            </Link>
+          </li>
+        )}
         {!isLoggedIn && (
           <li>
             <Link to="/LoginSignup" onClick={() => window.scrollTo(0, 0)}>
@@ -59,11 +61,13 @@ const Navbar = () => {
         )}
         {isLoggedIn && (
           <>
-            <li>
-              <Link to="/UserProfile" onClick={() => window.scrollTo(0, 0)}>
-                My Profile
-              </Link>
-            </li>
+            {!isAdmin && ( // Only show My Profile for non-admin
+              <li>
+                <Link to="/UserProfile" onClick={() => window.scrollTo(0, 0)}>
+                  My Profile
+                </Link>
+              </li>
+            )}
             {isAdmin && ( // Only show for admin
               <li>
                 <Link to="/AdminPage" onClick={() => window.scrollTo(0, 0)}>

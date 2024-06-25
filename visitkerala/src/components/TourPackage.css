@@ -190,3 +190,6 @@ p{
   width: 20%;
   margin-left: 10%;
 }
+.package-image{
+  max-width: 50%;
+}

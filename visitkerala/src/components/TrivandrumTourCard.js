@@ -18,7 +18,7 @@ const TrivandrumTourCard = ({
       package: title,
       specialNote: "Trivandrum Package",
     });
-    navigate("/TourPackage"); // Navigate to the TourPackage page
+    navigate("/tour/30"); // Navigate to the TourPackage page
   };
 
   return (

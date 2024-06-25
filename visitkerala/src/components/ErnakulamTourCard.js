@@ -18,7 +18,7 @@ const ErnakulamTourCard = ({
       package: title,
       specialNote: "Ernakulam Package",
     });
-    navigate("/TourPackage"); // Navigate to the TourPackage page
+    navigate("/tour/32"); // Navigate to the TourPackage page
   };
 
   return (

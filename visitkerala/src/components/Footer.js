@@ -1,19 +1,27 @@
-import React, { } from "react";
-import "./Footer.css"; // Add your CSS file for styling
+import React from "react";
+import "./Footer.css";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
   return (
     <footer className="footer">
       <div className="footer-content">
         <div className="footer-section about">
           <h2>About Us</h2>
           <p>
-            Welcome to our tourism website. Discover amazing places, travel
-            tips, and much more!
+            Welcome to Visit Kerala, your number one source for all things
+            travel. We're dedicated to providing you the very best of tourism
+            packages, with an emphasis on customer satisfaction, unique
+            experiences, and seamless travel plans.
+          </p>
+          <p>
+            We hope you enjoy our packages as much as we enjoy offering them to
+            you. If you have any questions or comments, please don't hesitate to
+            contact us.
           </p>
         </div>
         <div className="footer-section links">
@@ -45,14 +53,6 @@ const Footer = () => {
               </Link>
             </li>
           </ul>
-        </div>
-        <div className="footer-section contact-form">
-          <h2>Contact Us</h2>
-          <form>
-            <input type="email" placeholder="Your Email Address" required />
-            <textarea placeholder="Your Message" required></textarea>
-            <button type="submit">Send</button>
-          </form>
         </div>
       </div>
       <div className="footer-bottom">

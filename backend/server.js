@@ -39,6 +39,7 @@ const storage = multer.diskStorage({
   },
 });
 
+
 const upload = multer({ storage: storage });
 app.use("/uploads", express.static("uploads"));
 app.get("/api/user/:username", (req, res) => {
@@ -113,6 +114,19 @@ app.get("/api/users", (req, res) => {
     }
   });
 });
+app.get("/api/bookings/", (req, res) => {
+  const query = "SELECT * FROM booking";
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error("Error fetching booking history:", err);
+      res.status(500).send("Server error");
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
+
 app.post("/api/contactus", (req, res) => {
   const { name, email, message } = req.body;
   const query =
@@ -140,20 +154,30 @@ app.get("/api/contactus", (req, res) => {
     }
   });
 });
-app.post("/api/updateProfile", (req, res) => {
-  const { email, phone, firstname, username } = req.body;
-  const query =
-    "UPDATE users SET email = ?, phone = ?, firstname = ? WHERE username = ?";
+app.post("/api/updateTour", upload.single("image"), (req, res) => {
+  const { id, title, description, price, itinerary, inclusions } = req.body;
+  let imageUrl = req.body.imageUrl; // Get the existing imageUrl from the request body
 
-  db.query(query, [email, phone, firstname, username], (err, result) => {
-    if (err) {
-      console.error("Error updating profile:", err);
-      res.status(500).send("Server error");
-    } else {
-      console.log(`Profile updated successfully for username: ${username}`);
-      res.status(200).send("Profile updated successfully");
+  // Check if a new image file has been uploaded
+  if (req.file) {
+    imageUrl = req.file.path; // Update imageUrl to the new file path
+  }
+
+  const query =
+    "UPDATE tours SET title = ?, description = ?, price = ?, imageUrl = ?, itinerary = ?, inclusions = ? WHERE id = ?";
+
+  db.query(
+    query,
+    [title, description, price, imageUrl, itinerary, inclusions, id],
+    (err, result) => {
+      if (err) {
+        console.error("Error updating tour:", err);
+        return res.status(500).send("Server error");
+      }
+      console.log("Tour updated successfully");
+      res.status(200).send("Tour updated successfully");
     }
-  });
+  );
 });
 app.post("/api/register", (req, res) => {
   const { username, email, phone, firstname, password } = req.body;
@@ -276,20 +300,27 @@ app.get("/api/tour/:id", (req, res) => {
   });
 });
 app.post("/api/addTour", upload.single("image"), (req, res) => {
-  const { title, description, price } = req.body;
+  const { title, description, price, itinerary, inclusions } = req.body;
   const imageUrl = req.file ? req.file.path : "";
 
   const query =
-    "INSERT INTO tours (title, description, price, imageUrl) VALUES (?, ?, ?, ?)";
-  db.query(query, [title, description, price, imageUrl], (err, result) => {
-    if (err) {
-      console.error("Error adding tour:", err);
-      return res.status(500).send("Server error");
+    "INSERT INTO tours (title, description, price, imageUrl, itinerary, inclusions) VALUES (?, ?, ?, ?, ?, ?)";
+
+  db.query(
+    query,
+    [title, description, price, imageUrl, itinerary, inclusions],
+    (err, result) => {
+      if (err) {
+        console.error("Error adding tour:", err);
+        return res.status(500).send("Server error");
+      }
+      console.log("New tour added successfully");
+      res.status(200).send("New tour added successfully");
     }
-    console.log("New tour added successfully");
-    res.status(200).send("New tour added successfully");
-  });
+  );
 });
+
+
 app.post("/api/uploadImage", upload.single("image"), (req, res) => {
   console.log("Inside uploadImage endpoint");
   try {
@@ -297,7 +328,7 @@ app.post("/api/uploadImage", upload.single("image"), (req, res) => {
       console.log("No file uploaded");
       return res.status(400).send("No file uploaded");
     }
-    const imageUrl = req.file.path;
+   const imageUrl = `/uploads/${req.file.filename}`;
     console.log("Image uploaded successfully:", imageUrl);
     res.status(200).json({ imageUrl: imageUrl });
   } catch (err) {
@@ -305,22 +336,48 @@ app.post("/api/uploadImage", upload.single("image"), (req, res) => {
     res.status(500).send("Server error");
   }
 });
+// Example updateTour endpoint
 app.post("/api/updateTour", upload.single("image"), (req, res) => {
-  const { id, title, description, price } = req.body;
-  const imageUrl = req.file ? req.file.path : "";
+  const { id, title, description, price, itinerary, inclusions } = req.body;
+  let imageUrl = req.body.imageUrl; // Get the existing imageUrl from the request body
+
+  // Check if a new image file has been uploaded
+  if (req.file) {
+    imageUrl = `/uploads/${req.file.filename}`; // Update imageUrl to the new file path
+  }
 
   const query =
-    "UPDATE tours SET title = ?, description = ?, price = ?, imageUrl = ? WHERE id = ?";
+    "UPDATE tours SET title = ?, description = ?, price = ?, imageUrl = ?, itinerary = ?, inclusions = ? WHERE id = ?";
 
-  db.query(query, [title, description, price, imageUrl, id], (err, result) => {
-    if (err) {
-      console.error("Error updating tour:", err);
-      return res.status(500).send("Server error");
+  db.query(
+    query,
+    [title, description, price, imageUrl, itinerary, inclusions, id],
+    (err, result) => {
+      if (err) {
+        console.error("Error updating tour:", err);
+        return res.status(500).send("Server error");
+      }
+      console.log("Tour updated successfully");
+      res.status(200).send("Tour updated successfully");
     }
-    console.log("Tour updated successfully");
-    res.status(200).send("Tour updated successfully");
+  );
+});
+
+// Add this endpoint to fetch booking history for a specific user
+app.get("/api/bookings/:username", (req, res) => {
+  const username = req.params.username;
+  const query = "SELECT * FROM booking WHERE username = ?";
+
+  db.query(query, [username], (err, result) => {
+    if (err) {
+      console.error("Error fetching booking history:", err);
+      res.status(500).send("Server error");
+    } else {
+      res.status(200).json(result);
+    }
   });
 });
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

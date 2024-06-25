@@ -19,29 +19,48 @@ const AdminPage = () => {
     title: "",
     description: "",
     price: "",
-    imageUrl: "", // Added imageUrl field
+    imageUrl: "",
+    imageFile: null,
+    itinerary: "",
+    inclusions: "",
   });
 
   const [newTour, setNewTour] = useState({
     title: "",
     description: "",
     price: "",
-    imageUrl: "", // Initialize imageUrl field
-    imageFile: null, // Store the selected file object
+    imageUrl: "",
+    imageFile: null,
+    itinerary: "",
+    inclusions: "",
   });
 
   const [showAddTourForm, setShowAddTourForm] = useState(false);
   const [contactMessages, setContactMessages] = useState([]);
-
+  const [bookings, setBookings] = useState([]);
   useEffect(() => {
     fetchUsers();
     fetchTours();
     fetchContactMessages();
+    fetchBookings();
   }, []);
-
+  const fetchBookings = () => {
+    axios
+      .get("http://localhost:3001/api/bookings")
+      .then((response) => {
+        setBookings(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching bookings:", error);
+      });
+  };
   const handleFileSelect = (e) => {
     const file = e.target.files[0];
     setNewTour((prev) => ({
+      ...prev,
+      imageFile: file,
+    }));
+    setEditTour((prev) => ({
       ...prev,
       imageFile: file,
     }));
@@ -85,13 +104,15 @@ const AdminPage = () => {
     axios
       .get(`http://localhost:3001/api/tour/${id}`)
       .then((response) => {
-        setSelectedTour(response.data.title); // Set the tour name
+        setSelectedTour(response.data.title);
         setEditTour({
           id: id,
           title: response.data.title,
           description: response.data.description,
           price: response.data.price,
-          imageUrl: response.data.imageUrl, // Assuming backend sends imageUrl
+          imageUrl: response.data.imageUrl,
+          itinerary: response.data.itinerary,
+          inclusions: response.data.inclusions,
         });
       })
       .catch((error) => {
@@ -103,30 +124,64 @@ const AdminPage = () => {
           description: "",
           price: "",
           imageUrl: "",
+          itinerary: "",
+          inclusions: "",
         });
       });
   };
 
   const handleEditTourChange = (e) => {
     const { name, value } = e.target;
-    setEditTour((prev) => ({ ...prev, [name]: value }));
+    setEditTour((prev) => ({
+      ...prev,
+      [name]: value,
+      imageUrl: prev.imageUrl,
+    }));
   };
 
   const handleEditTourSubmit = (e) => {
     e.preventDefault();
+
+    // Basic form validation
     if (!editTour.title || !editTour.description || !editTour.price) {
       console.error("Error: Title, Description, and Price are required");
       return;
     }
 
+    // Create FormData to handle file upload if a new image file is selected
+    const formData = new FormData();
+    if (editTour.imageFile) {
+      formData.append("image", editTour.imageFile);
+    }
+    formData.append("id", editTour.id);
+    formData.append("title", editTour.title);
+    formData.append("description", editTour.description);
+    formData.append("price", editTour.price);
+    formData.append("itinerary", editTour.itinerary);
+    formData.append("inclusions", editTour.inclusions);
+
+    // Send POST request to update tour
     axios
-      .post("http://localhost:3001/api/updateTour", editTour)
+      .post("http://localhost:3001/api/updateTour", formData)
       .then((response) => {
         console.log("Tour updated successfully:", response.data);
+
+        // If an image was uploaded, update editTour.imageUrl with the new URL
+        if (response.data.imageUrl) {
+          setEditTour((prevEditTour) => ({
+            ...prevEditTour,
+            imageUrl: response.data.imageUrl,
+          }));
+        }
+
         fetchTours(); // Refresh tour list after update
-        setSelectedTour(null); // Clear selected tour after update
+        setSelectedTour(null); // Clear selected tour
       })
-      .catch((error) => console.error("Error updating tour:", error));
+      .catch((error) => {
+        console.error("Error updating tour:", error);
+        // Handle specific errors related to file upload or server response
+        // Display appropriate error messages to the user if needed
+      });
   };
 
   const handleNewTourChange = (e) => {
@@ -140,13 +195,24 @@ const AdminPage = () => {
     formData.append("image", file);
 
     axios
-      .post("http://localhost:3001/api/uploadImage", formData)
+      .post("http://localhost:3001/api/uploadImage", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Important for file upload
+        },
+      })
       .then((response) => {
         const imageUrl = response.data.imageUrl;
-        console.log("File upload successful");
-        setNewTour((prev) => ({ ...prev, imageUrl })); // Set imageUrl in newTour
+        console.log("File upload successful. Image URL:", imageUrl);
+        // Update newTour state with the received imageUrl
+        setNewTour((prevNewTour) => ({
+          ...prevNewTour,
+          imageUrl: imageUrl,
+        }));
       })
-      .catch((error) => console.error("Error uploading image:", error));
+      .catch((error) => {
+        console.error("Error uploading image:", error);
+        // Handle specific error cases, display user-friendly message if necessary
+      });
   };
 
   const handleAddTourSubmit = (e) => {
@@ -157,20 +223,24 @@ const AdminPage = () => {
     formData.append("title", newTour.title);
     formData.append("description", newTour.description);
     formData.append("price", newTour.price);
+    formData.append("itinerary", newTour.itinerary);
+    formData.append("inclusions", newTour.inclusions);
 
     axios
       .post("http://localhost:3001/api/addTour", formData)
       .then((response) => {
         console.log("Tour added successfully:", response.data);
-        fetchTours(); // Refresh tour list after adding
+        fetchTours();
         setNewTour({
           title: "",
           description: "",
           price: "",
-          imageUrl: "", // Clear imageUrl field
-          imageFile: null, // Clear imageFile field
-        }); // Clear form fields
-        setShowAddTourForm(false); // Hide the form after submission
+          imageUrl: "",
+          imageFile: null,
+          itinerary: "",
+          inclusions: "",
+        });
+        setShowAddTourForm(false);
       })
       .catch((error) => console.error("Error adding tour:", error));
   };
@@ -181,9 +251,9 @@ const AdminPage = () => {
         .delete(`http://localhost:3001/api/deleteTour/${id}`)
         .then((response) => {
           console.log("Tour deleted successfully:", response.data);
-          fetchTours(); // Refresh tour list after deletion
+          fetchTours();
           if (selectedTourId === id) {
-            setSelectedTourId(null); // Clear selectedTourId if deleted tour is currently selected
+            setSelectedTourId(null);
           }
         })
         .catch((error) => console.error("Error deleting tour:", error));
@@ -197,8 +267,8 @@ const AdminPage = () => {
   return (
     <div>
       <Navbar />
+      <h1>Welcome Admin!</h1>
       <div className="admin-page">
-        <h1>Welcome Admin!</h1>
         <div className="admin-content">
           <section>
             <h2>User Details</h2>
@@ -231,7 +301,7 @@ const AdminPage = () => {
                   <th>Name</th>
                   <th>Description</th>
                   <th>Price</th>
-                  <th>Image</th> {/* New column for image */}
+                  <th>Image</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -296,7 +366,25 @@ const AdminPage = () => {
                   </label>
                   <label>
                     Image (Upload new):
-                    <input type="file" onChange={handleFileUpload} />
+                    <input type="file" onChange={handleFileSelect} />
+                  </label>
+                  <label>
+                    Itinerary:
+                    <input
+                      type="text"
+                      name="itinerary"
+                      value={editTour.itinerary}
+                      onChange={handleEditTourChange}
+                    />
+                  </label>
+                  <label>
+                    Inclusions:
+                    <input
+                      type="text"
+                      name="inclusions"
+                      value={editTour.inclusions}
+                      onChange={handleEditTourChange}
+                    />
                   </label>
                   <button type="submit">Save Changes</button>
                 </form>
@@ -338,6 +426,24 @@ const AdminPage = () => {
                     Image (Upload):
                     <input type="file" onChange={handleFileSelect} />
                   </label>
+                  <label>
+                    Itinerary:
+                    <input
+                      type="text"
+                      name="itinerary"
+                      value={newTour.itinerary}
+                      onChange={handleNewTourChange}
+                    />
+                  </label>
+                  <label>
+                    Inclusions:
+                    <input
+                      type="text"
+                      name="inclusions"
+                      value={newTour.inclusions}
+                      onChange={handleNewTourChange}
+                    />
+                  </label>
                   <button type="submit">Add Package</button>
                 </form>
               </div>
@@ -366,6 +472,29 @@ const AdminPage = () => {
                     <td>{message.email}</td>
                     <td>{message.message}</td>
                     <td>{new Date(message.date).toLocaleString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+          <section>
+            <h2>Bookings</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Booking ID</th>
+                  <th>Tour Name</th>
+                  <th>Price</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bookings.map((booking) => (
+                  <tr key={booking.id}>
+                    <td>{booking.username}</td>
+                    <td>{booking.package}</td>
+                    <td>{booking.price}</td>
+                    <td>{booking.date}</td>
                   </tr>
                 ))}
               </tbody>

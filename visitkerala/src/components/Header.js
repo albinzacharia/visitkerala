@@ -12,7 +12,7 @@ const Header = () => {
       navigate(`/${destination}`);
     }
   };
-
+const today = new Date().toISOString().split("T")[0];
   return (
     <header className="header">
       <div className="titlehead">
@@ -37,6 +37,7 @@ const Header = () => {
         <input
           type="text"
           placeholder="Enter Date"
+          min={today}
           onFocus={(e) => (e.target.type = "date")}
           onBlur={(e) => (e.target.type = "text")}
         />

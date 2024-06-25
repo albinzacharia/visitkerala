@@ -18,7 +18,7 @@ const AlappuzhaTourCard = ({
       package: title,
       specialNote: "Alappuzha Package",
     });
-    navigate("/TourPackage"); // Navigate to the TourPackage page
+    navigate("/tour/29"); // Navigate to the TourPackage page
   };
 
   return (

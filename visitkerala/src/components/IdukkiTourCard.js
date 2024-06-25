@@ -18,7 +18,7 @@ const IdukkiTourCard = ({
       package: title,
       specialNote: "Idukki Package",
     });
-    navigate("/TourPackage"); // Navigate to the TourPackage page
+    navigate("/tour/31"); // Navigate to the TourPackage page
   };
 
   return (

@@ -12,10 +12,23 @@ const UserProfile = () => {
   const [phone, setPhone] = useState("");
   const [firstname, setFirstname] = useState("");
   const [username, setUsername] = useState(user?.username || "");
+  const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
     fetchUserData(username); // Fetch user data initially based on logged-in username
+    fetchBookingHistory(username); // Fetch booking history
   }, [username]); // Fetch again if username changes
+
+  useEffect(() => {
+    // Load user profile data from localStorage if available
+    const storedUserData = JSON.parse(localStorage.getItem("userProfileData"));
+    if (storedUserData) {
+      setEmail(storedUserData.email || "");
+      setPhone(storedUserData.phone || "");
+      setFirstname(storedUserData.firstname || "");
+      setUsername(storedUserData.username || "");
+    }
+  }, []);
 
   const fetchUserData = (username) => {
     axios
@@ -26,9 +39,31 @@ const UserProfile = () => {
         setPhone(userData.phone || "");
         setFirstname(userData.firstname || "");
         setUsername(userData.username || "");
+
+        // Save user profile data to localStorage
+        localStorage.setItem(
+          "userProfileData",
+          JSON.stringify({
+            email: userData.email || "",
+            phone: userData.phone || "",
+            firstname: userData.firstname || "",
+            username: userData.username || "",
+          })
+        );
       })
       .catch((error) => {
         console.error("Error fetching user data:", error);
+      });
+  };
+
+  const fetchBookingHistory = (username) => {
+    axios
+      .get(`http://localhost:3001/api/bookings/${username}`) // Adjust URL as per your backend route
+      .then((response) => {
+        setBookings(response.data || []);
+      })
+      .catch((error) => {
+        console.error("Error fetching booking history:", error);
       });
   };
 
@@ -49,6 +84,18 @@ const UserProfile = () => {
       .then((response) => {
         console.log(response.data);
         updateUser({ email, phone, firstname, username }); // Update user data in context
+
+        // Update localStorage with new user profile data
+        localStorage.setItem(
+          "userProfileData",
+          JSON.stringify({
+            email: email,
+            phone: phone,
+            firstname: firstname,
+            username: username,
+          })
+        );
+
         setIsEditing(false);
       })
       .catch((error) => {
@@ -57,8 +104,6 @@ const UserProfile = () => {
 
     setIsEditing(false);
   };
-
-
 
   return (
     <div className="user-profile-page">
@@ -109,6 +154,25 @@ const UserProfile = () => {
               </button>
             </>
           )}
+
+          <div className="booking-history">
+            <h3>Booking History</h3>
+            <ul>
+              {bookings.map((booking) => (
+                <li key={booking.id}>
+                  <p>
+                    <strong>Package:</strong> {booking.package}
+                  </p>
+                  <p>
+                    <strong>Price:</strong> {booking.price}
+                  </p>
+                  <p>
+                    <strong>Date:</strong> {booking.date}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
       <Footer />

@@ -13,7 +13,7 @@ const TourPackage = ({ setPaymentDetails, paymentDetails }) => {
   const [tour, setTour] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [reviewText, setReviewText] = useState("");
-
+const today = new Date().toISOString().split("T")[0];
   useEffect(() => {
     fetchTour();
     fetchReviews();
@@ -78,20 +78,19 @@ const TourPackage = ({ setPaymentDetails, paymentDetails }) => {
     }
   };
 
-const handleReviewSubmit = async () => {
-  try {
-    await axios.post("http://localhost:3001/api/addReview", {
-      username: user.username,
-      reviewText,
-      tour_id: id, // Ensure tour_id is correctly sent
-    });
-    setReviewText("");
-    fetchReviews();
-  } catch (error) {
-    console.error("Error submitting review:", error);
-  }
-};
-
+  const handleReviewSubmit = async () => {
+    try {
+      await axios.post("http://localhost:3001/api/addReview", {
+        username: user.username,
+        reviewText,
+        tour_id: id, // Ensure tour_id is correctly sent
+      });
+      setReviewText("");
+      fetchReviews();
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    }
+  };
 
   if (!tour) {
     return <div>Loading...</div>;
@@ -114,49 +113,23 @@ const handleReviewSubmit = async () => {
             <h1>Package Overview</h1>
             <p>{tour.description}</p>
             <h2>Itinerary</h2>
-            {Array.isArray(tour.itinerary) ? (
-              tour.itinerary.map((item, index) => (
-                <div className="itinerary-item" key={index}>
-                  {item}
-                </div>
-              ))
-            ) : (
-              <div>No itinerary available</div>
-            )}
+            <p>{tour.itinerary}</p>
             <h2>Inclusions</h2>
-            {Array.isArray(tour.inclusions) ? (
-              tour.inclusions.map((item, index) => (
-                <div className="inclusion-item" key={index}>
-                  {item}
-                </div>
-              ))
-            ) : (
-              <div>No inclusions available</div>
-            )}
+            <p> {tour.inclusions}</p>
           </div>
           <div className="package-price">
             <h3>Price</h3>
             <h3>₹{tour.price}</h3>
-            <input name="datedet" type="date" onChange={handleChange}></input>
+            <input
+              name="datedet"
+              type="date"
+              onChange={handleChange}
+              min={today}
+            ></input>
+
             <button className="tripbook-button" onClick={handleBookNow}>
               Book Now
             </button>
-          </div>
-        </div>
-        <div className="related-images">
-          <h2>Related Images</h2>
-          <div className="images">
-            {Array.isArray(tour.relatedImages) ? (
-              tour.relatedImages.map((image, index) => (
-                <img
-                  src={`http://localhost:3001/${image}`}
-                  alt="Related"
-                  key={index}
-                />
-              ))
-            ) : (
-              <div>No related images available</div>
-            )}
           </div>
         </div>
         <div className="reviews-section">

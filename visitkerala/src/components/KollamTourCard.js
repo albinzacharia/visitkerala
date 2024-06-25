@@ -18,7 +18,7 @@ const KollamTourCard = ({
       package: title,
       specialNote: "Kollam Package",
     });
-    navigate("/TourPackage"); // Navigate to the TourPackage page
+    navigate("/tour/28"); // Navigate to the TourPackage page
   };
 
   return (
