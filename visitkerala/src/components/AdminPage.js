@@ -4,8 +4,6 @@ import "./AdminPage.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import Navbar from "./Navbar";
-import TourCard from "./TourCard";
-import ThingsCard from "./ThingsCard"; // Import ThingsCard component
 
 const AdminPage = () => {
   const [users, setUsers] = useState([]);
@@ -38,12 +36,14 @@ const AdminPage = () => {
   const [showAddTourForm, setShowAddTourForm] = useState(false);
   const [contactMessages, setContactMessages] = useState([]);
   const [bookings, setBookings] = useState([]);
+
   useEffect(() => {
     fetchUsers();
     fetchTours();
     fetchContactMessages();
     fetchBookings();
   }, []);
+
   const fetchBookings = () => {
     axios
       .get("http://localhost:3001/api/bookings")
@@ -54,6 +54,7 @@ const AdminPage = () => {
         console.error("Error fetching bookings:", error);
       });
   };
+
   const handleFileSelect = (e) => {
     const file = e.target.files[0];
     setNewTour((prev) => ({
@@ -139,80 +140,57 @@ const AdminPage = () => {
     }));
   };
 
-  const handleEditTourSubmit = (e) => {
-    e.preventDefault();
+const handleEditTourSubmit = (e) => {
+  e.preventDefault();
 
-    // Basic form validation
-    if (!editTour.title || !editTour.description || !editTour.price) {
-      console.error("Error: Title, Description, and Price are required");
-      return;
-    }
+  // Basic form validation
+  if (!editTour.title || !editTour.description || !editTour.price) {
+    console.error("Error: Title, Description, and Price are required");
+    return;
+  }
 
-    // Create FormData to handle file upload if a new image file is selected
-    const formData = new FormData();
-    if (editTour.imageFile) {
-      formData.append("image", editTour.imageFile);
-    }
-    formData.append("id", editTour.id);
-    formData.append("title", editTour.title);
-    formData.append("description", editTour.description);
-    formData.append("price", editTour.price);
-    formData.append("itinerary", editTour.itinerary);
-    formData.append("inclusions", editTour.inclusions);
+  // Create FormData to handle file upload if a new image file is selected
+  const formData = new FormData();
+  if (editTour.imageFile) {
+    formData.append("image", editTour.imageFile);
+  } else {
+    formData.append("imageUrl", editTour.imageUrl); // Ensure existing imageUrl is included if no new image file is selected
+  }
+  formData.append("id", editTour.id);
+  formData.append("title", editTour.title);
+  formData.append("description", editTour.description);
+  formData.append("price", editTour.price);
+  formData.append("itinerary", editTour.itinerary);
+  formData.append("inclusions", editTour.inclusions);
 
-    // Send POST request to update tour
-    axios
-      .post("http://localhost:3001/api/updateTour", formData)
-      .then((response) => {
-        console.log("Tour updated successfully:", response.data);
+  // Send POST request to update tour
+  axios
+    .post("http://localhost:3001/api/updateTour", formData)
+    .then((response) => {
+      console.log("Tour updated successfully:", response.data);
 
-        // If an image was uploaded, update editTour.imageUrl with the new URL
-        if (response.data.imageUrl) {
-          setEditTour((prevEditTour) => ({
-            ...prevEditTour,
-            imageUrl: response.data.imageUrl,
-          }));
-        }
+      // If an image was uploaded, update editTour.imageUrl with the new URL
+      if (response.data.imageUrl) {
+        setEditTour((prevEditTour) => ({
+          ...prevEditTour,
+          imageUrl: response.data.imageUrl,
+        }));
+      }
 
-        fetchTours(); // Refresh tour list after update
-        setSelectedTour(null); // Clear selected tour
-      })
-      .catch((error) => {
-        console.error("Error updating tour:", error);
-        // Handle specific errors related to file upload or server response
-        // Display appropriate error messages to the user if needed
-      });
-  };
+      fetchTours(); // Refresh tour list after update
+      setSelectedTour(null); // Clear selected tour
+    })
+    .catch((error) => {
+      console.error("Error updating tour:", error);
+      // Handle specific errors related to file upload or server response
+      // Display appropriate error messages to the user if needed
+    });
+};
+
 
   const handleNewTourChange = (e) => {
     const { name, value } = e.target;
     setNewTour((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("image", file);
-
-    axios
-      .post("http://localhost:3001/api/uploadImage", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data", // Important for file upload
-        },
-      })
-      .then((response) => {
-        const imageUrl = response.data.imageUrl;
-        console.log("File upload successful. Image URL:", imageUrl);
-        // Update newTour state with the received imageUrl
-        setNewTour((prevNewTour) => ({
-          ...prevNewTour,
-          imageUrl: imageUrl,
-        }));
-      })
-      .catch((error) => {
-        console.error("Error uploading image:", error);
-        // Handle specific error cases, display user-friendly message if necessary
-      });
   };
 
   const handleAddTourSubmit = (e) => {
@@ -370,20 +348,22 @@ const AdminPage = () => {
                   </label>
                   <label>
                     Itinerary:
-                    <input
-                      type="text"
+                    <textarea
                       name="itinerary"
+                      placeholder="Itinerary (one item per line)"
                       value={editTour.itinerary}
                       onChange={handleEditTourChange}
+                      required
                     />
                   </label>
                   <label>
                     Inclusions:
-                    <input
-                      type="text"
+                    <textarea
                       name="inclusions"
+                      placeholder="Inclusions (one item per line)"
                       value={editTour.inclusions}
                       onChange={handleEditTourChange}
+                      required
                     />
                   </label>
                   <button type="submit">Save Changes</button>
@@ -428,20 +408,22 @@ const AdminPage = () => {
                   </label>
                   <label>
                     Itinerary:
-                    <input
-                      type="text"
+                    <textarea
                       name="itinerary"
+                      placeholder="Itinerary (one item per line)"
                       value={newTour.itinerary}
                       onChange={handleNewTourChange}
+                      required
                     />
                   </label>
                   <label>
                     Inclusions:
-                    <input
-                      type="text"
+                    <textarea
                       name="inclusions"
+                      placeholder="Inclusions (one item per line)"
                       value={newTour.inclusions}
                       onChange={handleNewTourChange}
+                      required
                     />
                   </label>
                   <button type="submit">Add Package</button>

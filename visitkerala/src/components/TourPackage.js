@@ -13,7 +13,8 @@ const TourPackage = ({ setPaymentDetails, paymentDetails }) => {
   const [tour, setTour] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [reviewText, setReviewText] = useState("");
-const today = new Date().toISOString().split("T")[0];
+  const today = new Date().toISOString().split("T")[0];
+
   useEffect(() => {
     fetchTour();
     fetchReviews();
@@ -83,13 +84,17 @@ const today = new Date().toISOString().split("T")[0];
       await axios.post("http://localhost:3001/api/addReview", {
         username: user.username,
         reviewText,
-        tour_id: id, // Ensure tour_id is correctly sent
+        tour_id: id,
       });
       setReviewText("");
       fetchReviews();
     } catch (error) {
       console.error("Error submitting review:", error);
     }
+  };
+
+  const renderList = (text) => {
+    return text.split("\n").map((item, index) => <li key={index}>{item}</li>);
   };
 
   if (!tour) {
@@ -113,9 +118,9 @@ const today = new Date().toISOString().split("T")[0];
             <h1>Package Overview</h1>
             <p>{tour.description}</p>
             <h2>Itinerary</h2>
-            <p>{tour.itinerary}</p>
+            <ul>{renderList(tour.itinerary)}</ul>
             <h2>Inclusions</h2>
-            <p> {tour.inclusions}</p>
+            <ul>{renderList(tour.inclusions)}</ul>
           </div>
           <div className="package-price">
             <h3>Price</h3>
@@ -126,7 +131,6 @@ const today = new Date().toISOString().split("T")[0];
               onChange={handleChange}
               min={today}
             ></input>
-
             <button className="tripbook-button" onClick={handleBookNow}>
               Book Now
             </button>

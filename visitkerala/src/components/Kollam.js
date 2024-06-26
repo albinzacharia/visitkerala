@@ -10,27 +10,56 @@ const Kollam = ({ setPaymentDetails, paymentDetails }) => {
       <Navbar />
       <div className="destination-page">
         <img
-          src="./pics/ttdh1.jpg"
+          src="./pics/kollam.jpg"
           alt="Header background"
           className="header-background"
         />
         <div className="destination-content">
           <h1>Explore Kollam</h1>
+          Overview:
           <p>
-            Goa is known for its stunning beaches, vibrant nightlife, and
-            Portuguese heritage. Whether you're looking to relax on the beaches
-            or party till dawn, Goa has something for everyone. Goa is known for
-            its stunning beaches, vibrant nightlife, and Portuguese heritage.
-            Whether you're looking to relax on the beaches or party till dawn,
-            Goa has something for everyone.Goa is known for its stunning
-            beaches, vibrant nightlife, and Portuguese heritage. Whether you're
-            looking to relax on the beaches or party till dawn, Goa has
-            something for everyone.Goa is known for its stunning beaches,
-            vibrant nightlife, and Portuguese heritage. Whether you're looking
-            to relax on the beaches or party till dawn, Goa has something for
-            everyone.Goa is known for its stunning beaches, vibrant nightlife,
-            and Portuguese heritage. Whether you're looking to relax on the
-            beaches or party till dawn, Goa has something for everyone.
+            Kollam, also known as Quilon, is a coastal city in Kerala with a
+            rich maritime history. It's an important trade and commerce center
+            and a gateway to Kerala's backwaters. The city is known for its
+            beaches, backwaters, and historical significance.
+          </p>
+          Key Attractions:
+          <ul>
+            <li>
+              <strong>Ashtamudi Lake:</strong> A large lake offering picturesque
+              backwater cruises. It's a perfect spot for nature lovers and bird
+              watchers.
+            </li>
+            <li>
+              <strong>Thangassery Lighthouse:</strong> A historic lighthouse
+              offering panoramic views of the Arabian Sea and the surrounding
+              areas.
+            </li>
+            <li>
+              <strong>Palaruvi Waterfalls:</strong> Located in the forested
+              area, this waterfall is a popular picnic spot.
+            </li>
+            <li>
+              <strong>Thirumullavaram Beach:</strong> A tranquil beach known for
+              its shallow waters and scenic beauty.
+            </li>
+            <li>
+              <strong>Mahatma Gandhi Beach and Park:</strong> A well-maintained
+              beach with a park that's ideal for evening strolls.
+            </li>
+          </ul>
+          Activities:
+          <ul>
+            <li>Houseboat and backwater cruises</li>
+            <li>Exploring historic forts and lighthouses</li>
+            <li>Trekking and picnicking at waterfalls</li>
+            <li>Beach activities and relaxation</li>
+          </ul>
+          Cuisine:
+          <p>
+            Kollam's cuisine is heavily influenced by its coastal location, with
+            dishes like fish curry, prawns, squid, and other seafood delicacies.
+            Traditional Kerala meals served on banana leaves are also popular.
           </p>
           <h1>
             <br />

@@ -16,21 +16,54 @@ const Alappuzha = ({ setPaymentDetails, paymentDetails }) => {
         />
         <div className="destination-content">
           <h1>Explore Alappuzha</h1>
+          Overview:
           <p>
-            Goa is known for its stunning beaches, vibrant nightlife, and
-            Portuguese heritage. Whether you're looking to relax on the beaches
-            or party till dawn, Goa has something for everyone. Goa is known for
-            its stunning beaches, vibrant nightlife, and Portuguese heritage.
-            Whether you're looking to relax on the beaches or party till dawn,
-            Goa has something for everyone.Goa is known for its stunning
-            beaches, vibrant nightlife, and Portuguese heritage. Whether you're
-            looking to relax on the beaches or party till dawn, Goa has
-            something for everyone.Goa is known for its stunning beaches,
-            vibrant nightlife, and Portuguese heritage. Whether you're looking
-            to relax on the beaches or party till dawn, Goa has something for
-            everyone.Goa is known for its stunning beaches, vibrant nightlife,
-            and Portuguese heritage. Whether you're looking to relax on the
-            beaches or party till dawn, Goa has something for everyone.
+            Alappuzha, often referred to as the "Venice of the East," is a
+            picturesque town in Kerala, known for its stunning backwaters,
+            houseboats, and serene beaches. It is a hub of Kerala's backwater
+            tourism and offers a tranquil escape amidst lush green landscapes
+            and serene waters.
+          </p>
+          Key Attractions:
+          <ul>
+            <li>
+              <strong>Alleppey Backwaters:</strong> A network of canals,
+              lagoons, and lakes that can be explored on traditional houseboats.
+              It's a perfect way to experience the tranquil beauty of Kerala's
+              countryside.
+            </li>
+            <li>
+              <strong>Alappuzha Beach:</strong> Known for its beautiful sunset
+              views, a historic lighthouse, and the remains of the Alappuzha Sea
+              Bridge.
+            </li>
+            <li>
+              <strong>Marari Beach:</strong> A quiet, clean, and less crowded
+              beach ideal for a peaceful retreat.
+            </li>
+            <li>
+              <strong>Revi Karunakaran Museum:</strong> A museum showcasing a
+              rich collection of artifacts, including Swarovski crystals, ivory,
+              and Tanjore paintings.
+            </li>
+            <li>
+              <strong>Kumarakom Bird Sanctuary:</strong> Located nearby, this
+              sanctuary is a haven for bird watchers.
+            </li>
+          </ul>
+          Activities:
+          <ul>
+            <li>Houseboat cruises through the backwaters</li>
+            <li>Canoeing and kayaking</li>
+            <li>Beach activities and water sports</li>
+            <li>Visiting traditional coir-making industries</li>
+          </ul>
+          Cuisine:
+          <p>
+            Alappuzha's cuisine is a treat for seafood lovers, with dishes like
+            Karimeen Pollichathu (pearl spot fish), prawn curry, and a variety
+            of traditional Kerala delicacies like appam, stew, and tapioca with
+            fish curry.
           </p>
           <h1>Packages</h1>
           <AlappuzhaTourCard

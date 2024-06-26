@@ -17,21 +17,50 @@ const Trivandrum = ({ setPaymentDetails, paymentDetails }) => {
         />
         <div className="destination-content">
           <h1>Explore Trivandrum</h1>
+          Overview:
           <p>
-            Goa is known for its stunning beaches, vibrant nightlife, and
-            Portuguese heritage. Whether you're looking to relax on the beaches
-            or party till dawn, Goa has something for everyone. Goa is known for
-            its stunning beaches, vibrant nightlife, and Portuguese heritage.
-            Whether you're looking to relax on the beaches or party till dawn,
-            Goa has something for everyone.Goa is known for its stunning
-            beaches, vibrant nightlife, and Portuguese heritage. Whether you're
-            looking to relax on the beaches or party till dawn, Goa has
-            something for everyone.Goa is known for its stunning beaches,
-            vibrant nightlife, and Portuguese heritage. Whether you're looking
-            to relax on the beaches or party till dawn, Goa has something for
-            everyone.Goa is known for its stunning beaches, vibrant nightlife,
-            and Portuguese heritage. Whether you're looking to relax on the
-            beaches or party till dawn, Goa has something for everyone.
+            Trivandrum, the capital city of Kerala, is a vibrant city that
+            seamlessly blends tradition with modernity. It's known for its rich
+            cultural heritage, historic landmarks, and beautiful beaches.
+          </p>
+          Key Attractions:
+          <ul>
+            <li>
+              <strong>Padmanabhaswamy Temple:</strong> A historic Hindu temple
+              renowned for its intricate architecture and the hidden treasures
+              found within.
+            </li>
+            <li>
+              <strong>Napier Museum and Zoo:</strong> A museum showcasing a vast
+              collection of historical artifacts and a zoological park with a
+              variety of species.
+            </li>
+            <li>
+              <strong>Kuthiramalika (Puthenmalika) Palace Museum:</strong> A
+              palace museum with rare artifacts and exquisite architecture.
+            </li>
+            <li>
+              <strong>Kovalam Beach:</strong> A famous beach known for its
+              crescent-shaped coastline, lighthouse, and water activities.
+            </li>
+            <li>
+              <strong>Veli Tourist Village:</strong> A popular picnic spot with
+              a beautiful garden, boating facilities, and a children's park.
+            </li>
+          </ul>
+          Activities:
+          <ul>
+            <li>Exploring historical and cultural landmarks</li>
+            <li>Relaxing at Kovalam and other nearby beaches</li>
+            <li>Boating and picnicking at Veli Tourist Village</li>
+            <li>Shopping for traditional Kerala handicrafts and spices</li>
+          </ul>
+          Cuisine:
+          <p>
+            Trivandrum offers a delightful array of traditional Kerala dishes,
+            including Sadhya (a festive meal served on a banana leaf), fish
+            curry, appam with stew, and various vegetarian and non-vegetarian
+            delicacies.
           </p>
           <h1>
             <br />

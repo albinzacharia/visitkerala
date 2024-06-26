@@ -16,21 +16,53 @@ const Ernakulam = ({setPaymentDetails, paymentDetails}) => {
         />
         <div className="destination-content">
           <h1>Explore Ernakulam</h1>
+          Overview:
           <p>
-            Goa is known for its stunning beaches, vibrant nightlife, and
-            Portuguese heritage. Whether you're looking to relax on the beaches
-            or party till dawn, Goa has something for everyone. Goa is known for
-            its stunning beaches, vibrant nightlife, and Portuguese heritage.
-            Whether you're looking to relax on the beaches or party till dawn,
-            Goa has something for everyone.Goa is known for its stunning
-            beaches, vibrant nightlife, and Portuguese heritage. Whether you're
-            looking to relax on the beaches or party till dawn, Goa has
-            something for everyone.Goa is known for its stunning beaches,
-            vibrant nightlife, and Portuguese heritage. Whether you're looking
-            to relax on the beaches or party till dawn, Goa has something for
-            everyone.Goa is known for its stunning beaches, vibrant nightlife,
-            and Portuguese heritage. Whether you're looking to relax on the
-            beaches or party till dawn, Goa has something for everyone.
+            Ernakulam, part of the greater Kochi city, is a bustling
+            metropolitan area known for its historical significance, cultural
+            diversity, and modern amenities. It is often referred to as the
+            commercial capital of Kerala.
+          </p>
+          Key Attractions:
+          <ul>
+            <li>
+              <strong>Fort Kochi:</strong> A historic area with colonial
+              architecture, Chinese fishing nets, and the vibrant Fort Kochi
+              Beach.
+            </li>
+            <li>
+              <strong>Jewish Synagogue:</strong> One of the oldest active
+              synagogues, located in the Jew Town area of Mattancherry.
+            </li>
+            <li>
+              <strong>Mattancherry Palace:</strong> Also known as the Dutch
+              Palace, it showcases Kerala murals and artifacts.
+            </li>
+            <li>
+              <strong>Marine Drive:</strong> A picturesque promenade with
+              stunning views of the backwaters and the cityscape.
+            </li>
+            <li>
+              <strong>St. Francis Church:</strong> One of the oldest European
+              churches in India, where Vasco da Gama was originally buried.
+            </li>
+          </ul>
+          Activities:
+          <ul>
+            <li>Exploring historical and cultural sites</li>
+            <li>Strolling along Marine Drive and enjoying boat rides</li>
+            <li>Shopping for spices, antiques, and handicrafts in Jew Town</li>
+            <li>
+              Enjoying the vibrant art scene, including the Kochi-Muziris
+              Biennale
+            </li>
+          </ul>
+          Cuisine:
+          <p>
+            Ernakulam offers a diverse culinary scene, featuring traditional
+            Kerala dishes, seafood delicacies, and a variety of international
+            cuisines. Must-try dishes include Kerala fish curry, appam with
+            stew, and biryani.
           </p>
           <h1>Packages</h1>
           <ErnakulamTourCard

@@ -62,7 +62,7 @@
     margin-left: 2%;
     /* margin: auto; */
     position: relative;
-    height: auto;
+    height: max-content;
     width: 25%;
     background: #fff0;
     padding: 20px;
