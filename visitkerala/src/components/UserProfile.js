@@ -6,7 +6,7 @@ import axios from "axios";
 import { useAuth } from "../AuthContext"; // Import the AuthContext
 
 const UserProfile = () => {
-  const { user, updateUser } = useAuth(); // Ensure user and updateUser are properly initialized
+  const { user, updateUser, updateLatestBookingStatus } = useAuth(); // Ensure user and updateLatestBookingStatus are properly initialized
   const [isEditing, setIsEditing] = useState(false);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -60,7 +60,12 @@ const UserProfile = () => {
     axios
       .get(`http://localhost:3001/api/bookings/${username}`) // Adjust URL as per your backend route
       .then((response) => {
-        setBookings(response.data || []);
+        const bookingsData = response.data || [];
+        setBookings(bookingsData);
+        if (bookingsData.length > 0) {
+          const latestBooking = bookingsData[bookingsData.length - 1];
+          updateLatestBookingStatus(latestBooking.status);
+        }
       })
       .catch((error) => {
         console.error("Error fetching booking history:", error);
@@ -168,6 +173,9 @@ const UserProfile = () => {
                   </p>
                   <p>
                     <strong>Date:</strong> {booking.date}
+                  </p>
+                  <p>
+                    <strong>Status:</strong> {booking.status}
                   </p>
                 </li>
               ))}

@@ -22,6 +22,7 @@ import Alappuzha from "./components/Alappuzha"; // Ensure to create this compone
 import Idukki from "./components/Idukki"; // Ensure to create this component
 import AdminPage from "./components/AdminPage";
 import axios from "axios";
+import TourCoordinatorPage from "./components/TourCoordinatorPage";
 function App() {
   return (
     <AuthProvider>
@@ -178,6 +179,15 @@ const AppContent = () => {
             path="/tour/:id"
             element={
               <TourPackage
+                setPaymentDetails={setPaymentDetails}
+                paymentDetails={paymentDetails}
+              />
+            }
+          />
+          <Route
+            path="/TourCoordinatorPage"
+            element={
+              <TourCoordinatorPage
                 setPaymentDetails={setPaymentDetails}
                 paymentDetails={paymentDetails}
               />

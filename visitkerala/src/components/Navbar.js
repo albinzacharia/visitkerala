@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Navbar.css";
 import i4 from "./pics/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 
 const Navbar = () => {
-  const { isLoggedIn, isAdmin, logout } = useAuth(); // Include isAdmin from context
+  const {
+    isLoggedIn,
+    isAdmin,
+    isTourManager,
+    logout,
+    latestBookingStatus,
+    setLatestBookingStatus,
+  } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // When the component mounts, check if there's a saved booking status in localStorage
+    const savedBookingStatus = localStorage.getItem("latestBookingStatus");
+    if (savedBookingStatus) {
+      setLatestBookingStatus(savedBookingStatus); // Set the state from localStorage
+    }
+  }, [setLatestBookingStatus]);
 
   const handleLogout = () => {
     logout();
@@ -18,13 +33,43 @@ const Navbar = () => {
     return formData.username === "admin" && formData.password === "admin";
   };
 
+  const isTourManagerCheck = (formData) => {
+    // Replace with actual tour manager check logic based on form data
+    return (
+      formData.username === "tourmanager" && formData.password === "tourmanager"
+    );
+  };
+
   const handleLogin = (formData) => {
     if (isAdminCheck(formData)) {
-      navigate("/AdminPage"); // Redirect to admin page
+      navigate("/AdminPage");
+    } else if (isTourManagerCheck(formData)) {
+      navigate("/TourCoordinatorPage");
     } else {
-      navigate("/user-profile"); // Redirect to user profile page
+      navigate("/user-profile");
     }
   };
+
+  const getStatusMessage = () => {
+    switch (latestBookingStatus) {
+      case "Accepted":
+        return "Your booking has been accepted!";
+      case "Rejected":
+        return "Sorry due to unfortunate circumstances, your booking has been rejected. The money will be credited back to your account in 1-3 business days.";
+      default:
+        return null;
+    }
+  };
+
+  // Function to save latestBookingStatus to localStorage
+  const saveStatusToLocalStorage = () => {
+    localStorage.setItem("latestBookingStatus", latestBookingStatus);
+  };
+
+  // Save the status to localStorage whenever it changes
+  useEffect(() => {
+    saveStatusToLocalStorage();
+  }, [latestBookingStatus]);
 
   return (
     <nav className="navbar">
@@ -45,7 +90,7 @@ const Navbar = () => {
             Destinations
           </Link>
         </li>
-        {!isAdmin && ( // Only show Contact Us for non-admin
+        {!isAdmin && !isTourManager && (
           <li>
             <Link to="/ContactUs" onClick={() => window.scrollTo(0, 0)}>
               Contact Us
@@ -61,18 +106,41 @@ const Navbar = () => {
         )}
         {isLoggedIn && (
           <>
-            {!isAdmin && ( // Only show My Profile for non-admin
+            {!isAdmin && !isTourManager && (
               <li>
                 <Link to="/UserProfile" onClick={() => window.scrollTo(0, 0)}>
                   My Profile
                 </Link>
               </li>
             )}
-            {isAdmin && ( // Only show for admin
+            {isAdmin && (
               <li>
                 <Link to="/AdminPage" onClick={() => window.scrollTo(0, 0)}>
                   Admin Page
                 </Link>
+              </li>
+            )}
+            {isTourManager && (
+              <li>
+                <Link
+                  to="/TourCoordinatorPage"
+                  onClick={() => window.scrollTo(0, 0)}
+                >
+                  Tour Coordinator Page
+                </Link>
+              </li>
+            )}
+            {(latestBookingStatus === "Accepted" ||
+              latestBookingStatus === "Rejected") && (
+              <li>
+                <span
+                  className={`booking-status ${
+                    latestBookingStatus === "Rejected" ? "rejected" : ""
+                  }`}
+                  title={getStatusMessage()} // Tooltip message based on status
+                >
+                  Status: {latestBookingStatus}
+                </span>
               </li>
             )}
             <li>

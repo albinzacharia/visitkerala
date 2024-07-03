@@ -8,6 +8,8 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isTourManager, setIsTourManager] = useState(false);
+  const [latestBookingStatus, setLatestBookingStatus] = useState("");
 
   useEffect(() => {
     // Load user data from localStorage if it exists
@@ -17,18 +19,24 @@ export const AuthProvider = ({ children }) => {
       setIsLoggedIn(true);
       const isAdminUser = localStorage.getItem("isAdmin");
       setIsAdmin(isAdminUser === "true");
+      const isTourManagerUser = localStorage.getItem("isTourManager");
+      setIsTourManager(isTourManagerUser === "true");
     }
   }, []);
 
   useEffect(() => {
-    // Save user data and isAdmin to localStorage whenever they change
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));
     } else {
       localStorage.removeItem("user");
     }
-    localStorage.setItem("isAdmin", isAdmin.toString());
-  }, [user, isAdmin]);
+    localStorage.setItem(
+      "isAdmin",
+      isAdmin.toString(),
+      "isTourManager",
+      isTourManager.toString()
+    );
+  }, [user, isAdmin,isTourManager]);
 
   const login = (formData) => {
     // Assuming formData has username and password fields
@@ -36,18 +44,28 @@ export const AuthProvider = ({ children }) => {
       setIsLoggedIn(true);
       setIsAdmin(true);
       setUser(formData); // Set user data for admin
-    } else {
-      setIsLoggedIn(true);
-      setIsAdmin(false);
-      setUser(formData); // Set user data for non-admin
     }
+     else if (formData.username === "tourmanager" && formData.password === "tourmanager") {
+       setIsLoggedIn(true);
+       setIsTourManager(true);
+       setUser(formData); // Set user data for admin
+     } else {
+       setIsLoggedIn(true);
+      setIsAdmin(false);
+      setIsTourManager(false);
+       setUser(formData); // Set user data for non-admin
+     }
   };
 
   const logout = () => {
     setIsLoggedIn(false);
     setIsAdmin(false);
+    setIsTourManager(false);
     setUser(null);
     localStorage.removeItem("isAdmin");
+    localStorage.removeItem("isTourManager");
+    setLatestBookingStatus(null); // Reset booking status on logout
+    localStorage.removeItem("latestBookingStatus");
   };
 
   const updateUser = (updatedUserData) => {
@@ -57,9 +75,24 @@ export const AuthProvider = ({ children }) => {
     }));
   };
 
+  const updateLatestBookingStatus = (status) => {
+    setLatestBookingStatus(status);
+  };
+
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, login, logout, user, updateUser, isAdmin }}
+      value={{
+        isLoggedIn,
+        login,
+        logout,
+        user,
+        updateUser,
+        isAdmin,
+        isTourManager,
+        latestBookingStatus,
+        updateLatestBookingStatus,
+        setLatestBookingStatus,
+      }}
     >
       {children}
     </AuthContext.Provider>

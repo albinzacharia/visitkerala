@@ -59,8 +59,12 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
         }));
         if (formData.username === "admin" && formData.password === "admin") {
           navigate("/AdminPage"); // Redirect to admin page
-        } else {
-          navigate("/user-profile"); // Redirect to user profile page
+        }
+        else if (formData.username === "tourmanager" && formData.password === "tourmanager") {
+          navigate("/TourCoordinatorPage");
+        }
+        else {
+          navigate("/user-profile");// Redirect to user profile page
         }
         onClose();
       })

@@ -39,7 +39,6 @@ const storage = multer.diskStorage({
   },
 });
 
-
 const upload = multer({ storage: storage });
 app.use("/uploads", express.static("uploads"));
 app.get("/api/user/:username", (req, res) => {
@@ -123,6 +122,39 @@ app.get("/api/bookings/", (req, res) => {
       res.status(500).send("Server error");
     } else {
       res.status(200).json(result);
+    }
+  });
+});
+app.post("/api/updateBookingStatus/:id", (req, res) => {
+  const bookingId = req.params.id;
+  const { status } = req.body;
+
+  const query = "UPDATE booking SET status = ? WHERE id = ?";
+  db.query(query, [status, bookingId], (err, result) => {
+    if (err) {
+      console.error("Error updating booking status:", err);
+      res.status(500).send("Server error");
+    } else {
+      console.log("Booking status updated successfully");
+      res.status(200).send("Booking status updated successfully");
+    }
+  });
+});
+app.get("/api/bookingStatus/:username", (req, res) => {
+  const username = req.params.username;
+
+  const query =
+    "SELECT status FROM bookings WHERE username = ? ORDER BY bookingDate DESC LIMIT 1";
+  db.query(query, [username], (err, result) => {
+    if (err) {
+      console.error("Error fetching booking status:", err);
+      res.status(500).send("Server error");
+    } else {
+      if (result.length > 0) {
+        res.status(200).json({ status: result[0].status });
+      } else {
+        res.status(200).json({ status: "No booking yet" });
+      }
     }
   });
 });
@@ -320,7 +352,6 @@ app.post("/api/addTour", upload.single("image"), (req, res) => {
   );
 });
 
-
 app.post("/api/uploadImage", upload.single("image"), (req, res) => {
   console.log("Inside uploadImage endpoint");
   try {
@@ -328,7 +359,7 @@ app.post("/api/uploadImage", upload.single("image"), (req, res) => {
       console.log("No file uploaded");
       return res.status(400).send("No file uploaded");
     }
-   const imageUrl = `/uploads/${req.file.filename}`;
+    const imageUrl = `/uploads/${req.file.filename}`;
     console.log("Image uploaded successfully:", imageUrl);
     res.status(200).json({ imageUrl: imageUrl });
   } catch (err) {

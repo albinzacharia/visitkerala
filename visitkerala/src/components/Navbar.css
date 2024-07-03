@@ -30,19 +30,34 @@
   color: rgb(255, 255, 255);
 }
 .logos {
-    position: absolute;
-    top: 10px;
-    left: 100px;
-    width: 6%;
-    height: 62px;
+  position: absolute;
+  top: 10px;
+  left: 100px;
+  width: 6%;
+  height: 62px;
 }
 
 .navbar.scrolled {
   background-color: #c5f9abe1; /* Make navbar translucent when scrolled */
 }
 
-.nlogout-button{
+.nlogout-button {
   position: relative;
-  left:100%;
-  top:10%;
+  left: 100%;
+  top: 10%;
 }
+.booking-status {
+  color: #ffffff;
+  background-color: #079618;
+  padding: 5px 10px;
+  border-radius: 5px;
+  position: relative;
+  top: 25%;
+  left: 25%;
+  font-size: small;
+}
+.booking-status.rejected {
+  background-color: #b30505; /* Red color for rejected status */
+}
+
+

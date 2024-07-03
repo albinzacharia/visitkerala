@@ -1,0 +1,108 @@
+/* AdminPage.css */
+
+.tour-coordinator-page {
+  padding: 20px;
+  background-color: #dbf8db;
+}
+
+.tour-coordinator-page h1 {
+  margin-bottom: 20px;
+  text-align: center; 
+  color: white; 
+  background-color: #45a049;
+}
+
+.tour-coordinator-page section {
+  margin-bottom: 40px;
+  
+}
+
+.tour-coordinator-page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+}
+.logout-button {
+    position: relative;
+    text-align: center;
+    left: 94%;
+}
+.tour-coordinator-page table th,
+.tour-coordinator-page table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.tour-coordinator-page table th {
+  background-color: #f2f2f2;
+}
+
+.tour-coordinator-page form {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center align form items */
+  max-width: 400px; /* Limit form width for better readability */
+  margin: auto; /* Center the form horizontally */
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tour-coordinator-page form label {
+  margin-bottom: 10px;
+}
+
+.tour-coordinator-page form input,
+.tour-coordinator-page form textarea {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tour-coordinator-page form button {
+  padding: 12px 24px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.tour-coordinator-page form button:hover {
+  background-color: #45a049;
+}
+
+.tour-coordinator-page .add-package {
+  display: flex;
+  justify-content: center; /* Center align the button */
+  margin-bottom: 20px;
+}
+
+.tour-coordinator-page .add-package button {
+  width: 200px;
+  text-align: center;
+}
+
+.tour-coordinator-page .package-details {
+  display: flex;
+  justify-content: center; /* Center align the package details */
+  margin-bottom: 20px;
+}
+
+.tour-coordinator-page .package-details form {
+  width: 100%;
+  max-width: 500px; /* Limit form width for better readability */
+}
+h1{
+  color: #4CAF50;
+}
+.tour-coordinator-page td button{
+  margin: 2%;
+}
