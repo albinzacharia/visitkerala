@@ -72,6 +72,11 @@ const TourPackage = ({ setPaymentDetails, paymentDetails }) => {
   };
 
   const handleBookNow = () => {
+    if (!paymentDetails.datedet) {
+      alert("Please select a date for your trip.");
+      return;
+    }
+
     if (isLoggedIn) {
       navigate("/PaymentPage");
     } else {
@@ -130,7 +135,8 @@ const TourPackage = ({ setPaymentDetails, paymentDetails }) => {
               type="date"
               onChange={handleChange}
               min={today}
-            ></input>
+              required
+            />
             <button className="tripbook-button" onClick={handleBookNow}>
               Book Now
             </button>

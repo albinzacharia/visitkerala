@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import "./Navbar.css";
 import i4 from "./pics/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
+import axios from "axios";
 
 const Navbar = () => {
   const {
@@ -12,42 +13,43 @@ const Navbar = () => {
     logout,
     latestBookingStatus,
     setLatestBookingStatus,
+    setHasBookings,
+    user,
   } = useAuth();
   const navigate = useNavigate();
 
+  const fetchBookingStatus = useCallback(
+    async (username) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/api/user/${username}/latestBooking`
+        );
+        const bookingStatus = response.data.status;
+        const hasBookings = response.data.hasBookings;
+        setLatestBookingStatus(bookingStatus);
+        setHasBookings(hasBookings);
+
+        // Save booking status and hasBookings to localStorage
+        localStorage.setItem("latestBookingStatus", bookingStatus);
+        localStorage.setItem("hasBookings", hasBookings);
+      } catch (error) {
+        console.error("Error fetching booking status:", error);
+      }
+    },
+    [setLatestBookingStatus, setHasBookings]
+  );
+
   useEffect(() => {
-    // When the component mounts, check if there's a saved booking status in localStorage
-    const savedBookingStatus = localStorage.getItem("latestBookingStatus");
-    if (savedBookingStatus) {
-      setLatestBookingStatus(savedBookingStatus); // Set the state from localStorage
+    if (isLoggedIn) {
+      fetchBookingStatus(user.username);
     }
-  }, [setLatestBookingStatus]);
+  }, [isLoggedIn, user?.username, fetchBookingStatus]);
 
   const handleLogout = () => {
     logout();
+    localStorage.removeItem("latestBookingStatus");
+    localStorage.removeItem("hasBookings");
     navigate("/LoginSignup");
-  };
-
-  const isAdminCheck = (formData) => {
-    // Replace with actual admin check logic based on form data
-    return formData.username === "admin" && formData.password === "admin";
-  };
-
-  const isTourManagerCheck = (formData) => {
-    // Replace with actual tour manager check logic based on form data
-    return (
-      formData.username === "tourmanager" && formData.password === "tourmanager"
-    );
-  };
-
-  const handleLogin = (formData) => {
-    if (isAdminCheck(formData)) {
-      navigate("/AdminPage");
-    } else if (isTourManagerCheck(formData)) {
-      navigate("/TourCoordinatorPage");
-    } else {
-      navigate("/user-profile");
-    }
   };
 
   const getStatusMessage = () => {
@@ -60,16 +62,6 @@ const Navbar = () => {
         return null;
     }
   };
-
-  // Function to save latestBookingStatus to localStorage
-  const saveStatusToLocalStorage = () => {
-    localStorage.setItem("latestBookingStatus", latestBookingStatus);
-  };
-
-  // Save the status to localStorage whenever it changes
-  useEffect(() => {
-    saveStatusToLocalStorage();
-  }, [latestBookingStatus]);
 
   return (
     <nav className="navbar">
@@ -130,14 +122,13 @@ const Navbar = () => {
                 </Link>
               </li>
             )}
-            {(latestBookingStatus === "Accepted" ||
-              latestBookingStatus === "Rejected") && (
+            {latestBookingStatus && (
               <li>
                 <span
                   className={`booking-status ${
                     latestBookingStatus === "Rejected" ? "rejected" : ""
                   }`}
-                  title={getStatusMessage()} // Tooltip message based on status
+                  title={getStatusMessage()}
                 >
                   Status: {latestBookingStatus}
                 </span>

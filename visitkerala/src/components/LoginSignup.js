@@ -18,14 +18,28 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+
+    // Validate phone number
+    if (name === "phone" && (value.length > 10 || isNaN(value))) {
+      setError("Phone number must be 10 digits");
+    } else {
+      setError("");
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSignup = (e) => {
     e.preventDefault();
+
+    // Check phone number length before making the request
+    if (formData.phone.length !== 10) {
+      setError("Phone number must be 10 digits");
+      return;
+    }
+
     axios
       .post("http://localhost:3001/api/register", formData)
       .then((response) => {
@@ -59,12 +73,13 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
         }));
         if (formData.username === "admin" && formData.password === "admin") {
           navigate("/AdminPage"); // Redirect to admin page
-        }
-        else if (formData.username === "tourmanager" && formData.password === "tourmanager") {
+        } else if (
+          formData.username === "tourmanager" &&
+          formData.password === "tourmanager"
+        ) {
           navigate("/TourCoordinatorPage");
-        }
-        else {
-          navigate("/user-profile");// Redirect to user profile page
+        } else {
+          navigate("/user-profile"); // Redirect to user profile page
         }
         onClose();
       })
@@ -169,6 +184,8 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
             <button className="signup" type="submit">
               Sign Up
             </button>
+            {error && <p className="error-message">{error}</p>}{" "}
+            {/* Display error message */}
           </form>
           <p>
             Already Have An Account?{" "}

@@ -297,8 +297,14 @@ app.post("/api/booking", (req, res) => {
       console.error("Error processing booking:", err);
       res.status(500).send("Server error");
     } else {
-      console.log("Booking processed successfully");
-      res.status(200).send("Booking processed successfully");
+      console.log(
+        "Payment processed successfully, go to your userprofile to check the booking status"
+      );
+      res
+        .status(200)
+        .send(
+          "Payment processed successfully, go to your userprofile to check the booking status"
+        );
     }
   });
 });
@@ -405,6 +411,21 @@ app.get("/api/bookings/:username", (req, res) => {
       res.status(500).send("Server error");
     } else {
       res.status(200).json(result);
+    }
+  });
+});
+app.post("/api/updateProfile", (req, res) => {
+  const { email, phone, firstname, username } = req.body;
+  const query =
+    "UPDATE users SET email = ?, phone = ?, firstname = ? WHERE username = ?";
+
+  db.query(query, [email, phone, firstname, username], (err, result) => {
+    if (err) {
+      console.error("Error updating profile:", err);
+      res.status(500).send("Server error");
+    } else {
+      console.log("Profile updated successfully for username: ${username}");
+      res.status(200).send("Profile updated successfully");
     }
   });
 });

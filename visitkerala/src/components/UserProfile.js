@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "./UserProfile.css";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import axios from "axios";
-import { useAuth } from "../AuthContext"; // Import the AuthContext
+import { useAuth } from "../AuthContext";
 
 const UserProfile = () => {
-  const { user, updateUser, updateLatestBookingStatus } = useAuth(); // Ensure user and updateLatestBookingStatus are properly initialized
+  const { user, updateUser, updateLatestBookingStatus } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -14,33 +14,16 @@ const UserProfile = () => {
   const [username, setUsername] = useState(user?.username || "");
   const [bookings, setBookings] = useState([]);
 
-  useEffect(() => {
-    fetchUserData(username); // Fetch user data initially based on logged-in username
-    fetchBookingHistory(username); // Fetch booking history
-  }, [username]); // Fetch again if username changes
-
-  useEffect(() => {
-    // Load user profile data from localStorage if available
-    const storedUserData = JSON.parse(localStorage.getItem("userProfileData"));
-    if (storedUserData) {
-      setEmail(storedUserData.email || "");
-      setPhone(storedUserData.phone || "");
-      setFirstname(storedUserData.firstname || "");
-      setUsername(storedUserData.username || "");
-    }
-  }, []);
-
-  const fetchUserData = (username) => {
+  const fetchUserData = useCallback((username) => {
     axios
-      .get(`http://localhost:3001/api/user/${username}`) // Adjust URL as per your backend route
+      .get(`http://localhost:3001/api/user/${username}`)
       .then((response) => {
-        const userData = response.data; // Assuming response.data contains user details
+        const userData = response.data;
         setEmail(userData.email || "");
         setPhone(userData.phone || "");
         setFirstname(userData.firstname || "");
         setUsername(userData.username || "");
 
-        // Save user profile data to localStorage
         localStorage.setItem(
           "userProfileData",
           JSON.stringify({
@@ -54,23 +37,39 @@ const UserProfile = () => {
       .catch((error) => {
         console.error("Error fetching user data:", error);
       });
-  };
+  }, []);
 
-  const fetchBookingHistory = (username) => {
-    axios
-      .get(`http://localhost:3001/api/bookings/${username}`) // Adjust URL as per your backend route
-      .then((response) => {
-        const bookingsData = response.data || [];
-        setBookings(bookingsData);
-        if (bookingsData.length > 0) {
-          const latestBooking = bookingsData[bookingsData.length - 1];
-          updateLatestBookingStatus(latestBooking.status);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching booking history:", error);
-      });
-  };
+  const fetchBookingHistory = useCallback(
+    (username) => {
+      axios
+        .get(`http://localhost:3001/api/bookings/${username}`)
+        .then((response) => {
+          const bookingsData = response.data || [];
+          setBookings(bookingsData);
+          if (bookingsData.length > 0) {
+            const latestBooking = bookingsData[bookingsData.length - 1];
+            updateLatestBookingStatus(latestBooking.status);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching booking history:", error);
+        });
+    },
+    [updateLatestBookingStatus]
+  );
+
+  useEffect(() => {
+    if (user && user.username) {
+      setUsername(user.username);
+      fetchUserData(user.username);
+    }
+  }, [user, fetchUserData]);
+
+  useEffect(() => {
+    if (username) {
+      fetchBookingHistory(username);
+    }
+  }, [username, fetchBookingHistory]);
 
   const handleEditProfile = () => {
     setIsEditing(true);
@@ -88,9 +87,8 @@ const UserProfile = () => {
       })
       .then((response) => {
         console.log(response.data);
-        updateUser({ email, phone, firstname, username }); // Update user data in context
+        updateUser({ email, phone, firstname, username });
 
-        // Update localStorage with new user profile data
         localStorage.setItem(
           "userProfileData",
           JSON.stringify({
