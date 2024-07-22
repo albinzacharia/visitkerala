@@ -11,7 +11,7 @@ const Trivandrum = ({ setPaymentDetails, paymentDetails }) => {
       <Navbar />
       <div className="destination-page">
         <img
-          src="./pics/ttdh1.jpg"
+          src="./pics/tvmm.jpg"
           alt="Header background"
           className="header-background"
         />

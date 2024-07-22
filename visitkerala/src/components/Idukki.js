@@ -10,7 +10,7 @@ const Idukki = ({ setPaymentDetails, paymentDetails }) => {
       <Navbar />
       <div className="destination-page">
         <img
-          src="./pics/wildlife_sancturay.jpg"
+          src="./pics/idukii.jpg"
           alt="Header background"
           className="header-background"
         />

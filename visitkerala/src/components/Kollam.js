@@ -10,7 +10,7 @@ const Kollam = ({ setPaymentDetails, paymentDetails }) => {
       <Navbar />
       <div className="destination-page">
         <img
-          src="./pics/kollam.jpg"
+          src="./pics/46-facts-about-kollam-1689066929.jpeg"
           alt="Header background"
           className="header-background"
         />

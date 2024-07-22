@@ -1,8 +1,11 @@
 import React from "react";
 import "./Footer.css";
 import { Link } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 
 const Footer = () => {
+  const { isAdmin,isTourManager } = useAuth();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -42,11 +45,13 @@ const Footer = () => {
                 Destinations
               </Link>
             </li>
-            <li>
-              <Link to="/ContactUs" onClick={scrollToTop}>
-                Contact Us
-              </Link>
-            </li>
+            {!isAdmin && !isTourManager && (
+              <li>
+                <Link to="/ContactUs" onClick={scrollToTop}>
+                  Contact Us
+                </Link>
+              </li>
+            )}
             <li>
               <Link to="/LoginSignup" onClick={scrollToTop}>
                 Login / Signup
