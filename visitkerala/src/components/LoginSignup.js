@@ -56,6 +56,16 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
       })
       .catch((error) => {
         console.error("Error signing up:", error);
+        if (error.response && error.response.status === 409) {
+          // Assuming the server responds with a 409 status for duplicate usernames
+          window.alert(
+            "Username is already taken. Please choose a different username."
+          );
+        } else {
+          window.alert(
+            "Username is already taken. Please choose a different username."
+          );
+        }
       });
   };
 
@@ -163,7 +173,7 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
             <input
               type="text"
               name="phone"
-              placeholder="Enter Phone number"
+              placeholder="Enter phone number"
               onChange={handleChange}
               required
             />
