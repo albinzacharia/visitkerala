@@ -36,7 +36,7 @@ const LoginSignup = ({ onClose, setPaymentDetails }) => {
 
     // Check phone number length before making the request
     if (formData.phone.length !== 10) {
-      setError("Phone number must be 10 digits");
+      window.alert("Phone number must be 10 digits");
       return;
     }
 

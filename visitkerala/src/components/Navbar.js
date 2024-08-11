@@ -58,6 +58,8 @@ const Navbar = () => {
         return "Your booking has been accepted!";
       case "Rejected":
         return "Sorry due to unfortunate circumstances, your booking has been rejected. The money will be credited back to your account in 1-3 business days.";
+      case "Cancelled":
+        return "Your booking has been cancelled.";
       default:
         return null;
     }
@@ -125,9 +127,7 @@ const Navbar = () => {
             {latestBookingStatus && (
               <li>
                 <span
-                  className={`booking-status ${
-                    latestBookingStatus === "Rejected" ? "rejected" : ""
-                  }`}
+                  className={`booking-status ${latestBookingStatus.toLowerCase()}`}
                   title={getStatusMessage()}
                 >
                   Status: {latestBookingStatus}

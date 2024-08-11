@@ -78,6 +78,7 @@ const TourCoordinatorPage = () => {
         setSelectedTour(null);
       });
   };
+
   const handleAcceptBooking = (id) => {
     console.log("Accepting booking with id:", id);
     axios
@@ -213,12 +214,20 @@ const TourCoordinatorPage = () => {
                     <td>{booking.date}</td>
                     <td>{booking.status}</td>
                     <td>
-                      <button onClick={() => handleAcceptBooking(booking.id)}>
-                        Accept
-                      </button>
-                      <button onClick={() => handleRejectBooking(booking.id)}>
-                        Reject
-                      </button>
+                      {booking.status !== "Cancelled" && (
+                        <>
+                          <button
+                            onClick={() => handleAcceptBooking(booking.id)}
+                          >
+                            Accept
+                          </button>
+                          <button
+                            onClick={() => handleRejectBooking(booking.id)}
+                          >
+                            Reject
+                          </button>
+                        </>
+                      )}
                     </td>
                   </tr>
                 ))}

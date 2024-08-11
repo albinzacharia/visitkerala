@@ -13,6 +13,7 @@ const UserProfile = () => {
   const [firstname, setFirstname] = useState("");
   const [username, setUsername] = useState(user?.username || "");
   const [bookings, setBookings] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const fetchUserData = useCallback((username) => {
     axios
@@ -104,8 +105,33 @@ const UserProfile = () => {
       .catch((error) => {
         console.error("Error updating profile:", error);
       });
+  };
 
-    setIsEditing(false);
+  const handleCancelBooking = (bookingId, tripDate) => {
+    const currentDate = new Date();
+    const dateOfTrip = new Date(tripDate);
+    const timeDifference = dateOfTrip - currentDate;
+    const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+    if (dayDifference < 3) {
+      setErrorMessage(
+        "You can only cancel bookings more than 3 days before the trip date."
+      );
+      return;
+    }
+
+    axios
+      .post("http://localhost:3001/api/cancelBooking", {
+        bookingId: bookingId,
+        username: username,
+      })
+      .then((response) => {
+        console.log("Booking cancelled:", response.data);
+        fetchBookingHistory(username); // Refresh booking history
+      })
+      .catch((error) => {
+        console.error("Error cancelling booking:", error);
+      });
   };
 
   return (
@@ -175,10 +201,21 @@ const UserProfile = () => {
                   <p>
                     <strong>Status:</strong> {booking.status}
                   </p>
+                  {booking.status !== "Cancelled" && (
+                    <button
+                      className="cancelbutton"
+                      onClick={() =>
+                        handleCancelBooking(booking.id, booking.date)
+                      }
+                    >
+                      Cancel Booking
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>
           </div>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
         </div>
       </div>
       <Footer />

@@ -129,17 +129,42 @@ app.post("/api/updateBookingStatus/:id", (req, res) => {
   const bookingId = req.params.id;
   const { status } = req.body;
 
-  const query = "UPDATE booking SET status = ? WHERE id = ?";
-  db.query(query, [status, bookingId], (err, result) => {
+  // Get the current status of the booking
+  const fetchQuery = "SELECT status FROM booking WHERE id = ?";
+  db.query(fetchQuery, [bookingId], (err, results) => {
     if (err) {
-      console.error("Error updating booking status:", err);
-      res.status(500).send("Server error");
-    } else {
+      console.error("Error fetching booking status:", err);
+      return res.status(500).send("Server error");
+    }
+
+    if (results.length === 0) {
+      return res.status(404).send("Booking not found");
+    }
+
+    const currentStatus = results[0].status;
+
+    // Check if the current status is 'Cancelled'
+    if (currentStatus === "Cancelled") {
+      return res
+        .status(400)
+        .send("Cannot update status of a cancelled booking");
+    }
+
+    // Update the booking status
+    const updateQuery = "UPDATE booking SET status = ? WHERE id = ?";
+    db.query(updateQuery, [status, bookingId], (err, result) => {
+      if (err) {
+        console.error("Error updating booking status:", err);
+        return res.status(500).send("Server error");
+      }
+
       console.log("Booking status updated successfully");
       res.status(200).send("Booking status updated successfully");
-    }
+    });
   });
 });
+
+
 app.get("/api/bookingStatus/:username", (req, res) => {
   const username = req.params.username;
 
@@ -414,6 +439,48 @@ app.get("/api/bookings/:username", (req, res) => {
     }
   });
 });
+app.post("/api/cancelBooking", (req, res) => {
+  const { bookingId, username } = req.body;
+
+  // Get the booking details, including the trip date
+  const query = "SELECT * FROM booking WHERE id = ? AND username = ?";
+  db.query(query, [bookingId, username], (err, results) => {
+    if (err) {
+      console.error("Error fetching booking:", err);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    const tripDate = new Date(results[0].date);
+    const currentDate = new Date();
+
+    // Check if the cancellation is more than 3 days before the trip date
+    const timeDifference = tripDate - currentDate;
+    const dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+    if (dayDifference >= 3) {
+      // Cancel the booking
+      const updateQuery =
+        "UPDATE booking SET status = 'Cancelled' WHERE id = ?";
+      db.query(updateQuery, [bookingId], (err, result) => {
+        if (err) {
+          console.error("Error cancelling booking:", err);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+        res.json({ success: true });
+      });
+    } else {
+      res.status(400).json({
+        error:
+          "You can only cancel a booking more than 3 days before the trip date",
+      });
+    }
+  });
+});
+
 app.post("/api/updateProfile", (req, res) => {
   const { email, phone, firstname, username } = req.body;
   const query =

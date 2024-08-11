@@ -59,5 +59,6 @@
 .booking-status.rejected {
   background-color: #b30505; /* Red color for rejected status */
 }
-
-
+.booking-status.cancelled {
+  background-color: #b30505; /* Red color for rejected status */
+}
