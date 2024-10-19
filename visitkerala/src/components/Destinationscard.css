@@ -1,3 +1,4 @@
+/* Featured Section Styles */
 .featured {
   padding: 32px;
   background-color: #ffffff;
@@ -8,19 +9,46 @@
   margin-bottom: 32px;
 }
 
+/* Destination Card Container */
 .dest-card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    flex-direction: row;
-    margin-bottom: 6%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 6%;
 }
+
+/* Destination Card Styles */
 .dest-card {
-    width: 25%;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    margin: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
+  width: 25%; /* Default width for larger screens */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+/* Hover effect for the card */
+.dest-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+  .dest-card {
+    width: 30%; /* Adjust to fit three cards in a row */
+  }
+}
+
+@media (max-width: 768px) {
+  .dest-card {
+    width: 45%; /* Adjust to fit two cards in a row */
+  }
+}
+
+@media (max-width: 480px) {
+  .dest-card {
+    width: 100%; /* Full width for mobile devices */
+    margin: 10px 0; /* Adjust margins for mobile */
+  }
 }

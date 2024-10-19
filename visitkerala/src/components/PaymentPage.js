@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./PaymentPage.css";
 import Navbar from "./Navbar";
@@ -10,6 +10,11 @@ const PaymentPage = ({ paymentDetails }) => {
     expiryDate: "",
     cvv: "",
   });
+
+  // Scroll to top on component mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

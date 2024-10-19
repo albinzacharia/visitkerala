@@ -6,7 +6,7 @@
 }
 
 .titlehead {
-  position: relative;
+  position: relative; 
 }
 
 .header-background {
@@ -15,18 +15,20 @@
   height: auto;
 }
 
-
 .search-bar {
-  width: 46%;
-  border-radius: 130px;
-  padding: 15px;
-  background-color: white;
-  left: 384px;
+  width: 80%; /* Set a relative width */
+  max-width: 600px; /* Optional max-width for larger screens */
+  border-radius: 80px; /* Use a less rounded border */
+  padding: 10px; /* Adjust padding */
+  background-color: rgb(255, 255, 255); /* Slightly transparent white */
   position: absolute;
-  top: 93%;
+  top: 90%; /* Adjust for responsiveness */
+  left: 50%; /* Center it */
+  transform: translateX(-50%); /* Center alignment */
   display: flex;
-  gap: 10px;
+  gap: 5px;
   justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
 }
 
 .search-bar input {
@@ -46,16 +48,62 @@
 
 .titletext {
   position: absolute;
-  top: 30%;
+  top: 60%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%); /* Center text */
   color: white;
   font-size: 4rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
-select{
+
+select {
   border-color: white;
   outline: none;
   color: grey;
   margin-right: 10%;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .search-bar {
+    width: 80%; /* Increase width for smaller screens */
+    top: 90%; /* Adjust position */
+  }
+
+  .titletext {
+    font-size: 2.5rem; /* Adjust font size for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .search-bar {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center items */
+    width: 90%; /* Full width for mobile */
+    padding: 10px; /* Adjust padding */
+    top: 85%; /* Adjust position */
+  }
+
+  .search-bar input {
+    width: 100%; /* Full width input */
+    margin-bottom: 10px; /* Space between input and button */
+  }
+
+  .search-bar button {
+    width: 100%; /* Full width button */
+  }
+
+  .titletext {
+    font-size: 1.8rem; /* Further adjust font size for mobile */
+  }
+}
+select {
+  border: none; /* Remove all borders */
+  outline: none; /* Remove outline on focus */
+  color: grey;
+  margin-right: 10%;
+  padding: 10px; /* Add padding for better touch targets */
+  border-radius: 50px; /* Optional: add rounded corners */
+  background-color: white; /* Optional: set background color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: add shadow for depth */
 }

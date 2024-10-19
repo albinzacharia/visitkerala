@@ -83,17 +83,6 @@ const Idukki = ({ setPaymentDetails, paymentDetails }) => {
           />
           {/* Add more details and images */}
         </div>
-        <div className="related-images">
-          <h2>Related Images</h2>
-          <div className="images">
-            <img src="./pics/beach.jpg" alt="Related" />
-            <img src="./pics/Gavi.jpg" alt="Related" />
-            <img src="./pics/munnar.jpg" alt="Related" />
-            <img src="./pics/beach.jpg" alt="Related" />
-            <img src="./pics/Gavi.jpg" alt="Related" />
-            <img src="./pics/munnar.jpg" alt="Related" />
-          </div>
-        </div>
       </div>
       <div className="Footer">
         <Footer />

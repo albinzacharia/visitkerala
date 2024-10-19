@@ -2,11 +2,12 @@
   background-color: #c5f9ab;
   overflow: hidden;
   position: sticky;
-  top: 0;
+  top: 0; /* Original position */
   z-index: 1000;
   padding: 20px;
   transition: background-color 0.3s ease;
 }
+
 .navbar .nav-links {
   list-style-type: none;
   margin: 0;
@@ -24,41 +25,73 @@
   color: rgb(51, 156, 6);
   padding: 14px 20px;
   display: block;
+  transition: color 0.3s ease; /* Smooth color transition */
 }
 
 .navbar .nav-links a:hover {
   color: rgb(255, 255, 255);
+  background-color: rgb(51, 156, 6); /* Optional background change on hover */
+  border-radius: 5px; /* Add rounded corners for hover effect */
 }
+
 .logos {
   position: absolute;
   top: 10px;
   left: 100px;
   width: 6%;
-  height: 62px;
+  height: auto;
 }
 
 .navbar.scrolled {
-  background-color: #c5f9abe1; /* Make navbar translucent when scrolled */
+  background-color: rgba(197, 249, 171, 0.9); /* Make navbar translucent when scrolled */
 }
 
 .nlogout-button {
   position: relative;
   left: 100%;
-  top: 10%;
+  top: 10%; /* Adjust this value based on your design */
 }
+
 .booking-status {
   color: #ffffff;
   background-color: #079618;
   padding: 5px 10px;
+  top: 25%;
   border-radius: 5px;
   position: relative;
-  top: 25%;
-  left: 25%;
   font-size: small;
 }
-.booking-status.rejected {
-  background-color: #b30505; /* Red color for rejected status */
-}
+
+.booking-status.rejected,
 .booking-status.cancelled {
-  background-color: #b30505; /* Red color for rejected status */
+  background-color: #b30505; /* Red color for rejected and cancelled status */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px; /* Reduce padding for smaller screens */
+    top: 0; /* Keep top at 0 */
+  }
+
+  .navbar .nav-links {
+    flex-direction: column; /* Stack links on smaller screens */
+    padding: 0; /* Remove padding for vertical layout */
+  }
+
+  .navbar .nav-links li {
+    margin: 10px 0; /* Adjust margin for vertical spacing */
+  }
+
+  .logos {
+    left: 50%;
+    transform: translateX(-50%); /* Center logo on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 5px; /* Further reduce padding on very small screens */
+    top: 0; /* Keep top at 0 */
+  }
 }

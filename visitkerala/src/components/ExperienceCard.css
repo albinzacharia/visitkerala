@@ -1,13 +1,10 @@
+/* Experience Card Styles */
 .experience-card {
-  margin-bottom: 20px;
-  margin-left: 30%;
-  align-items: center;
-  position: relative;
-  width: 40%;
+  margin: 20px auto; /* Center the card with automatic margins */
+  width: 40%; /* Default width for larger screens */
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
-  /* margin: auto; */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
 }
@@ -44,6 +41,8 @@
 .experience-card-link:hover {
   text-decoration: none;
 }
+
+/* Button Styles */
 button {
   display: inline-block;
   padding: 10px 20px;
@@ -59,4 +58,24 @@ button {
 button:hover {
   background-color: #60970e;
   text-decoration: none; /* Change to desired color on hover */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+  .experience-card {
+    width: 60%; /* Adjust to fit more cards on medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .experience-card {
+    width: 80%; /* Adjust to fit on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .experience-card {
+    width: 100%; /* Full width for mobile devices */
+    margin: 10px 0; /* Adjust margins for mobile */
+  }
 }

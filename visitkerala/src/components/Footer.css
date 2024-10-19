@@ -50,7 +50,7 @@
 
 .footer-section form input,
 .footer-section form textarea {
-    width: 86%;
+    width: 90%; /* Adjusted for responsiveness */
     padding: 10px;
     margin: 5px 0;
     border: none;
@@ -64,11 +64,38 @@
     color: #fff;
     border-radius: 5px;
     cursor: pointer;
-    position: relative;
-    left: 35%;
-    width: 20%;
+    width: 50%; /* Changed to a percentage for responsiveness */
+    max-width: 200px; /* Optional max-width for larger screens */
+    margin: 10px auto; /* Centering button */
+    display: block; /* Ensure it takes up space */
 }
 
 .footer-section form button:hover {
-    background: #3ba00e
+    background: #3ba00e;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .footer-section {
+        flex: 1 1 45%; /* Allow two sections per row */
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-section {
+        flex: 1 1 100%; /* Stack sections on smaller screens */
+    }
+
+    .footer-section h2 {
+        font-size: 1.2em; /* Smaller heading size */
+    }
+
+    .footer-section form input,
+    .footer-section form textarea {
+        width: 100%; /* Full width for inputs on small screens */
+    }
+
+    .footer-section form button {
+        width: 80%; /* Make button wider */
+    }
 }

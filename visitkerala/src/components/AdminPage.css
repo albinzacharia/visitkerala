@@ -14,7 +14,6 @@
 
 .admin-page section {
   margin-bottom: 40px;
-  
 }
 
 .admin-page table {
@@ -23,11 +22,13 @@
   margin-bottom: 20px;
   background-color: #ffffff;
 }
+
 .logout-button {
-    position: relative;
-    text-align: center;
-    left: 94%;
+  position: relative;
+  text-align: center;
+  left: 94%;
 }
+
 .admin-page table th,
 .admin-page table td {
   border: 1px solid #ddd;
@@ -61,7 +62,7 @@
   margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 100%;
+  width: 100%; /* Full width for inputs */
   box-sizing: border-box;
 }
 
@@ -100,9 +101,40 @@
   width: 100%;
   max-width: 500px; /* Limit form width for better readability */
 }
-h1{
+
+h1 {
   color: #4CAF50;
 }
-.admin-page td button{
+
+.admin-page td button {
   margin: 2%;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+  .admin-page {
+    padding: 10px; /* Reduce padding on smaller screens */
+  }
+
+  .admin-page form {
+    max-width: 100%; /* Full width for forms on small screens */
+    padding: 15px; /* Reduce padding */
+  }
+
+  .admin-page .add-package {
+    flex-direction: column; /* Stack the buttons vertically */
+  }
+
+  .admin-page .add-package button {
+    width: 100%; /* Full width buttons on small screens */
+    margin-bottom: 10px; /* Space between buttons */
+  }
+
+  .admin-page .package-details {
+    flex-direction: column; /* Stack package details vertically */
+  }
+
+  .admin-page .package-details form {
+    max-width: 100%; /* Full width for forms */
+  }
 }

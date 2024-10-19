@@ -133,7 +133,7 @@ const UserProfile = () => {
         console.error("Error cancelling booking:", error);
       });
   };
-
+  
   return (
     <div className="user-profile-page">
       <Navbar />
@@ -201,16 +201,20 @@ const UserProfile = () => {
                   <p>
                     <strong>Status:</strong> {booking.status}
                   </p>
-                  {booking.status !== "Cancelled" && (
-                    <button
-                      className="cancelbutton"
-                      onClick={() =>
-                        handleCancelBooking(booking.id, booking.date)
-                      }
-                    >
-                      Cancel Booking
-                    </button>
-                  )}
+
+                  {booking.status !== "Cancelled" &&
+                    new Date(booking.date) > new Date() &&
+                    new Date(booking.date) >
+                      new Date(new Date().setDate(new Date().getDate() + 3))&&(
+                        <button
+                          className="cancelbutton"
+                          onClick={() =>
+                            handleCancelBooking(booking.id, booking.date)
+                          }
+                        >
+                          Cancel Booking
+                        </button>
+                      )}
                 </li>
               ))}
             </ul>

@@ -13,3 +13,36 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+/* Responsive Styles */
+.tour-card {
+  width: 25%; /* Default width for larger screens */
+  margin: 15px; /* Space between cards */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px; /* Optional styling */
+  overflow: hidden; /* Optional styling */
+  transition: transform 0.2s; /* For hover effect */
+}
+
+.tour-card:hover {
+  transform: translateY(-5px); /* Simple hover effect */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+  .tour-card {
+    width: 30%; /* Adjust width for medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .tour-card {
+    width: 45%; /* Adjust width for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .tour-card {
+    width: 100%; /* Full width for mobile devices */
+  }
+}
