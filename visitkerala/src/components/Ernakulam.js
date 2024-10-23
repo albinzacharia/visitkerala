@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "./Navbar"; // Assuming you have a Navbar component
 import Footer from "./Footer"; // Assuming you have a Footer component
 import "./DestinationPage.css"; // CSS file for styling
-import ErnakulamTourCard from "./ErnakulamTourCard";
+
 
 const Ernakulam = ({setPaymentDetails, paymentDetails}) => {
   return (
@@ -64,29 +64,6 @@ const Ernakulam = ({setPaymentDetails, paymentDetails}) => {
             cuisines. Must-try dishes include Kerala fish curry, appam with
             stew, and biryani.
           </p>
-          <h1>Packages</h1>
-          <ErnakulamTourCard
-            title="Package 1"
-            image="./pics/ernakulam.jpg"
-            description="Description for Package 1"
-            setPaymentDetails={setPaymentDetails}
-            paymentDetails={paymentDetails}
-          />
-          <ErnakulamTourCard
-            title="Package 2"
-            image="./pics/ernakulam.jpg"
-            description="Description for Package 2"
-            setPaymentDetails={setPaymentDetails}
-            paymentDetails={paymentDetails}
-          />
-          <ErnakulamTourCard
-            title="Package 3"
-            image="./pics/ernakulam.jpg"
-            description="Description for Package 3"
-            setPaymentDetails={setPaymentDetails}
-            paymentDetails={paymentDetails}
-          />
-          {/* Add more details and images */}
         </div>
       </div>
       <div className="Footer">

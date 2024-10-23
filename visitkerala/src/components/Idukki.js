@@ -2,7 +2,6 @@ import React from "react";
 import Navbar from "./Navbar"; // Assuming you have a Navbar component
 import Footer from "./Footer"; // Assuming you have a Footer component
 import "./DestinationPage.css"; // CSS file for styling
-import IdukkiTourCard from "./IdukkiTourCard";
 
 const Idukki = ({ setPaymentDetails, paymentDetails }) => {
   return (
@@ -59,29 +58,6 @@ const Idukki = ({ setPaymentDetails, paymentDetails }) => {
             tribal food. Popular dishes include bamboo rice, fish curry, puttu
             (steamed rice cake), and kadala curry (black chickpeas curry).
           </p>
-          <h1>Packages</h1>
-          <IdukkiTourCard
-            title="Package 1"
-            image="./pics/idukki.jpg"
-            description="Description for Package 1"
-            setPaymentDetails={setPaymentDetails}
-            paymentDetails={paymentDetails}
-          />
-          <IdukkiTourCard
-            title="Package 2"
-            image="./pics/idukki.jpg"
-            description="Description for Package 2"
-            setPaymentDetails={setPaymentDetails}
-            paymentDetails={paymentDetails}
-          />
-          <IdukkiTourCard
-            title="Package 3"
-            image="./pics/idukki.jpg"
-            description="Description for Package 3"
-            setPaymentDetails={setPaymentDetails}
-            paymentDetails={paymentDetails}
-          />
-          {/* Add more details and images */}
         </div>
       </div>
       <div className="Footer">

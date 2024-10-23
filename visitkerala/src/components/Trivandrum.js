@@ -3,7 +3,6 @@ import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import "./DestinationPage.css";
-import TrivandrumTourCard from "./TrivandrumTourCard"; // Import custom TourCard
 
 const Trivandrum = ({ setPaymentDetails, paymentDetails }) => {
   return (
@@ -62,32 +61,6 @@ const Trivandrum = ({ setPaymentDetails, paymentDetails }) => {
             curry, appam with stew, and various vegetarian and non-vegetarian
             delicacies.
           </p>
-          <h1>
-            <br />
-            Packages
-          </h1>
-          {/* Add more details and images */}
-          <TrivandrumTourCard
-            title="Package 1"
-            image="./pics/tvm.jpg"
-            description="Description for Package 1"
-            setPaymentDetails={setPaymentDetails}
-            paymentDetails={paymentDetails}
-          />
-          <TrivandrumTourCard
-            title="Package 2"
-            image="./pics/tvm.jpg"
-            description="Description for Package 2"
-            setPaymentDetails={setPaymentDetails}
-            paymentDetails={paymentDetails}
-          />
-          <TrivandrumTourCard
-            title="Package 3"
-            image="./pics/tvm.jpg"
-            description="Description for Package 3"
-            setPaymentDetails={setPaymentDetails}
-            paymentDetails={paymentDetails}
-          />
         </div>
       </div>
       <div className="Footer">

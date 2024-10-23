@@ -2,7 +2,6 @@ import React from "react";
 import Navbar from "./Navbar"; // Assuming you have a Navbar component
 import Footer from "./Footer"; // Assuming you have a Footer component
 import "./DestinationPage.css"; // CSS file for styling
-import KollamTourCard from "./KollamTourCard";
 
 const Kollam = ({ setPaymentDetails, paymentDetails }) => {
   return (
@@ -61,32 +60,6 @@ const Kollam = ({ setPaymentDetails, paymentDetails }) => {
             dishes like fish curry, prawns, squid, and other seafood delicacies.
             Traditional Kerala meals served on banana leaves are also popular.
           </p>
-          <h1>
-            <br />
-            Packages
-          </h1>
-          {/* Add more details and images */}
-          <KollamTourCard
-            title="Package 1"
-            image="./pics/kollam.jpg"
-            description="Description for Package 1"
-            setPaymentDetails={setPaymentDetails}
-            paymentDetails={paymentDetails}
-          />
-          <KollamTourCard
-            title="Package 2"
-            image="./pics/kollam.jpg"
-            description="Description for Package 2"
-            setPaymentDetails={setPaymentDetails}
-            paymentDetails={paymentDetails}
-          />
-          <KollamTourCard
-            title="Package 3"
-            image="./pics/kollam.jpg"
-            description="Description for Package 3"
-            setPaymentDetails={setPaymentDetails}
-            paymentDetails={paymentDetails}
-          />
         </div>
       </div>
       <div className="Footer">

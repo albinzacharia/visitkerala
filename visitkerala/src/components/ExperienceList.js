@@ -6,7 +6,7 @@ import "./ExperienceList.css"; // Ensure you have a CSS file for styling
 const experience = [
   {
     title: "Trivandrum: Gateway to Kerala's Capital",
-    image: "./pics/tvm.jpg", // Replace with actual image paths
+    image: "./pics/tvmm.jpg", // Replace with actual image paths
     description:
       "Explore Trivandrum, the capital city of Kerala, known for its vibrant culture, historical landmarks, and lush greenery.",
     link: "/Trivandrum",
@@ -20,7 +20,7 @@ const experience = [
   },
   {
     title: "Alappuzha: Venice of the East",
-    image: "./pics/alappuzha.jpg",
+    image: "./pics/kerala-travel-guide-header-m.jpg",
     description:
       "Experience Alappuzha, known as the 'Venice of the East,' with its enchanting backwaters, houseboat cruises, and traditional culture.",
     link: "/Alappuzha",
@@ -34,7 +34,7 @@ const experience = [
   },
   {
     title: "Ernakulam: Bustling Metropolis",
-    image: "./pics/ernakulam.jpg",
+    image: "./pics/ernakulamheader.jpg",
     description:
       "Explore Ernakulam, the bustling commercial hub of Kerala, offering a blend of modernity, cultural heritage, and culinary delights.",
     link: "/Ernakulam",

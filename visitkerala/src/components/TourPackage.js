@@ -13,6 +13,7 @@ const TourPackage = ({ setPaymentDetails, paymentDetails }) => {
   const [tour, setTour] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [reviewText, setReviewText] = useState("");
+  const [numPersons, setNumPersons] = useState(1); // Initialize with 1 person
   const today = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
@@ -78,6 +79,12 @@ const TourPackage = ({ setPaymentDetails, paymentDetails }) => {
     }
 
     if (isLoggedIn) {
+    // Ensure totalPrice is calculated before navigating to the payment page
+    const totalPrice = tour.price * numPersons;
+    setPaymentDetails((prevDetails) => ({
+      ...prevDetails,
+      totalPrice: totalPrice,
+    }));
       navigate("/PaymentPage");
     } else {
       navigate("/LoginSignup");
@@ -128,7 +135,7 @@ const TourPackage = ({ setPaymentDetails, paymentDetails }) => {
             <ul>{renderList(tour.inclusions)}</ul>
           </div>
           <div className="package-price">
-            <h3>Price</h3>
+            <h3>Price (per person)</h3>
             <h3>₹{tour.price}</h3>
             <input
               name="datedet"
@@ -137,6 +144,22 @@ const TourPackage = ({ setPaymentDetails, paymentDetails }) => {
               min={today}
               required
             />
+            {paymentDetails.datedet && (
+              <>
+                <div className="person-counter">
+                  <label htmlFor="numPersons">Number of Persons:</label>
+                  <input
+                    type="number"
+                    id="numPersons"
+                    name="numPersons"
+                    min="1"
+                    value={numPersons}
+                    onChange={(e) => setNumPersons(e.target.value)}
+                  />
+                </div>
+                <h3>Total Price: ₹{tour.price * numPersons}</h3>
+              </>
+            )}
             <button className="tripbook-button" onClick={handleBookNow}>
               Book Now
             </button>

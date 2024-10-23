@@ -9,10 +9,13 @@ const Header = () => {
 
   const handleSearch = () => {
     if (destination) {
-      navigate(`/${destination}`);
+      // Pass destination as a query parameter
+      navigate(`/ThingsToDo?destination=${destination}`);
     }
   };
-const today = new Date().toISOString().split("T")[0];
+
+  const today = new Date().toISOString().split("T")[0];
+
   return (
     <header className="header">
       <div className="titlehead">

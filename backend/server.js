@@ -313,26 +313,35 @@ app.get("/api/reviews/:tour_id", (req, res) => {
   });
 });
 app.post("/api/booking", (req, res) => {
-  const { username, package, price, datedet } = req.body;
+  const { username, package, totalPrice, datedet } = req.body;
+
+  // Check if all required fields are provided
+  if (!username || !package || !totalPrice || !datedet) {
+    return res.status(400).send("Missing required fields.");
+  }
+
+  // Insert the booking details with the dynamically calculated price
   const query =
     "INSERT INTO booking (username, package, price, date) VALUES (?, ?, ?, ?)";
 
-  db.query(query, [username, package, price, datedet], (err, result) => {
+  // Use db.query to execute the insert query
+  db.query(query, [username, package, totalPrice, datedet], (err, result) => {
     if (err) {
       console.error("Error processing booking:", err);
-      res.status(500).send("Server error");
+      return res.status(500).send("Server error during booking.");
     } else {
       console.log(
-        "Payment processed successfully, go to your userprofile to check the booking status"
+        "Booking processed successfully. Check your user profile for booking details."
       );
-      res
+      return res
         .status(200)
         .send(
-          "Payment processed successfully, go to your userprofile to check the booking status"
+          "Booking processed successfully. Check your user profile for booking details."
         );
     }
   });
 });
+
 app.get("/api/tours", (req, res) => {
   const query = "SELECT * FROM tours";
 
