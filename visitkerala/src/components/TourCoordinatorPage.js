@@ -214,11 +214,10 @@ const TourCoordinatorPage = () => {
                     <td>{booking.date}</td>
                     <td>{booking.status}</td>
                     <td>
-                      {booking.status !== "Cancelled" &&
+                      {booking.status !== "Cancelled" && booking.status!= "Rejected" &&
                         new Date(booking.date) > new Date() &&
                         new Date(booking.date) >
                           new Date(
-                            new Date().setDate(new Date().getDate() + 3)
                           ) && (
                           <>
                             <button
