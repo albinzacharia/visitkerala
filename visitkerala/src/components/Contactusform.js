@@ -32,7 +32,9 @@ const Contactusform = () => {
           message: "",
         });
         // Show success alert
-        window.alert("Feedback has been sent!");
+        window.alert(
+          "Feedback has been sent! We will get in contact with you shortly! Please check your e-mail!"
+        );
       })
       .catch((error) => {
         console.error("Error submitting form:", error);
